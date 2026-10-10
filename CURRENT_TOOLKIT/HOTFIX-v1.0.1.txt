@@ -1,0 +1,36 @@
+RETRO TV CART BUILDER v1.0.1 HOTFIX
+====================================
+
+Fix:
+- Windows PowerShell 5.1 could throw:
+    Export-Utf8Csv : Argument types do not match
+  when New-RetroCartPlan.ps1 tried to export a Generic.List[object].
+
+The CSV helper is now compatible with both Windows PowerShell 5.1 and PowerShell 7+.
+
+YOUR CURRENT STATE
+------------------
+The failed v1 planning run stopped BEFORE it wrote the NICK01 assignments or cart registry.
+
+You do NOT need to delete or reset builder state.
+
+It may have created:
+  F:\[VIDEOS]\Retro TV Builds\NICK01\r001
+
+That is fine. The patched planner will reuse that folder and create the missing manifest.
+
+RECOMMENDED UPDATE
+------------------
+Replace the old Toolkit contents with this v1.0.1 package.
+
+To remove Windows' downloaded-script warning from this trusted toolkit:
+
+  Get-ChildItem -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit' -Recurse -File |
+      Unblock-File
+
+Then run:
+
+  Set-Location -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit'
+  .\Start-NICK01.ps1
+
+Initialization is safe to run again. It refreshes the asset registry while preserving durable source-state flags.

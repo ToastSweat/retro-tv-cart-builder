@@ -1,0 +1,47 @@
+RETRO TV CART BUILDER v1.3.1
+==============================
+
+- GOOD clips are green in the sidebar and clip strip.
+- Unchanged GOOD clips carry forward as GOOD to the next revision.
+- Replaced/trimmed/cropped/new clips remain UNREVIEWED for repair verification.
+
+HANDPICKED NICK SIGN-OFF
+Recommended folder:
+  F:\[VIDEOS]\Commercials\Bumpers-Handpicked\Bumpers\Nickelodeon\
+
+Register it without rescanning 131GB:
+
+  .\Add-HandpickedBranding.ps1 `
+      -Path 'F:\[VIDEOS]\Commercials\Bumpers-Handpicked\Bumpers\Nickelodeon\YOUR SIGN OFF.mp4' `
+      -Network NICK `
+      -Type SIGN_OFF `
+      -CartID NICK01
+
+Then:
+  .\Initialize-RetroCartLibrary.ps1
+
+The helper durably records the clip in STATE\handpicked-branding.csv and writes
+SignOffAssetID into config\NICK01.json.
+
+Applying the current NICK01 review will append the sign-off to the next revision.
+
+BAD_AUDIO + CROP/TRIM
+BAD_AUDIO means replace the source. Its trim/crop values are not transferred to
+the replacement. The apply script now warns if both are present.
+
+Trim + crop DO combine when the source is being kept.
+
+For NICK01 r003:
+
+  .\Apply-RetroCartReview.ps1 `
+      -CartID NICK01 `
+      -ReviewCsv 'C:\path\to\NICK01-r003-review-state.csv' `
+      -AutoReplace `
+      -LeanBreaks
+
+Then:
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+  .\Open-RetroCart.ps1 -CartID NICK01
+
+That produces r004, applies repairs/replacements, thins the old break clutter,
+and appends the new Nick sign-off.

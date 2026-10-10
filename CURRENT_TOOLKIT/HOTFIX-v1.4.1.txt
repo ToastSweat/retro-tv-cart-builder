@@ -1,0 +1,50 @@
+RETRO TV CART BUILDER v1.4.1
+==============================
+
+REPLACEMENT DROPDOWN SEMANTICS FIX
+----------------------------------
+The review UI previously allowed this contradictory state:
+
+  ReplacementAssetID = BR-xxxx
+  Action = GOOD / UNREVIEWED / NEEDS_CROP / etc.
+
+That is wrong for the normal review workflow and caused intentional replacement
+choices to be treated as stale and ignored during Apply-RetroCartReview.
+
+v1.4.1 changes the reviewer:
+
+1. Selecting ANY actual clip in the Replacement Asset dropdown immediately sets:
+
+     Action = REPLACE_THIS_CART
+
+   and updates the Action dropdown visibly.
+
+2. If the reviewer later changes Action away from a replacement action, the
+   selected ReplacementAssetID is cleared immediately.
+
+   Replacement actions that may retain a selected replacement are:
+
+     REPLACE_THIS_CART
+     BAD_QUALITY
+     DUPLICATE
+     WRONG_ERA
+     WRONG_NETWORK
+
+   Repair/keep actions such as GOOD, UNREVIEWED, BAD_AUDIO, NEEDS_CLIPPED, and
+   NEEDS_CROP clear a selected replacement.
+
+This prevents the ambiguous/stale state from being exported in future CSVs.
+
+IMPORTANT
+---------
+This changes newly-generated review HTML. Existing already-generated HTML files
+still contain the old JavaScript. Re-run:
+
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+
+to generate a reviewer with the fixed behavior.
+
+If you already exported a CSV where you intentionally selected replacements but
+the Action remained GOOD/UNREVIEWED, those old rows must be corrected before
+applying; the new UI cannot retroactively infer whether an old contradictory
+row was intentional or stale.

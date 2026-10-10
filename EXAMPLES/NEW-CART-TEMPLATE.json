@@ -1,0 +1,33 @@
+{
+  "CartID": "EXAMPLE01",
+  "DisplayName": "Example Network, target era description",
+  "Network": "EXAMPLE",
+  "CommercialPool": "KIDS_90S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Example Show",
+      "BrandingKeywords": [
+        "Example Show",
+        "Example"
+      ],
+      "Title": "Example Show - S01E01 - Pilot",
+      "SourcePath": "D:\\Media\\TV\\Example Show\\Example Show - S01E01 - Pilot.mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "Another Show",
+      "BrandingKeywords": [
+        "Another Show"
+      ],
+      "Title": "Another Show - S01E01",
+      "SourcePath": "D:\\Media\\TV\\Another Show\\Another Show - S01E01.mp4"
+    }
+  ]
+}

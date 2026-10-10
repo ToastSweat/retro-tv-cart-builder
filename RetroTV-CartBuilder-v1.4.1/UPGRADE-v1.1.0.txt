@@ -1,0 +1,115 @@
+RETRO TV CART BUILDER v1.1.0
+==============================
+
+This update is specifically based on the first full NICK01 review.
+
+NEW REVIEW UI
+-------------
+The right sidebar is now split into two areas:
+- Review controls stay fixed at the top.
+- The cart timeline underneath has its own independent scrollbar.
+
+You can scroll through the whole cart without losing the action, replacement,
+trim, notes, or export controls.
+
+TRIMMING NOW ACTUALLY WORKS
+---------------------------
+The reviewer already had Trim Start / Trim End fields. v1.1 makes them part of
+the revision pipeline.
+
+Example:
+  Action: NEEDS_CLIPPED
+  Trim Start: 0.65
+  Trim End: 1.20
+
+Apply-RetroCartReview.ps1 creates a new immutable revision that stores those
+non-destructive trim instructions. The original source file is never edited.
+
+When r002 is reviewed, only the trimmed/replaced clips need new normalized
+proxies; everything unchanged is reused from cache.
+
+NEEDS_CLIPPED stays excluded from future automatic cart selection. That matches
+the current conservative rule: a source we discovered needs repair should not
+silently appear on some other cart.
+
+WRONG-SHOW BUMPER FIX
+---------------------
+The planner now distinguishes "blank notes" from truly generic branding.
+
+It checks title + notes for every show keyword in the cart. A bumper that says
+"Back to Doug" can no longer be treated as generic and dropped beside Angry
+Beavers.
+
+BUMPER_OUT selection:
+1. prefer material naming the show that just ended
+2. otherwise use truly generic material that names no show on the cart
+
+BUMPER_IN selection:
+1. prefer material naming the show that is about to start
+2. otherwise use truly generic material
+
+This applies to new plans. For the existing NICK01 r001 problem, use the review
+replacement workflow.
+
+APPLY REVIEW
+------------
+First, ALWAYS export the review CSV from the browser before changing/rebuilding
+the review page.
+
+Then:
+
+  .\Apply-RetroCartReview.ps1 `
+      -CartID NICK01 `
+      -ReviewCsv 'C:\path\to\NICK01-r001-review-state.csv' `
+      -AutoReplace
+
+-AutoReplace is optional.
+
+For replacement-required rows where you did not manually choose a replacement,
+it chooses a compatible unused asset. For bumpers it uses previous/next-show
+context and avoids unrelated show-specific branding.
+
+For NEEDS_CLIPPED, it expects Trim Start and/or Trim End. It will NOT replace a
+clip merely because it needs trimming.
+
+The result will be:
+
+  F:\[VIDEOS]\Retro TV Builds\NICK01\r002\cart-manifest.csv
+
+Then:
+
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+
+Spot-check the changed clips and their boundaries. You do not need to rewatch
+the whole cart unless you want to.
+
+BUILD THE ACTUAL CART
+---------------------
+Once the current revision looks good:
+
+  .\Build-RetroCartFinal.ps1 -CartID NICK01
+
+This uses the exact normalized per-clip proxies you reviewed, so there is no
+surprise "final encode" that differs from review.
+
+Output:
+
+  F:\[VIDEOS]\Retro TV Builds\NICK01\r002\FINAL\
+
+The output contains numbered MP4s in playback order plus cart-final-manifest.csv.
+
+The script currently uses a conservative 3,600,000,000-byte default limit.
+If the current proxy set is too large, it STOPS rather than silently lowering
+quality.
+
+To build and copy directly to a USB drive:
+
+  .\Build-RetroCartFinal.ps1 -CartID NICK01 -TargetDrive 'E:\'
+
+It reads actual available space and keeps a small safety margin.
+
+IMPORTANT
+---------
+Do not manually edit the original commercial/branding/episode files to perform
+review trims. Put trim values in the review state and let the revision system
+preserve the repair recipe and history.

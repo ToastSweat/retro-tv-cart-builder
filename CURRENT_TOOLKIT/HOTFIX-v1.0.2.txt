@@ -1,0 +1,28 @@
+RETRO TV CART BUILDER v1.0.2 HOTFIX
+====================================
+
+Fixes a second Windows PowerShell 5.1 Generic.List binder bug that could still
+produce:
+
+  Export-Utf8Csv : Argument types do not match
+
+after the expensive proxy-normalization phase.
+
+GOOD NEWS
+---------
+If Build-RetroCartReview.ps1 already spent a long time normalizing NICK01 before
+failing, those proxy files are in the cache. Do NOT delete them.
+
+After replacing the toolkit scripts, run ONLY:
+
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+
+It should reuse the normalized proxies, then create:
+- the continuous NICK01 review MP4
+- review-manifest.csv
+- cart-review.html
+
+No need to create a new cart plan or redo r001.
+
+The stray "r" / "rrr" commands typed after the failure are harmless PowerShell
+commands and changed nothing.

@@ -1,0 +1,29 @@
+RETRO TV CART BUILDER v1.1.1 CACHE HOTFIX
+=========================================
+
+Problem:
+v1.1.0 changed the cache profile label from "review-v1" to "review-v1.1" even
+though the actual encoding settings did NOT change. Because the cache key
+includes that label, every existing proxy looked new and was re-encoded.
+
+Fix:
+v1.1.1 restores the original "review-v1" profile label.
+
+Result:
+- unchanged clips reuse the existing v1.0.x cache
+- clips with new Trim Start / Trim End values get new cache keys and are rebuilt
+- replacement clips are built only if their source is not already cached
+
+For the supplied NICK01 r001 review state, only four slots actually changed:
+- 0130 NICK01-BREAK-02-IN: trim 1.0 sec from end
+- 0320 NICK01-BREAK-05-IN: replace wrong-show "Doug" return bumper
+- 0360 NICK01-BREAK-06-AD-01: trim 2.0 sec from start
+- 0370 NICK01-BREAK-06-AD-02: trim 1.0 sec from start
+
+If v1.1.0 is currently re-encoding everything:
+- If it is almost finished, let it finish. The output will still be correct.
+- If it has a long way to go, Ctrl+C is safe. Replace Build-RetroCartReview.ps1
+  with v1.1.1 and rerun:
+      .\Build-RetroCartReview.ps1 -CartID NICK01
+
+Do not delete the CACHE folder.

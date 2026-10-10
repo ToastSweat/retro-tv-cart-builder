@@ -1,0 +1,27 @@
+RETRO TV CART BUILDER v1.3.6
+==============================
+
+SECOND-STAGE REPLACEMENT FALLBACK
+---------------------------------
+v1.3.5 validated replacement choices during review processing, but the later
+manifest-build stage still had old hard-stop checks. In the NICK01 r004 apply,
+BR-85daaac2f1f8 reached that second stage as non-READY and the old hard stop
+still aborted the revision.
+
+v1.3.6 adds a second safety net at the exact point the new manifest is built.
+
+When -AutoReplace is enabled, if a replacement is:
+- missing
+- the same asset already in the slot
+- no longer READY
+- wrong commercial pool/type
+- wrong branding network/type
+
+the script now warns, picks another compatible READY asset, updates the change
+row, and continues instead of aborting.
+
+You do not need to change NICK01-r004-review-state again.
+
+Rerun the same apply command after replacing Apply-RetroCartReview.ps1.
+
+The previously failed attempts did not publish/advance r005 in cart-registry.csv.

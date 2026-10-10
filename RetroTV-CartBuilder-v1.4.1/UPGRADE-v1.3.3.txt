@@ -1,0 +1,22 @@
+RETRO TV CART BUILDER v1.3.3
+==============================
+
+SIGN-OFF RECOVERY / APPEND COMMAND
+----------------------------------
+If a cart revision was already created before its sign-off was registered, you
+no longer need to re-apply an old review CSV just to append the sign-off.
+
+After registering the sign-off and refreshing the asset registry:
+
+  .\Add-RetroCartSignOff.ps1 -CartID NICK01
+
+This creates one new immutable revision containing the exact current manifest
+plus the configured SIGN_OFF at the very end.
+
+Existing ReviewStatus, trims, crops, audio repairs, and source choices are
+preserved exactly. The newly-added sign-off alone is UNREVIEWED.
+
+Then:
+
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+  .\Open-RetroCart.ps1 -CartID NICK01

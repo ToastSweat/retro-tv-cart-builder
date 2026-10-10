@@ -1,0 +1,49 @@
+RETRO TV CART BUILDER v1.3.2
+==============================
+
+BAD_AUDIO SEMANTICS FIX
+-----------------------
+BAD_AUDIO no longer means "replace this source."
+
+It now means:
+  KEEP THIS SOURCE + APPLY AUDIO REPAIR LIGHT
+
+LIGHT currently applies:
+- high-pass around 70 Hz
+- low-pass around 12.5 kHz
+- light FFmpeg frequency-domain denoise
+- the normal -16 LUFS / -1.5 dBTP loudness normalization
+- 44.1 kHz stereo output
+
+The repair is non-destructive. The original source is never modified.
+
+BAD_AUDIO can be combined with:
+- TrimStart / TrimEnd
+- CropLeft / CropRight / CropTop / CropBottom
+
+All requested repairs are applied in the same proxy render.
+
+If the source has no audio stream at all, the builder stops and tells you to use
+REPLACE_THIS_CART. Filtering cannot recreate audio that does not exist.
+
+If the audio is severely clipped/distorted/damaged and LIGHT repair is not good
+enough, use REPLACE_THIS_CART on the next review pass.
+
+IMPORTANT FOR NICK01 r003
+-------------------------
+If your r003 review contains BAD_AUDIO rows and you expected them to be repaired,
+DO NOT apply it with v1.3.1.
+
+Install v1.3.2 first, then use the same exported r003 review CSV:
+
+  .\Apply-RetroCartReview.ps1 `
+      -CartID NICK01 `
+      -ReviewCsv 'C:\path\to\NICK01-r003-review-state.csv' `
+      -AutoReplace `
+      -LeanBreaks
+
+BAD_AUDIO clips will remain the same source and get AudioRepair=LIGHT.
+Their crop and trim values, if any, will be applied in the same render.
+
+The cache key now includes AudioRepair, so only repaired/changed clips are
+re-encoded. Unchanged proxies remain cached.

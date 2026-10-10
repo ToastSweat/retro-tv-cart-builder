@@ -1,0 +1,615 @@
+MY MINI RETRO TV — 20 CART MIXTAPE PLAN v1
+=============================================
+
+Goal:
+- 20 x 4 GB USB "carts"
+- short FAT32-safe volume labels
+- period-plausible station/block mixes
+- recognizable, early-run, or iconic episodes rather than deep cuts
+- no exact source file is used twice in this v1 plan
+
+IMPORTANT:
+- This is a CONTENT manifest, not a byte-perfect 4 GB fit manifest.
+- Many source files are AVI/MKV/MPG, so they will need to be transcoded to MP4 for the Mini Retro TV.
+- When we transcode, we can target a safe final cart size (for example ~3.4 GB) regardless of source sizes.
+- PPG blocks use 2 source shorts; Dexter blocks use 3; Looney Tunes blocks use 3; Ren & Stimpy blocks use 2.
+  Those groups are intended to become one continuous "half-hour-ish" output file during the build step.
+
+USB LABELS (20)
+---------------
+NICK01 NICK02 NICK03 NICK04 SNICK
+CN01 CN02 CN03 CN04 CN05
+KWB01 KWB02 FOX96
+BOOM01 BOOM02
+POWER SCIFI UPN HBO AMC
+
+
+NICK01 — Nickelodeon, 1999 Saturday-morning-ish
+-----------------------------------------------
+001. Doug: DOUG - S01 E01 - Doug Bags a Neematoad
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 1\DOUG - S01 E01 - Doug Bags a Neematoad (480p - DVDRip).mp4
+002. Rocko's Modern Life: Rocko's Modern Life - 1x01 - No Pain, No Gain - Who Give$ a Buck
+     SOURCE: F:\[VIDEOS]\TV\Rockos Modern Life\Rockos Modern Life Season 1\Rocko's Modern Life - 1x01 - No Pain, No Gain - Who Give$ a Buck [dummy].mp4
+003. Rugrats: Rugrats - S01E01 - Tommy's First Birthday
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E01 - Tommy's First Birthday.mp4
+004. Rugrats: Rugrats - S01E04-05 - At The Movies + Slumber Party
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E04-05 - At The Movies + Slumber Party.mp4
+005. Hey Arnold!: Hey Arnold! S01E01 Downtown as Fruits & Eugene's Bike
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E01 Downtown as Fruits & Eugene's Bike.mp4
+006. Angry Beavers: S01E01 Born to Be Beavers & Up All Night
+     SOURCE: F:\[VIDEOS]\TV\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\S01E01 Born to Be Beavers & Up All Night.mkv
+007. CatDog: CatDog - S01 E01-E02 - Dog Gone and All You Can't Eat
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E01-E02 - Dog Gone and All You Can't Eat (720p - Web-DL).mp4
+008. Aaahh!!! Real Monsters: AAAHH, Real Monsters - S01 E01 - The Switching Hour
+     SOURCE: F:\[VIDEOS]\TV\Aaahh! Real Monsters\Season 1\AAAHH, Real Monsters - S01 E01 - The Switching Hour (480p - DVDRip).mp4
+009. Doug: DOUG - S01 E02-E03 - Doug Can't Dance and Doug Gets Busted
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 1\DOUG - S01 E02-E03 - Doug Can't Dance and Doug Gets Busted (480p - DVDRip).mp4
+010. Hey Arnold!: Hey Arnold! S01E03 Arnold's Hat & Stoop Kid
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E03 Arnold's Hat & Stoop Kid.mp4
+011. Angry Beavers: S01E06 Muscular Beaver & Fish 'n' Dips
+     SOURCE: F:\[VIDEOS]\TV\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\S01E06 Muscular Beaver & Fish 'n' Dips.mkv
+012. Rugrats: Rugrats - S01E12-13 - Grandpa's Teeth + Momma Trauma
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E12-13 - Grandpa's Teeth + Momma Trauma.mp4
+
+NICK02 — Nickelodeon, 2000 weekday-heavy rotation
+-------------------------------------------------
+001. CatDog: CatDog - S01 E03-E04 - Flea or Die and  CatDog Food
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E03-E04 - Flea or Die and  CatDog Food (720p - Web-DL).mp4
+002. Hey Arnold!: Hey Arnold! S01E06 Heat & Snow
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E06 Heat & Snow.mp4
+003. Rugrats: Rugrats - S01E14-15 - Real Or Robots + Special Delivery
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E14-15 - Real Or Robots + Special Delivery.mp4
+004. Doug: DOUG - S01 E06-E07 - Doug Takes a Hike and Doug Rocks
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 1\DOUG - S01 E06-E07 - Doug Takes a Hike and Doug Rocks (480p - DVDRip).mp4
+005. Doug: DOUG - S01 E12-E13 - Doug's Cool Shoes and Doug to the Rescue
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 1\DOUG - S01 E12-E13 - Doug's Cool Shoes and Doug to the Rescue (480p - DVDRip).mp4
+006. Hey Arnold!: Hey Arnold! S01E08 The List & Haunted Train
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E08 The List & Haunted Train.mp4
+007. CatDog: CatDog - S01 E07-E08 - Shriek Loves Dog and WorkForce
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E07-E08 - Shriek Loves Dog and WorkForce (720p - Web-DL).mp4
+008. Rugrats: Rugrats - S01E20-21 - Touchdown Tommy + The Trial
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E20-21 - Touchdown Tommy + The Trial.mp4
+009. Pinky & the Brain: Pinky and the Brain 01 Das Mouse
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 01 Das Mouse [Honeyko].avi
+010. Hey Arnold!: Hey Arnold! S01E11 Arnold's Christmas
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E11 Arnold's Christmas.mp4
+011. Rugrats: Rugrats - S01E22-23 - Fluffy Vs. Spike + Reptar's Revenge
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 1\Rugrats - S01E22-23 - Fluffy Vs. Spike + Reptar's Revenge.mp4
+012. CatDog: CatDog - S01 E11-E12 - Party Animal  and Mush, Dog, Mush
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E11-E12 - Party Animal  and Mush, Dog, Mush (720p - Web-DL).mp4
+
+NICK03 — Nickelodeon summer rerun block
+---------------------------------------
+001. Rugrats: Rugrats - S02E03-04 - Chuckie Vs. The Potty + Together At Last
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 2\Rugrats - S02E03-04 - Chuckie Vs. The Potty + Together At Last.mp4
+002. Rugrats: Rugrats - S02E19-20 - Reptar On Ice + Family Feud
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 2\Rugrats - S02E19-20 - Reptar On Ice + Family Feud.mp4
+003. Hey Arnold!: Hey Arnold! S01E15 Spelling Bee & Pigeon Man
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 1\Hey Arnold! S01E15 Spelling Bee & Pigeon Man.mp4
+004. Doug: DOUG - S01 E22-E23 - Doug is Quailman and Out in Left Field
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 1\DOUG - S01 E22-E23 - Doug is Quailman and Out in Left Field (480p - DVDRip).mp4
+005. Angry Beavers: S01E13 Bummer of Love & Food of the Clods
+     SOURCE: F:\[VIDEOS]\TV\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\S01E13 Bummer of Love & Food of the Clods.mkv
+006. CatDog: CatDog - S01 E13-E14 - Armed and Dangerous and Fistful of Mail
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E13-E14 - Armed and Dangerous and Fistful of Mail (720p - Web-DL).mp4
+007. Rugrats: Rugrats - S02E27 - The Santa Experience
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 2\Rugrats - S02E27 - The Santa Experience.mp4
+008. Hey Arnold!: Hey Arnold! S02E07 Arnold's Halloween
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 2\Hey Arnold! S02E07 Arnold's Halloween.mp4
+009. Doug: DOUG - S02 E01-E02 - Doug Takes the Case and Doug's Secret Song
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 2\DOUG - S02 E01-E02 - Doug Takes the Case and Doug's Secret Song (480p - DVDRip).mp4
+010. Angry Beavers: S02E01 Beaver Fever & Same Time Last Week
+     SOURCE: F:\[VIDEOS]\TV\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\S02E01 Beaver Fever & Same Time Last Week.mkv
+011. CatDog: CatDog - S01 E19-E20 - Escape From the Deep End and The Collector
+     SOURCE: F:\[VIDEOS]\TV\CatDog\Season 1\CatDog - S01 E19-E20 - Escape From the Deep End and The Collector (720p - Web-DL).mp4
+012. Rocko's Modern Life: Rocko's Modern Life - 1x02 - Leap Frogs - Bedfellows
+     SOURCE: F:\[VIDEOS]\TV\Rockos Modern Life\Rockos Modern Life Season 1\Rocko's Modern Life - 1x02 - Leap Frogs - Bedfellows [dummy].mp4
+
+NICK04 — Older-school Nickelodeon / Nicktoons
+---------------------------------------------
+001. Doug: DOUG - S02 E09-E10 - Doug's on Stage and Doug's Worst Nightmare
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 2\DOUG - S02 E09-E10 - Doug's on Stage and Doug's Worst Nightmare (480p - DVDRip).mp4
+002. Rugrats: Rugrats - S03E21-22 - Home Movies + The Mysterious Mr. Fiend
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 3\Rugrats - S03E21-22 - Home Movies + The Mysterious Mr. Fiend.mp4
+003. Rocko's Modern Life: Rocko's Modern Life - 1x04 - Keeping Up With the Bigheads - Skid Marks
+     SOURCE: F:\[VIDEOS]\TV\Rockos Modern Life\Rockos Modern Life Season 1\Rocko's Modern Life - 1x04 - Keeping Up With the Bigheads - Skid Marks [dummy].mp4
+004. Aaahh!!! Real Monsters: AAAHH, Real Monsters - S01 E02 - Monsters, Get Real
+     SOURCE: F:\[VIDEOS]\TV\Aaahh! Real Monsters\Season 1\AAAHH, Real Monsters - S01 E02 - Monsters, Get Real (480p - DVDRip).mp4
+005. Doug: DOUG - S02 E17-E18 - Doug's a Big Fat Liar and Doug Wears Tights
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 2\DOUG - S02 E17-E18 - Doug's a Big Fat Liar and Doug Wears Tights (480p - DVDRip).mp4
+006. Rugrats: Rugrats - S03E31-32 - Under Chuckie's Bed + Chuckie Is Rich
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 3\Rugrats - S03E31-32 - Under Chuckie's Bed + Chuckie Is Rich.mp4
+007. Rocko's Modern Life: Rocko's Modern Life - 1x05 - Power Trip - To Heck and Back
+     SOURCE: F:\[VIDEOS]\TV\Rockos Modern Life\Rockos Modern Life Season 1\Rocko's Modern Life - 1x05 - Power Trip - To Heck and Back [dummy].mp4
+008. Angry Beavers: S02E10 The Day the World Got Really Screwed Up
+     SOURCE: F:\[VIDEOS]\TV\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\S02E10 The Day the World Got Really Screwed Up.mkv
+009. Hey Arnold!: Hey Arnold! S02E17 Eugene Goes Bad & What's Opera, Arnold
+     SOURCE: F:\[VIDEOS]\TV\Hey Arnold!\Season 2\Hey Arnold! S02E17 Eugene Goes Bad & What's Opera, Arnold.mp4
+010. Aaahh!!! Real Monsters: AAAHH, Real Monsters - S01 E04 - Curse of the Krumm
+     SOURCE: F:\[VIDEOS]\TV\Aaahh! Real Monsters\Season 1\AAAHH, Real Monsters - S01 E04 - Curse of the Krumm (480p - DVDRip).mp4
+011. Doug: DOUG - S02 E25-E26 - Doug's Lost Weekend and Doug's Lucky Hat
+     SOURCE: F:\[VIDEOS]\TV\DOUG\Season 2\DOUG - S02 E25-E26 - Doug's Lost Weekend and Doug's Lucky Hat (480p - DVDRip).mp4
+012. Rugrats: Rugrats - S03E41-42 - Angelica's Worst Nightmare + The Mega Diaper Babies
+     SOURCE: F:\[VIDEOS]\TV\Rugrats\Season 3\Rugrats - S03E41-42 - Angelica's Worst Nightmare + The Mega Diaper Babies.mp4
+
+SNICK — SNICK-inspired late-night block
+---------------------------------------
+001. Are You Afraid of the Dark?: -02 Are You Afraid of the Dark - The Tale of the Laughing in the Dark
+     SOURCE: F:\[VIDEOS]\TV\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\Season 1\-02 Are You Afraid of the Dark - The Tale of the Laughing in the Dark.mpg
+002. Ren & Stimpy: 1e03a-Space Madness / 1e03b-The Boy Who Cried Rat!
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e03a-Space Madness.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e03b-The Boy Who Cried Rat!.mkv
+003. Are You Afraid of the Dark?: -06 Are You Afraid of the Dark - The Tale of the Super Specs
+     SOURCE: F:\[VIDEOS]\TV\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\Season 1\-06 Are You Afraid of the Dark - The Tale of the Super Specs.avi
+004. Ren & Stimpy: 1e04a-Fire Dogs / 1e04b-The Littlest Giant
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e04a-Fire Dogs.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e04b-The Littlest Giant.mkv
+005. Are You Afraid of the Dark?: AYAOTD - S02E06 - The Tale of the Midnight Madness
+     SOURCE: F:\[VIDEOS]\TV\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\Season 2\AYAOTD - S02E06 - The Tale of the Midnight Madness.avi
+006. Ren & Stimpy: 1e06a-Black Hole / 1e06b-Stimpy's Invention
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e06a-Black Hole.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\1\1e06b-Stimpy's Invention.mkv
+007. Are You Afraid of the Dark?: AYAOTD - S03E05 - The Tale of the Doll Maker
+     SOURCE: F:\[VIDEOS]\TV\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\Season 3\AYAOTD - S03E05 - The Tale of the Doll Maker.avi
+008. Ren & Stimpy: 2e01b-Powdered Toast Man / 2e02a-Ren's Toothache
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\2\2e01b-Powdered Toast Man.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\2\2e02a-Ren's Toothache.mkv
+
+CN01 — Cartoon Network Powerhouse prime-time core
+-------------------------------------------------
+001. Ed, Edd n Eddy: Ed, Edd n Eddy - S01 E01-E02 - The Ed-Touchables and Nagged to Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 1\Ed, Edd n Eddy - S01 E01-E02 - The Ed-Touchables and Nagged to Ed (720p - HMax Web-DL).mp4
+002. Powerpuff Girls: The Powerpuff Girls (1998) S01E01 - Monkey See, Doggie Do / The Powerpuff Girls (1998) S01E02 - Mommy Fearest
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E01 - Monkey See, Doggie Do.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E02 - Mommy Fearest.1080p.H265.AAC.2CH-MNKYDDL.mkv
+003. Dexter's Laboratory: Dexter's Laboratory S01E02a Dexter Dodgeball / Dexter's Laboratory S01E02c Dexter's Assistant / Dexter's Laboratory S01E03a Dexter's Rival
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E02a Dexter Dodgeball.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E02c Dexter's Assistant.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E03a Dexter's Rival.mp4
+004. Ed, Edd n Eddy: Ed, Edd n Eddy - S01 E03-E04 - Pop Goes the Ed and Over Your Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 1\Ed, Edd n Eddy - S01 E03-E04 - Pop Goes the Ed and Over Your Ed (720p - HMax Web-DL).mp4
+005. Powerpuff Girls: The Powerpuff Girls (1998) S01E07 - Buttercrush / The Powerpuff Girls (1998) S01E09 - Boogie Frights
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E07 - Buttercrush.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E09 - Boogie Frights.1080p.H265.AAC.2CH-MNKYDDL.mkv
+006. Dexter's Laboratory: Dexter's Laboratory S01E03c Old Man Dexter / Dexter's Laboratory S01E04a Double Trouble / Dexter's Laboratory S01E05a Jurassic Pooch
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E03c Old Man Dexter.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E04a Double Trouble.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E05a Jurassic Pooch.mp4
+007. Ed, Edd n Eddy: Ed, Edd n Eddy - S01 E07-E08 - Dawn of the Eds and Virt-Ed-Go
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 1\Ed, Edd n Eddy - S01 E07-E08 - Dawn of the Eds and Virt-Ed-Go (720p - HMax Web-DL).mp4
+008. Powerpuff Girls: The Powerpuff Girls (1998) S01E17 - Bubblevicious / The Powerpuff Girls (1998) S01E23 - The Rowdyruff Boys
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E17 - Bubblevicious.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 1\The Powerpuff Girls (1998) S01E23 - The Rowdyruff Boys.1080p.H264.AAC.2CH-MNKYDDL.mkv
+009. Ed, Edd n Eddy: Ed, Edd n Eddy - S01 E11-E12 - An Ed Too Many and Ed-n-Seek
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 1\Ed, Edd n Eddy - S01 E11-E12 - An Ed Too Many and Ed-n-Seek (720p - HMax Web-DL).mp4
+010. Powerpuff Girls: The Powerpuff Girls (1998) S02E01 - Stuck Up, Up and Away / The Powerpuff Girls (1998) S02E07 - Beat Your Greens
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E01 - Stuck Up, Up and Away.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E07 - Beat Your Greens.1080p.H265.AAC.2CH-MNKYDDL.mkv
+011. Ed, Edd n Eddy: Ed, Edd n Eddy - S01 E19-E20 - A Glass of Warm Ed and Flea-Bitten Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 1\Ed, Edd n Eddy - S01 E19-E20 - A Glass of Warm Ed and Flea-Bitten Ed (720p - HMax Web-DL).mp4
+012. Powerpuff Girls: The Powerpuff Girls (1998) S02E13 - A Very Special Blossom / The Powerpuff Girls (1998) S02E15 - Mo Job
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E13 - A Very Special Blossom.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E15 - Mo Job.1080p.H265.AAC.2CH-MNKYDDL.mkv
+
+CN02 — Cartoon Network Powerhouse alternate prime block
+-------------------------------------------------------
+001. Ed, Edd n Eddy: Ed, Edd n Eddy - S02 E03-E04 - Knock, Knock, Who's Ed and One plus One equals Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 2\Ed, Edd n Eddy - S02 E03-E04 - Knock, Knock, Who's Ed and One plus One equals Ed (720p - HMax Web-DL).mp4
+002. Dexter's Laboratory: Dexter's Laboratory S01E06a Dee Dee's Room / Dexter's Laboratory S01E07c Game Over / Dexter's Laboratory S01E09c The Big Cheese
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E06a Dee Dee's Room.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E07c Game Over.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E09c The Big Cheese.mp4
+003. Powerpuff Girls: The Powerpuff Girls (1998) S02E23 - Speed Demon / The Powerpuff Girls (1998) S03E22 - Meet the Beat Alls
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E23 - Speed Demon.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 3\The Powerpuff Girls (1998) S03E22 - Meet the Beat Alls.1080p.H265.AAC.2CH-MNKYDDL.mkv
+004. Ed, Edd n Eddy: Ed, Edd n Eddy - S02 E11-E12 - Home Cooked Eds and Rambling Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 2\Ed, Edd n Eddy - S02 E11-E12 - Home Cooked Eds and Rambling Ed (720p - HMax Web-DL).mp4
+005. Dexter's Laboratory: Dexter's Laboratory S02E09c Mock 5 / Dexter's Laboratory S02E06c Lab of the Lost / Dexter's Laboratory S02E13b Photo Finish
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 2\Dexter's Laboratory S02E09c Mock 5.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 2\Dexter's Laboratory S02E06c Lab of the Lost.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 2\Dexter's Laboratory S02E13b Photo Finish.mp4
+006. Powerpuff Girls: The Powerpuff Girls (1998) S03E21 - Moral Decay / The Powerpuff Girls (1998) S05E03 - Power-Noia
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 3\The Powerpuff Girls (1998) S03E21 - Moral Decay.1080p.H265.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 5\The Powerpuff Girls (1998) S05E03 - Power-Noia.1080p.H264.AAC.2CH-MNKYDDL.mkv
+007. Ed, Edd n Eddy: Ed, Edd n Eddy - S02 E13-E14 - To Sir with Ed and Key to My Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 2\Ed, Edd n Eddy - S02 E13-E14 - To Sir with Ed and Key to My Ed (720p - HMax Web-DL).mp4
+008. Dexter's Laboratory: Dexter's Laboratory S01E12c Mandarker / Dexter's Laboratory S02E39a Last But Not Beast / Dexter's Laboratory S01E11c Dexter's Debt
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E12c Mandarker.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 2\Dexter's Laboratory S02E39a Last But Not Beast.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E11c Dexter's Debt.mp4
+009. Powerpuff Girls: The Powerpuff Girls (1998) S04E09 - Knock It Off / The Powerpuff Girls (1998) S04E01 - Him Diddle Riddle
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 4\The Powerpuff Girls (1998) S04E09 - Knock It Off.1080p.H264.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 4\The Powerpuff Girls (1998) S04E01 - Him Diddle Riddle.1080p.H264.AAC.2CH-MNKYDDL.mkv
+010. Ed, Edd n Eddy: Ed, Edd n Eddy - S02 E23-E24 - Hot Buttered Ed and High Heeled Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 2\Ed, Edd n Eddy - S02 E23-E24 - Hot Buttered Ed and High Heeled Ed (720p - HMax Web-DL).mp4
+011. Dexter's Laboratory: Dexter's Laboratory S02E36c The Parrot Trap / Dexter's Laboratory S01E01a Deedeemensional / Dexter's Laboratory S01E01c Maternal Combat
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 2\Dexter's Laboratory S02E36c The Parrot Trap.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E01a Deedeemensional.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E01c Maternal Combat.mp4
+012. Powerpuff Girls: The Powerpuff Girls (1998) S04E05 - Members Only / The Powerpuff Girls (1998) S03E07 - Bought and Scold
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 4\The Powerpuff Girls (1998) S04E05 - Members Only.1080p.H264.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 3\The Powerpuff Girls (1998) S03E07 - Bought and Scold.1080p.H265.AAC.2CH-MNKYDDL.mkv
+
+CN03 — Cartoon Network daytime into prime
+-----------------------------------------
+001. Freakazoid!: 02. Candle Jack-Toby Danger In Doomsday Bet-Lobe
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\02. Candle Jack-Toby Danger In Doomsday Bet-Lobe.mp4
+002. The Flintstones: The Flintstones S01E01 The Flintstone Flyer
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E01 The Flintstone Flyer.mp4
+003. The Jetsons: The Jetsons - S01E01 (Rosey the Robot)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E01 (Rosey the Robot).mp4
+004. Looney Tunes: 022853DVD Duck Amuck MM / 070657DVD What's Opera, Doc MM / 121650DVD Rabbit of Seville LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1953\022853DVD Duck Amuck MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1957\070657DVD What's Opera, Doc MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1950\121650DVD Rabbit of Seville LT.avi
+005. Freakazoid!: 06. Chip, The (Part 1)
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\06. Chip, The (Part 1).mp4
+006. The Flintstones: The Flintstones S01E02 Hot Lips Hannigan
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E02 Hot Lips Hannigan.mp4
+007. The Jetsons: The Jetsons - S01E02 (A Date with Jet Screamer)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E02 (A Date with Jet Screamer).mp4
+008. Looney Tunes: 123155DVD One Froggy Evening MM / 020252DVD Feed the Kitty MM / 091749DVD Fast and Furry-ous LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1955\123155DVD One Froggy Evening MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1952\020252DVD Feed the Kitty MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1949\091749DVD Fast and Furry-ous LT.avi
+009. Ed, Edd n Eddy: Ed, Edd n Eddy - S04 E03-E04 - Is There an Ed in the House and An Ed is Born
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 4\Ed, Edd n Eddy - S04 E03-E04 - Is There an Ed in the House and An Ed is Born (720p - HMax Web-DL).mp4
+010. Dexter's Laboratory: Dexter's Laboratory S01E01b Dial M for Monkey Magmanamus / Dexter's Laboratory S01E02b Dial M for Monkey Rasslor / Dexter's Laboratory S01E05c Dimwit Dexter
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E01b Dial M for Monkey Magmanamus.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E02b Dial M for Monkey Rasslor.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E05c Dimwit Dexter.mp4
+011. Freakazoid!: 07. Chip, The (Part 2)-Freakazoid Is History
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\07. Chip, The (Part 2)-Freakazoid Is History.mp4
+012. The Flintstones: The Flintstones S01E03 The Swimming Pool
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E03 The Swimming Pool.mp4
+
+CN04 — Cartoon Network mixed Powerhouse day
+-------------------------------------------
+001. Freakazoid!: 08. Hot Rods From Heck-A Time For Evil-Freakmobile Toy Line
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\08. Hot Rods From Heck-A Time For Evil-Freakmobile Toy Line.mp4
+002. The Flintstones: The Flintstones S01E05 The Split Personality
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E05 The Split Personality.mp4
+003. The Jetsons: The Jetsons - S01E03 (Jetson's Nite Out)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E03 (Jetson's Nite Out).mp4
+004. Looney Tunes: 051951DVD Rabbit Fire LT / 092052DVD Rabbit Seasoning MM / 020957DVD Ali Baba Bunny MM
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1951\051951DVD Rabbit Fire LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1952\092052DVD Rabbit Seasoning MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1957\020957DVD Ali Baba Bunny MM.avi
+005. Freakazoid!: 10. In Arms Way-Cloud
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\10. In Arms Way-Cloud.mp4
+006. The Flintstones: The Flintstones S01E06 The Monster from the Tar Pits
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E06 The Monster from the Tar Pits.mp4
+007. The Jetsons: The Jetsons - S01E04 (The Space Car)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E04 (The Space Car).mp4
+008. Looney Tunes: 072553DVD Duck Dodgers in the 24.5 Century MM / 081250DVD Hillbilly Hare MM / 043049DVD High Diving Hare LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1953\072553DVD Duck Dodgers in the 24.5 Century MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1950\081250DVD Hillbilly Hare MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1949\043049DVD High Diving Hare LT.avi
+009. Ed, Edd n Eddy: Ed, Edd n Eddy - S03 E07-E08 - Dueling Eds and Dim Lit Ed
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 3\Ed, Edd n Eddy - S03 E07-E08 - Dueling Eds and Dim Lit Ed (720p - HMax Web-DL).mp4
+010. Powerpuff Girls: The Powerpuff Girls (1998) S04E04 - Get Back Jojo / The Powerpuff Girls (1998) S02E12 - Los Dos Mojos
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 4\The Powerpuff Girls (1998) S04E04 - Get Back Jojo.1080p.H264.AAC.2CH-MNKYDDL.mkv
+     SOURCE: F:\[VIDEOS]\TV\The Powerpuff Girls (1998)\Season 2\The Powerpuff Girls (1998) S02E12 - Los Dos Mojos.1080p.H265.AAC.2CH-MNKYDDL.mkv
+011. Freakazoid!: 11. Next Time, Phone Ahead-Nerdator
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\11. Next Time, Phone Ahead-Nerdator.mp4
+012. The Jetsons: The Jetsons - S01E05 (The Coming of Astro)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E05 (The Coming of Astro).mp4
+
+CN05 — Cartoon Network full-day mixtape
+---------------------------------------
+001. Freakazoid!: 12. House of Freakazoid-Sewer or Later
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\12. House of Freakazoid-Sewer or Later.mp4
+002. The Flintstones: The Flintstones S01E07 The Babysitters
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E07 The Babysitters.mp4
+003. The Jetsons: The Jetsons - S01E07 (The Flying Suit)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E07 (The Flying Suit).mp4
+004. Looney Tunes: 080853DVD Bully for Bugs LT / 031354DVD Bugs and Thugs LT / 082358DVD Knighty Knight Bugs LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1953\080853DVD Bully for Bugs LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1954\031354DVD Bugs and Thugs LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1958\082358DVD Knighty Knight Bugs LT.avi
+005. Freakazoid!: 13. Wrath of Guitierrez
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 1\13. Wrath of Guitierrez.mp4
+006. The Flintstones: The Flintstones S01E08 At the Races
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E08 At the Races.mp4
+007. The Jetsons: The Jetsons - S01E08 (Rosey's Boyfriend)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E08 (Rosey's Boyfriend).mp4
+008. Looney Tunes: 081057DVD Birds Anonymous MM / 111249DVD For Scent-imental Reasons LT / 091755DVD Speedy Gonzales MM
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1957\081057DVD Birds Anonymous MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1949\111249DVD For Scent-imental Reasons LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1955\091755DVD Speedy Gonzales MM.avi
+009. Ed, Edd n Eddy: Ed, Edd n Eddy - S03 E21-E22 - Brother, Can You Spare an Ed and The Day the Ed Stood Still
+     SOURCE: F:\[VIDEOS]\TV\Ed, Edd n Eddy\Season 3\Ed, Edd n Eddy - S03 E21-E22 - Brother, Can You Spare an Ed and The Day the Ed Stood Still (720p - HMax Web-DL).mp4
+010. Dexter's Laboratory: Dexter's Laboratory S01E06c The Big Sister / Dexter's Laboratory S01E07a Star Spangled Sidekicks / Dexter's Laboratory S01E08c Dream Machine
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E06c The Big Sister.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E07a Star Spangled Sidekicks.mp4
+     SOURCE: F:\[VIDEOS]\TV\Dexter's Laboratory\Season 1\Dexter's Laboratory S01E08c Dream Machine.mp4
+011. The Flintstones: The Flintstones S01E10 Hollyrock, Here I Come
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E10 Hollyrock, Here I Come.mp4
+012. The Jetsons: The Jetsons - S01E09 (Elroy's T V  Show)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E09 (Elroy's T V  Show).mp4
+
+KWB01 — Kids' WB! 1997 weekday-ish
+----------------------------------
+001. Tiny Toon Adventures: S01E01 - The Looney Beginning
+     SOURCE: F:\[VIDEOS]\TV\Tiny Toon Adventures (1990)\Tiny Toon Adventures - Season 1 (1990 - 1991)\S01E01 - The Looney Beginning.avi
+002. Looney Tunes: 042349DVD Mouse Wreckers LT / 030450DVD The Scarlet Pumpernickel LT / 092956DVD Deduce, You Say LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1949\042349DVD Mouse Wreckers LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1950\030450DVD The Scarlet Pumpernickel LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1956\092956DVD Deduce, You Say LT.avi
+003. Animaniacs: Animaniacs S01E02 Yakko's World, Cookies for Einstein, Win Big
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E02 Yakko's World, Cookies for Einstein, Win Big.mp4
+004. Pinky & the Brain: Pinky and the Brain 04 Pinky & The Fog, Where No Mouse Has Gone Before, Cheese Roll Call
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 04 Pinky & The Fog, Where No Mouse Has Gone Before, Cheese Roll Call [Honeyko].avi
+005. Batman TAS: Batman.The.Animated.Series.S01E03.Heart.of.Ice
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E03.Heart.of.Ice.720p.BluRay.x265-HETeam.mp4
+006. Tiny Toon Adventures: S01E02 - A Quack in the Quarks
+     SOURCE: F:\[VIDEOS]\TV\Tiny Toon Adventures (1990)\Tiny Toon Adventures - Season 1 (1990 - 1991)\S01E02 - A Quack in the Quarks.avi
+007. Animaniacs: Animaniacs S01E10 King Yakko
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E10 King Yakko.mp4
+008. Pinky & the Brain: Pinky and the Brain 05 Brainania
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 05 Brainania [Honeyko].avi
+009. Batman TAS: Batman.The.Animated.Series.S01E07.Jokers.Favor
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E07.Jokers.Favor.720p.BluRay.x265-HETeam.mp4
+010. Looney Tunes: 111751DVD Drip-Along Daffy MM / 030858DVD Robin Hood Daffy MM / 020246DVD Baseball Bugs LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1951\111751DVD Drip-Along Daffy MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1958\030858DVD Robin Hood Daffy MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1946\020246DVD Baseball Bugs LT.avi
+011. Animaniacs: Animaniacs S01E18 Pavlov's Mice, Chicken Boo-Ryshnikov, Nothing but the Tooth
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E18 Pavlov's Mice, Chicken Boo-Ryshnikov, Nothing but the Tooth.mp4
+012. Pinky & the Brain: Pinky and the Brain 06 TV or Not TV
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 06 TV or Not TV [Honeyko].avi
+
+KWB02 — Kids' WB! 1996/97 Saturday-ish
+--------------------------------------
+001. Animaniacs: Animaniacs S01E15 Space Probed, Battle for the Planet
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E15 Space Probed, Battle for the Planet.mp4
+002. Pinky & the Brain: Pinky and the Brain 07 Napoleon Brainaparte
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 07 Napoleon Brainaparte [Honeyko].avi
+003. Freakazoid!: 03. Mission Freakazoid
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 2\03. Mission Freakazoid.mp4
+004. Batman TAS: Batman.The.Animated.Series.S01E04.Feat.of.Clay.Part.One
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E04.Feat.of.Clay.Part.One.720p.BluRay.x265-HETeam.mp4
+005. Tiny Toon Adventures: S01E05 - The Buster Bunny Bunch
+     SOURCE: F:\[VIDEOS]\TV\Tiny Toon Adventures (1990)\Tiny Toon Adventures - Season 1 (1990 - 1991)\S01E05 - The Buster Bunny Bunch.avi
+006. Animaniacs: Animaniacs S01E34 Clown and Out, Bubba Bo Bob Brain
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E34 Clown and Out, Bubba Bo Bob Brain.mp4
+007. Pinky & the Brain: Pinky and the Brain 08 A Pinky & The Brain Christmas
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 08 A Pinky & The Brain Christmas [Honeyko].avi
+008. Freakazoid!: 08. Island of Dr. Mystico
+     SOURCE: F:\[VIDEOS]\TV\Freakazoid!\Season 2\08. Island of Dr. Mystico.mp4
+009. Batman TAS: Batman.The.Animated.Series.S01E05.Feat.of.Clay.Part.Two
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E05.Feat.of.Clay.Part.Two.720p.BluRay.x265-HETeam.mp4
+010. Tiny Toon Adventures: S01E08 - Stuff That Goes Bump in the Night
+     SOURCE: F:\[VIDEOS]\TV\Tiny Toon Adventures (1990)\Tiny Toon Adventures - Season 1 (1990 - 1991)\S01E08 - Stuff That Goes Bump in the Night.avi
+011. Animaniacs: Animaniacs S01E38 Spellbound
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E38 Spellbound.mp4
+012. Pinky & the Brain: Pinky and the Brain 09 Snowball
+     SOURCE: F:\[VIDEOS]\TV\Pinky and the Brain\Pinky and the Brain 09 Snowball [Honeyko].avi
+
+FOX96 — Fox Kids 1996
+---------------------
+001. Batman TAS: Batman.The.Animated.Series.S01E26.Perchance.to.Dream
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E26.Perchance.to.Dream.720p.BluRay.x265-HETeam.mp4
+002. The Tick: The Tick - s01e01 - The Tick vs The Idea Men
+     SOURCE: F:\[VIDEOS]\TV\The Tick - Complete Animated Series [DVDRip x264 576p]\The Tick - s01e01 - The Tick vs The Idea Men.mkv
+003. Batman TAS: Batman.The.Animated.Series.S01E32.Beware.the.Gray.Ghost
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E32.Beware.the.Gray.Ghost.720p.BluRay.x265-HETeam.mp4
+004. The Tick: The Tick - s01e02 - The Tick vs Chairface Chippendale
+     SOURCE: F:\[VIDEOS]\TV\The Tick - Complete Animated Series [DVDRip x264 576p]\The Tick - s01e02 - The Tick vs Chairface Chippendale.mkv
+005. Animaniacs: Animaniacs S01E51 The Warners & the Beanstalk, Frontier Slappy
+     SOURCE: F:\[VIDEOS]\TV\Animaniacs\Season 1\Animaniacs S01E51 The Warners & the Beanstalk, Frontier Slappy.mp4
+006. Tiny Toon Adventures: S01E09 - It's Buster Bunny Time
+     SOURCE: F:\[VIDEOS]\TV\Tiny Toon Adventures (1990)\Tiny Toon Adventures - Season 1 (1990 - 1991)\S01E09 - It's Buster Bunny Time.avi
+007. Batman TAS: Batman.The.Animated.Series.S01E35.Almost.Got.Im
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E35.Almost.Got.Im.720p.BluRay.x265-HETeam.mp4
+008. The Tick: The Tick - s01e03 - The Tick vs Dinosaur Neil
+     SOURCE: F:\[VIDEOS]\TV\The Tick - Complete Animated Series [DVDRip x264 576p]\The Tick - s01e03 - The Tick vs Dinosaur Neil.mkv
+009. Batman TAS: Batman.The.Animated.Series.S01E46.The.Laughing.Fish
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E46.The.Laughing.Fish.720p.BluRay.x265-HETeam.mp4
+010. The Tick: The Tick - s01e04 - The Tick vs Mr Mental
+     SOURCE: F:\[VIDEOS]\TV\The Tick - Complete Animated Series [DVDRip x264 576p]\The Tick - s01e04 - The Tick vs Mr Mental.mkv
+011. Batman TAS: Batman.The.Animated.Series.S01E47.Harley.and.Ivy
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 1\Batman.The.Animated.Series.S01E47.Harley.and.Ivy.720p.BluRay.x265-HETeam.mp4
+012. Batman TAS: Batman.The.Animated.Series.S02E09.Trial
+     SOURCE: F:\[VIDEOS]\TV\Batman the Animated Series\Season 2\Batman.The.Animated.Series.S02E09.Trial.720p.BluRay.x265-HETeam.mp4
+
+BOOM01 — Boomerang classics mix A
+---------------------------------
+001. Looney Tunes: 052546DVD Hair-Raising Hare MM / 041952DVD Water, Water Every Hare LT / 072046DVD The Great Piggy Bank Robbery LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1946\052546DVD Hair-Raising Hare MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1952\041952DVD Water, Water Every Hare LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1946\072046DVD The Great Piggy Bank Robbery LT.avi
+002. The Flintstones: The Flintstones S01E11 The Golf Champion
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E11 The Golf Champion.mp4
+003. The Jetsons: The Jetsons - S01E10 (Uniblab)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E10 (Uniblab).mp4
+004. Looney Tunes: 010546DVD Book Revue LT / 032748DVD Back Alley Oproar MM / 121848DVD Scaredy Cat MM
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1946\010546DVD Book Revue LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1948\032748DVD Back Alley Oproar MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1948\121848DVD Scaredy Cat MM.avi
+005. The Flintstones: The Flintstones S01E12 The Sweepstakes Ticket
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E12 The Sweepstakes Ticket.mp4
+006. The Jetsons: The Jetsons - S01E11 (A Visit from Grandpa)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E11 (A Visit from Grandpa).mp4
+007. Looney Tunes: 110648DVD Kit for Cat LT / 080247DVD A Pest in the House MM / 011952DVD Operation Rabbit LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1948\110648DVD Kit for Cat LT.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1947\080247DVD A Pest in the House MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1952\011952DVD Operation Rabbit LT.avi
+008. The Flintstones: The Flintstones S01E13 The Drive-In
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E13 The Drive-In.mp4
+009. The Jetsons: The Jetsons - S01E12 (Astro's Top Secret)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E12 (Astro's Top Secret).mp4
+010. Looney Tunes: 091457DVD Zoom and Bored MM / 022753DVD The Wild Chase MM / 121055DVD Guided Muscle LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1957\091457DVD Zoom and Bored MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1953\022753DVD The Wild Chase MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1955\121055DVD Guided Muscle LT.avi
+011. The Flintstones: The Flintstones S01E15 The Girls' Night Out
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E15 The Girls' Night Out.mp4
+012. The Jetsons: The Jetsons - S01E15 (Elroy's Pal)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E15 (Elroy's Pal).mp4
+
+BOOM02 — Boomerang classics mix B
+---------------------------------
+001. Looney Tunes: 081454DVD Stop! Look! and Hasten! MM / 082352DVD Going! Going! Gosh! MM / 091953DVD Zipping Along MM
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1954\081454DVD Stop! Look! and Hasten! MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1952\082352DVD Going! Going! Gosh! MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1953\091953DVD Zipping Along MM.avi
+002. The Flintstones: The Flintstones S01E09 The Engagement Ring
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E09 The Engagement Ring.mp4
+003. The Jetsons: The Jetsons - S01E14 (Test Pilot)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E14 (Test Pilot).mp4
+004. Looney Tunes: 122863DVD To Beep or Not To Beep MM / 100750DVD Canary Row MM / 022451DVD Putty Tat Trouble LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1963\122863DVD To Beep or Not To Beep MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1950\100750DVD Canary Row MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1951\022451DVD Putty Tat Trouble LT.avi
+005. The Flintstones: The Flintstones S01E17 The Big Bank Robbery
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E17 The Big Bank Robbery.mp4
+006. The Jetsons: The Jetsons - S01E16 (Millionaire Astro)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E16 (Millionaire Astro).mp4
+007. Looney Tunes: 060251DVD Room and Bird MM / 092251DVD Tweety's S.O.S. MM / 080754DVD Satan's Waitin' LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1951\060251DVD Room and Bird MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1951\092251DVD Tweety's S.O.S. MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1954\080754DVD Satan's Waitin' LT.avi
+008. The Flintstones: The Flintstones S01E18 The Snorkasaurus Hunter
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E18 The Snorkasaurus Hunter.mp4
+009. The Jetsons: The Jetsons - S01E17 (The Little Man)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E17 (The Little Man).mp4
+010. Looney Tunes: 120261DVD The Last Hungry Cat MM / 091942DVD The Dover Boys MM / 092438DVD Porky in Wackyland LT
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1961\120261DVD The Last Hungry Cat MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1942\091942DVD The Dover Boys MM.avi
+     SOURCE: F:\[VIDEOS]\TV\Looney Tunes Golden Collection\1938\092438DVD Porky in Wackyland LT.avi
+011. The Flintstones: The Flintstones S01E19 The Hot Piano
+     SOURCE: F:\[VIDEOS]\TV\The Flintstones S01-S06 (1960-)\The Flintstones S01 (360p re-dvdrip)\The Flintstones S01E19 The Hot Piano.mp4
+012. The Jetsons: The Jetsons - S01E13 (Las Venus)
+     SOURCE: F:\[VIDEOS]\TV\The Jetsons (Complete cartoon series in MP4 format)\The Jetsons - Season 1\The Jetsons - S01E13 (Las Venus).mp4
+
+POWER — 1996 Power Block / Beast Wars
+-------------------------------------
+001. Beast Wars: Beast Wars - 101 - Beast Wars[Part 1]
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 101 - Beast Wars[Part 1].avi
+002. Beast Wars: Beast Wars - 102 - Beast Wars[Part 2]
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 102 - Beast Wars[Part 2].avi
+003. Beast Wars: Beast Wars - 103 - The Web
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 103 - The Web.avi
+004. Beast Wars: Beast Wars - 104 - Equal Measures
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 104 - Equal Measures.avi
+005. Beast Wars: Beast Wars - 105 - Chain of Command
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 105 - Chain of Command.avi
+006. Beast Wars: Beast Wars - 106 - Power Surge
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 106 - Power Surge.avi
+007. Beast Wars: Beast Wars - 107 - Fallen Comrades
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 107 - Fallen Comrades.avi
+008. Beast Wars: Beast Wars - 108 - Double Jeopardy
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 108 - Double Jeopardy.avi
+009. Beast Wars: Beast Wars - 109 - A Better Mouse Trap
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 109 - A Better Mouse Trap.avi
+010. Beast Wars: Beast Wars - 110 - Gorilla Warfare
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 110 - Gorilla Warfare.avi
+011. Beast Wars: Beast Wars - 111 - The Probe
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 111 - The Probe.avi
+012. Beast Wars: Beast Wars - 112 - Victory
+     SOURCE: F:\[VIDEOS]\TV\Transformers Beast Wars\Season 1\Beast Wars - 112 - Victory.avi
+
+SCIFI — Sci-Fi Channel Star Trek TOS night
+------------------------------------------
+001. Star Trek TOS: Star Trek - 1x09 - Balance of Terror
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 1\Star Trek - 1x09 - Balance of Terror.avi
+002. Star Trek TOS: Star Trek - 1x20 - Arena
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 1\Star Trek - 1x20 - Arena.avi
+003. Star Trek TOS: Star Trek - 1x25 - Space Seed
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 1\Star Trek - 1x25 - Space Seed.avi
+004. Star Trek TOS: Star Trek - 1x29 - The City on the Edge of Forever
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 1\Star Trek - 1x29 - The City on the Edge of Forever.avi
+005. Star Trek TOS: Star Trek - 2x05 - Amok Time
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 2\Star Trek - 2x05 - Amok Time.avi
+006. Star Trek TOS: Star Trek - 2x06 - The Doomsday Machine
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 2\Star Trek - 2x06 - The Doomsday Machine.avi
+007. Star Trek TOS: Star Trek - 2x10 - Mirror, Mirror
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 2\Star Trek - 2x10 - Mirror, Mirror.avi
+008. Star Trek TOS: Star Trek - 2x13 - The Trouble With Tribbles
+     SOURCE: F:\[VIDEOS]\TV\Star Trek\Season 2\Star Trek - 2x13 - The Trouble With Tribbles.avi
+
+UPN — UPN Star Trek Voyager night
+---------------------------------
+001. Star Trek Voyager: Star.Trek.Voyager.S01E01.Caretaker
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 1\Star.Trek.Voyager.S01E01.Caretaker.mkv
+002. Star Trek Voyager: Star.Trek.Voyager.S03E26.Scorpion.Part.I
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 3\Star.Trek.Voyager.S03E26.Scorpion.Part.I.mkv
+003. Star Trek Voyager: Star.Trek.Voyager.S04E01.Scorpion.Part.II
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 4\Star.Trek.Voyager.S04E01.Scorpion.Part.II.mkv
+004. Star Trek Voyager: Star.Trek.Voyager.S04E08.Year.Of.Hell.Part.I
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 4\Star.Trek.Voyager.S04E08.Year.Of.Hell.Part.I.mkv
+005. Star Trek Voyager: Star.Trek.Voyager.S04E09.Year.Of.Hell.Part.II
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 4\Star.Trek.Voyager.S04E09.Year.Of.Hell.Part.II.mkv
+006. Star Trek Voyager: Star.Trek.Voyager.S04E14.Message.In.A.Bottle
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 4\Star.Trek.Voyager.S04E14.Message.In.A.Bottle.mkv
+007. Star Trek Voyager: Star.Trek.Voyager.S05E06.Timeless
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 5\Star.Trek.Voyager.S05E06.Timeless.mkv
+008. Star Trek Voyager: Star.Trek.Voyager.S06E12.Blink.Of.An.Eye
+     SOURCE: F:\[VIDEOS]\TV\Star Trek Voyager Complete Season\Season 6\Star.Trek.Voyager.S06E12.Blink.Of.An.Eye.mkv
+
+HBO — HBO Tales from the Crypt
+------------------------------
+001. Tales from the Crypt: Tales.From.The.Crypt.S01E02.DVDRip-XviD-SAVANNAH
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S01.DVDRip.XviD-SAVANNAH\Tales.From.The.Crypt.S01E02.DVDRip-XviD-SAVANNAH.avi
+002. Tales from the Crypt: tales.from.the.crypt.s02e03.dvdrip.xvid-savannah
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s02e03.dvdrip.xvid-savannah.avi
+003. Tales from the Crypt: tales.from.the.crypt.s02e10.dvdrip.xvid-savannah
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s02e10.dvdrip.xvid-savannah.avi
+004. Tales from the Crypt: tales.from.the.crypt.s02e16.dvdrip.xvid-savannah
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s02e16.dvdrip.xvid-savannah.avi
+005. Tales from the Crypt: tales.from.the.crypt.s03e05.dvdrip.xvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S03.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s03e05.dvdrip.xvid.avi
+006. Tales from the Crypt: tales.from.the.crypt.s03e09.dvdrip.xvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S03.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s03e09.dvdrip.xvid.avi
+007. Tales from the Crypt: tales.from.the.crypt.s04e06.dvdrip.xvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S04.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s04e06.dvdrip.xvid.avi
+008. Tales from the Crypt: tales.from.the.crypt.s04e07.dvdrip.xvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S04.DVDRip.XviD-SAVANNAH\tales.from.the.crypt.s04e07.dvdrip.xvid.avi
+009. Tales from the Crypt: crypt.s5.e01-jfkxvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S05.DVDRip.XviD-JFKXVID\crypt.s5.e01-jfkxvid.avi
+010. Tales from the Crypt: crypt.s5.e09-jfkxvid
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.From.The.Crypt.S05.DVDRip.XviD-JFKXVID\crypt.s5.e09-jfkxvid.avi
+011. Tales from the Crypt: Tales.From.The.Crypt.S06E02.Only.Skin.Deep.DVDRip.XviD-DIMENSION
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.from.the.Crypt.S06.DVDRip.XviD-DiMENSiON\Tales.From.The.Crypt.S06E02.Only.Skin.Deep.DVDRip.XviD-DIMENSION.avi
+012. Tales from the Crypt: Tales.From.The.Crypt.S06E14.99.And.44-100.Percent.Pure.Horror.DVDRip.XviD-DIMENSION
+     SOURCE: F:\[VIDEOS]\TV\Tales From the Crypt\Tales.from.the.Crypt.S06.DVDRip.XviD-DiMENSiON\Tales.From.The.Crypt.S06E14.99.And.44-100.Percent.Pure.Horror.DVDRip.XviD-DIMENSION.avi
+
+AMC — AMC / N.Y.U.K.-style Three Stooges block
+----------------------------------------------
+001. Three Stooges: A Plumbing We Will Go
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\A Plumbing We Will Go.mp4
+002. Three Stooges: Brideless Groom
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Brideless Groom.mp4
+003. Three Stooges: An Ache in Every Stake
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\An Ache in Every Stake.mp4
+004. Three Stooges: Dizzy Doctors
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Dizzy Doctors.mp4
+005. Three Stooges: Half-Wits Holiday
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Half-Wits Holiday.mp4
+006. Three Stooges: Micro-Phonies
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Micro-Phonies.mp4
+007. Three Stooges: You Nazty Spy
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\You Nazty Spy.mp4
+008. Three Stooges: No Census, No Feeling
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\No Census, No Feeling.mp4
+009. Three Stooges: Violent is the Word for Curly
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Violent is the Word for Curly.mp4
+010. Three Stooges: Grips, Grunts, and Groans
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Grips, Grunts, and Groans.mp4
+011. Three Stooges: Punchy Cowpunchers
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Punchy Cowpunchers.mp4
+012. Three Stooges: Beer Barrel Polecats
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Beer Barrel Polecats.mp4
+013. Three Stooges: Hold That Lion
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Hold That Lion.mp4
+014. Three Stooges: Cactus Makes Perfect
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Cactus Makes Perfect.mp4
+015. Three Stooges: Crash Goes the Hash
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Crash Goes the Hash.mp4
+016. Three Stooges: Dutiful but Dumb
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Dutiful but Dumb.mp4
+017. Three Stooges: Gents Without Cents
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Gents Without Cents.mp4
+018. Three Stooges: Goofs and Saddles
+     SOURCE: F:\[VIDEOS]\TV\The 3 Stooges (Comprehensive Film Collection in MP4 format)\The 3 Stooges (short films)\Goofs and Saddles.mp4

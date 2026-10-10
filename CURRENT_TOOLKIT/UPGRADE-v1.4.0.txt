@@ -1,0 +1,96 @@
+RETRO TV CART BUILDER v1.4.0
+==============================
+
+THIS RELEASE FIXES BAD_AUDIO FOR REAL.
+
+What was wrong in v1.3.x
+------------------------
+The code DID store AudioRepair and DID invoke a different FFmpeg audio filter,
+but the "LIGHT" filter was only:
+
+  highpass + lowpass + a very mild FFT denoise + loudnorm
+
+That is not a meaningful restoration pass for many bad archival/VHS/TV audio
+problems. Loudness normalization also does not repair clipping, clicks, or
+broadband noise.
+
+There was also a UX problem: after BAD_AUDIO was applied, the next revision was
+correctly set back to UNREVIEWED for verification, but the review UI did not
+make it obvious that the clip had already been audio-repaired. That made it look
+like the BAD_AUDIO instruction disappeared.
+
+v1.4.0 changes both.
+
+RESTORE
+-------
+Legacy AudioRepair=LIGHT is automatically treated as RESTORE.
+
+RESTORE now performs:
+- high-pass cleanup
+- low-pass cleanup
+- de-clipping
+- de-clicking
+- substantially stronger adaptive FFT noise reduction
+- dynamic level correction
+- final -16 LUFS / -1.5 dBTP loudness normalization
+- 44.1 kHz output
+
+STRONG
+------
+If a clip that already has RESTORE/LIGHT is marked BAD_AUDIO again, the next
+revision escalates it to STRONG.
+
+STRONG adds:
+- tighter bandwidth cleanup
+- stronger FFT denoise
+- non-local-means broadband denoise
+- stronger dynamic correction
+- final loudness normalization
+
+IMPORTANT: repaired-audio cache invalidation
+--------------------------------------------
+The audio repair algorithm now has its own cache profile version.
+
+Existing NORMAL clips keep their exact old cache keys.
+Existing LIGHT/RESTORE/STRONG clips get new cache keys and are actually
+re-encoded. This avoids rebuilding the whole cart while guaranteeing repaired
+audio does not accidentally reuse the old v1.3.x proxy.
+
+YOU DO NOT NEED A NEW REVIEW CSV JUST TO FIX EXISTING LIGHT REPAIRS.
+
+After installing v1.4.0, run:
+
+  .\Test-RetroCartAudioRepairs.ps1 -CartID NICK01
+  .\Build-RetroCartReview.ps1 -CartID NICK01
+  .\Open-RetroCart.ps1 -CartID NICK01
+
+The current manifest's existing LIGHT entries will be rebuilt as RESTORE.
+
+Review UI
+---------
+Repaired clips now have a purple marker and an explicit notice:
+
+  AUDIO REPAIR APPLIED: RESTORE
+
+or:
+
+  AUDIO REPAIR APPLIED: STRONG
+
+The Action dropdown will still be UNREVIEWED after a repair because that means
+"verify the changed output", NOT "the BAD_AUDIO request was forgotten."
+
+If the repaired audio is now acceptable, mark it GOOD.
+If it is still bad, mark BAD_AUDIO again and Apply-RetroCartReview will escalate
+RESTORE -> STRONG.
+
+New diagnostic helper
+---------------------
+Test-RetroCartAudioRepairs.ps1 shows every current manifest slot that requests
+audio repair, the effective repair profile, and whether the current review build
+actually contains a repaired proxy.
+
+Limits
+------
+No filter can reconstruct audio that is physically missing or completely
+destroyed. A badly damaged source may still need replacement. But BAD_AUDIO now
+does substantially more than simple loudness normalization / mild denoise.

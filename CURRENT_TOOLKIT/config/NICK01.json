@@ -1,0 +1,129 @@
+{
+  "CartID": "NICK01",
+  "DisplayName": "Nickelodeon, 1999 Saturday-morning-ish",
+  "Network": "NICK",
+  "CommercialPool": "KIDS_90S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S01 E01 - Doug Bags a Neematoad",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 1\\DOUG - S01 E01 - Doug Bags a Neematoad (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "Rocko's Modern Life",
+      "BrandingKeywords": [
+        "Rocko",
+        "Rockos Modern Life"
+      ],
+      "Title": "Rocko's Modern Life - 1x01 - No Pain, No Gain - Who Give$ a Buck",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rockos Modern Life\\Rockos Modern Life Season 1\\Rocko's Modern Life - 1x01 - No Pain, No Gain - Who Give$ a Buck [dummy].mp4"
+    },
+    {
+      "Order": 3,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S01E01 - Tommy's First Birthday",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E01 - Tommy's First Birthday.mp4"
+    },
+    {
+      "Order": 4,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S01E04-05 - At The Movies + Slumber Party",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E04-05 - At The Movies + Slumber Party.mp4"
+    },
+    {
+      "Order": 5,
+      "Series": "Hey Arnold!",
+      "BrandingKeywords": [
+        "Hey Arnold",
+        "Arnold"
+      ],
+      "Title": "Hey Arnold! S01E01 Downtown as Fruits & Eugene's Bike",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E01 Downtown as Fruits & Eugene's Bike.mp4"
+    },
+    {
+      "Order": 6,
+      "Series": "The Angry Beavers",
+      "BrandingKeywords": [
+        "Angry Beavers",
+        "Beavers"
+      ],
+      "Title": "S01E01 Born to Be Beavers & Up All Night",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\\S01E01 Born to Be Beavers & Up All Night.mkv"
+    },
+    {
+      "Order": 7,
+      "Series": "CatDog",
+      "BrandingKeywords": [
+        "CatDog",
+        "Cat Dog"
+      ],
+      "Title": "CatDog - S01 E01-E02 - Dog Gone and All You Can't Eat",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E01-E02 - Dog Gone and All You Can't Eat (720p - Web-DL).mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "Aaahh!!! Real Monsters",
+      "BrandingKeywords": [
+        "Aaahh",
+        "Real Monsters"
+      ],
+      "Title": "AAAHH, Real Monsters - S01 E01 - The Switching Hour",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Aaahh! Real Monsters\\Season 1\\AAAHH, Real Monsters - S01 E01 - The Switching Hour (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 9,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S01 E02-E03 - Doug Can't Dance and Doug Gets Busted",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 1\\DOUG - S01 E02-E03 - Doug Can't Dance and Doug Gets Busted (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 10,
+      "Series": "Hey Arnold!",
+      "BrandingKeywords": [
+        "Hey Arnold",
+        "Arnold"
+      ],
+      "Title": "Hey Arnold! S01E03 Arnold's Hat & Stoop Kid",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E03 Arnold's Hat & Stoop Kid.mp4"
+    },
+    {
+      "Order": 11,
+      "Series": "The Angry Beavers",
+      "BrandingKeywords": [
+        "Angry Beavers",
+        "Beavers"
+      ],
+      "Title": "S01E06 Muscular Beaver & Fish 'n' Dips",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\\S01E06 Muscular Beaver & Fish 'n' Dips.mkv"
+    },
+    {
+      "Order": 12,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S01E12-13 - Grandpa's Teeth + Momma Trauma",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E12-13 - Grandpa's Teeth + Momma Trauma.mp4"
+    }
+  ],
+  "BreakStyle": "LEAN"
+}

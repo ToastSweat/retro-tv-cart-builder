@@ -1,0 +1,27 @@
+RETRO TV CART BUILDER v1.1.2
+==============================
+
+USB COPY PROGRESS
+-----------------
+Build-RetroCartFinal.ps1 now shows two PowerShell progress bars when using:
+
+  .\Build-RetroCartFinal.ps1 -CartID NICK01 -TargetDrive 'E:\'
+
+Top bar:
+- total cartridge copy progress
+- current file number / total files
+- GiB copied / total GiB
+
+Second bar:
+- current filename
+- percentage of that individual file
+- MB copied / file size
+
+The copy is chunked in 4 MB blocks so progress updates while large episode files
+are actually moving, rather than only advancing once per completed file.
+
+The finalizer still:
+- checks drive free space first
+- refuses an oversized cart
+- copies only the reviewed numbered MP4 output
+- marks the current cart assignments ACTIVE after a successful build/copy
