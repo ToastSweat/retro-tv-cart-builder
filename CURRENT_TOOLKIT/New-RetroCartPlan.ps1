@@ -84,6 +84,99 @@ try {
 } finally { $sha.Dispose() }
 $rng = New-Object System.Random($seed)
 
+
+function Get-ApprovedRepairRecipe {
+    param([string]$AssetID)
+
+    # Reuse only a recipe that was part of a FINAL build. That gives us an
+    # approved, actually-deployed example instead of guessing from an
+    # unreviewed intermediate manifest.
+    $finalManifests=@(
+        Get-ChildItem -LiteralPath $settings.BuildRoot -Recurse -File -Filter 'cart-final-manifest.csv' -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending
+    )
+
+    foreach($fm in $finalManifests){
+        try{
+            $hit=@(
+                Import-Csv -LiteralPath $fm.FullName |
+                Where-Object {$_.AssetID -eq $AssetID} |
+                Select-Object -First 1
+            )
+        }catch{
+            continue
+        }
+
+        if($hit.Count -gt 0){
+            $r=$hit[0]
+            $audio=([string]$r.AudioRepair).Trim().ToUpperInvariant()
+            if([string]::IsNullOrWhiteSpace($audio)){$audio='NONE'}
+            if($audio -eq 'LIGHT'){$audio='RESTORE'}
+
+            return [pscustomobject][ordered]@{
+                TrimStartSeconds=$(if([string]::IsNullOrWhiteSpace([string]$r.TrimStartSeconds)){0}else{$r.TrimStartSeconds})
+                TrimEndSeconds=$(if([string]::IsNullOrWhiteSpace([string]$r.TrimEndSeconds)){0}else{$r.TrimEndSeconds})
+                CropLeft=$(if([string]::IsNullOrWhiteSpace([string]$r.CropLeft)){0}else{$r.CropLeft})
+                CropRight=$(if([string]::IsNullOrWhiteSpace([string]$r.CropRight)){0}else{$r.CropRight})
+                CropTop=$(if([string]::IsNullOrWhiteSpace([string]$r.CropTop)){0}else{$r.CropTop})
+                CropBottom=$(if([string]::IsNullOrWhiteSpace([string]$r.CropBottom)){0}else{$r.CropBottom})
+                AudioRepair=$audio
+                SourceManifest=$fm.FullName
+            }
+        }
+    }
+
+    return $null
+}
+
+function Resolve-ConfiguredSignOff {
+    param($Asset,[string]$CartNetwork)
+
+    if(-not $Asset){throw "Configured SIGN_OFF asset could not be resolved."}
+    if($Asset.AssetType -ne 'BRANDING'){throw "Configured SIGN_OFF asset must be BRANDING: $($Asset.AssetID)"}
+    if($Asset.Network -and $Asset.Network -ne $CartNetwork){
+        throw "Configured SIGN_OFF network '$($Asset.Network)' does not match cart network '$CartNetwork'."
+    }
+
+    $status=([string]$Asset.SourceStatus).Trim().ToUpperInvariant()
+    if($status -eq 'READY'){
+        return [pscustomobject][ordered]@{
+            Asset=$Asset
+            TrimStartSeconds=0
+            TrimEndSeconds=0
+            CropLeft=0
+            CropRight=0
+            CropTop=0
+            CropBottom=0
+            AudioRepair='NONE'
+            RepairSource=''
+        }
+    }
+
+    if($status -in @('NEEDS_CLIPPED','NEEDS_CROP','BAD_AUDIO')){
+        $recipe=Get-ApprovedRepairRecipe -AssetID $Asset.AssetID
+        if(-not $recipe){
+            throw "Configured SIGN_OFF asset $($Asset.AssetID) is $status and no approved repair recipe was found in any FINAL build. Do not force it READY; first finalize an approved repaired use or repair it explicitly."
+        }
+
+        Write-Host ("Configured SIGN_OFF is {0}; inheriting approved repair recipe from {1}" -f $status,$recipe.SourceManifest)
+
+        return [pscustomobject][ordered]@{
+            Asset=$Asset
+            TrimStartSeconds=$recipe.TrimStartSeconds
+            TrimEndSeconds=$recipe.TrimEndSeconds
+            CropLeft=$recipe.CropLeft
+            CropRight=$recipe.CropRight
+            CropTop=$recipe.CropTop
+            CropBottom=$recipe.CropBottom
+            AudioRepair=$recipe.AudioRepair
+            RepairSource=$recipe.SourceManifest
+        }
+    }
+
+    throw "Configured SIGN_OFF asset is not usable: $($Asset.AssetID) status=$status. BAD_QUALITY, DUPLICATE, EXCLUDED, MAYBE, and other non-repairable states are intentionally blocked."
+}
+
 $activeAssignmentAssetIds = @{}
 foreach ($a in $assignments) {
     if ($a.AssignmentStatus -in @('RESERVED','ACTIVE')) { $activeAssignmentAssetIds[$a.AssetID] = $true }
@@ -216,6 +309,13 @@ function Add-Slot {
         DurationSeconds=$asset.DurationSeconds
         ReusePolicy=$asset.ReusePolicy
         ReviewStatus='UNREVIEWED'
+        TrimStartSeconds=0
+        TrimEndSeconds=0
+        CropLeft=0
+        CropRight=0
+        CropTop=0
+        CropBottom=0
+        AudioRepair='NONE'
     })
 }
 
@@ -293,8 +393,34 @@ for ($i=0; $i -lt $episodes.Count; $i++) {
 if($cfg.PSObject.Properties.Name -contains 'SignOffAssetID' -and -not [string]::IsNullOrWhiteSpace([string]$cfg.SignOffAssetID)){
     $signoff=@($registry | Where-Object {$_.AssetID -eq [string]$cfg.SignOffAssetID} | Select-Object -First 1)
     if($signoff.Count -eq 0){throw "Configured SIGN_OFF asset is not registered: $($cfg.SignOffAssetID)"}
-    if($signoff[0].SourceStatus -ne 'READY'){throw "Configured SIGN_OFF asset is not READY: $($signoff[0].AssetID) $($signoff[0].Title)"}
-    Add-Slot "$CartID-SIGN-OFF" 'SIGN_OFF' $signoff[0]
+
+    $resolved=Resolve-ConfiguredSignOff -Asset $signoff[0] -CartNetwork $cfg.Network
+    $s=$resolved.Asset
+
+    $script:position += 10
+    $manifest.Add([pscustomobject][ordered]@{
+        Position=('{0:D4}' -f $script:position)
+        SlotID="$CartID-SIGN-OFF"
+        Role='SIGN_OFF'
+        AssetID=$s.AssetID
+        AssetType=$s.AssetType
+        AssetSubtype=$s.Subtype
+        Title=$s.Title
+        Series=''
+        Pool=$s.Pool
+        Network=$s.Network
+        SourcePath=$s.SourcePath
+        DurationSeconds=$s.DurationSeconds
+        ReusePolicy=$s.ReusePolicy
+        ReviewStatus='UNREVIEWED'
+        TrimStartSeconds=$resolved.TrimStartSeconds
+        TrimEndSeconds=$resolved.TrimEndSeconds
+        CropLeft=$resolved.CropLeft
+        CropRight=$resolved.CropRight
+        CropTop=$resolved.CropTop
+        CropBottom=$resolved.CropBottom
+        AudioRepair=$resolved.AudioRepair
+    })
 }
 
 Export-Utf8Csv $manifest $manifestPath

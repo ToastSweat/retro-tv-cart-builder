@@ -1,4 +1,4 @@
-﻿# Retro TV Cart Builder v1.4.0 - audio repair audit
+﻿# Retro TV Cart Builder v1.5.0 - audio repair audit
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$CartID,
@@ -55,10 +55,12 @@ $rows | Format-Table -AutoSize
 Write-Host ""
 Write-Host "Count: $($rows.Count)"
 Write-Host ""
-Write-Host "Expected behavior in v1.4.0:"
-Write-Host "  LIGHT   -> treated as RESTORE (legacy v1.3.x manifests)"
-Write-Host "  RESTORE -> declip + declick + denoise + dynamic leveling + loudness normalize"
-Write-Host "  STRONG  -> stronger denoise/restoration after BAD_AUDIO is reported again"
+Write-Host "Audio repair ladder in v1.5.0:"
+Write-Host "  LIGHT      -> treated as RESTORE (legacy v1.3.x manifests)"
+Write-Host "  RESTORE    -> restoration level 1"
+Write-Host "  STRONG     -> restoration level 2"
+Write-Host "  AGGRESSIVE -> restoration level 3"
+Write-Host "  MAX        -> restoration level 4"
 Write-Host ""
 Write-Host "If ReviewAppliedAudioRepair is blank or does not match EffectiveAudioRepair,"
 Write-Host "rebuild the review:"

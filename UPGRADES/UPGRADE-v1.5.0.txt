@@ -1,0 +1,52 @@
+RETRO TV CART BUILDER v1.5.0
+============================
+
+RETRO TV CART STUDIO
+
+The browser-CSV-PowerShell review loop has been replaced for day-to-day review
+work by a local Studio app.
+
+Launch:
+
+    .\Start-RetroCartStudio.ps1 -CartID NICK02
+
+or double-click Start-RetroCartStudio.cmd and choose a cart in the browser.
+
+Studio can:
+- select any clip in the current cart revision
+- render and immediately replay only that clip
+- choose and preview compatible replacement assets
+- increase audio repair repeatedly without creating a revision between attempts
+- step audio repair down again
+- RESET AUDIO TO ORIGINAL
+- edit crop values and preview immediately
+- AUTO DETECT baked-border crop
+- RESET CROP TO ORIGINAL
+- edit/reset trims
+- mark GOOD and move to the next clip
+- autosave a revision-specific draft under STATE\studio-drafts
+- commit the draft once to the next immutable cart revision
+- build/open the traditional full continuous review from the app
+
+AUDIO ESCALATION FIX
+--------------------
+The old Apply-RetroCartReview logic topped out at STRONG. Marking a STRONG clip
+BAD_AUDIO again therefore left it STRONG forever.
+
+v1.5.0 extends the ladder to:
+
+    NONE -> RESTORE -> STRONG -> AGGRESSIVE -> MAX
+
+The traditional BAD_AUDIO workflow also uses this ladder now, so the fix is not
+limited to Studio.
+
+Studio repair buttons work against the original source and an absolute draft
+recipe. They do not repeatedly filter an already-filtered proxy.
+
+IMPORTANT
+---------
+Studio preview renders use a faster preview encode. The normal full review/final
+builder still produces the established cart format.
+
+The current cart manifest is never edited in place. Studio changes stay in a
+revision-specific draft until COMMIT DRAFT -> NEXT REVISION is pressed.

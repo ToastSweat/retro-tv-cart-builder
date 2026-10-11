@@ -1,0 +1,38 @@
+RETRO TV CART BUILDER v1.5.2
+==============================
+
+STUDIO PREVIEW FFMPEG CRASH FIX
+
+The Studio could fail while trying to play a clip with a Windows native exit:
+
+    3221226356 / 0xC0000374
+
+That is a native heap-corruption crash from FFmpeg, not a normal media error.
+
+The same source + crop + STRONG repair had already been proven to encode
+successfully when FFmpeg was invoked directly from PowerShell. v1.5.2 therefore
+changes Studio preview rendering so Node no longer launches the heavy FFmpeg
+encode directly.
+
+New path:
+
+    Studio (Node)
+       -> Render-StudioPreview.ps1
+          -> & ffmpeg @ffArgs
+
+The preview helper also uses the stable cart-builder encode profile:
+H.264 / 618x480 / 30fps / CRF 20 / preset medium / AAC 44.1 kHz stereo.
+
+Other changes:
+- Studio preview cache identity bumped to studio-v2 so broken/old preview
+  proxies are not reused.
+- Partial preview MP4s are deleted on failure.
+- New previews are ffprobe-validated before Studio serves them.
+- FFmpeg diagnostics print in the Studio console.
+
+No NICK02 revision, draft choices, crop values, trim values, replacement
+choices, or audio-repair choices are changed by this update.
+
+After replacing the Toolkit, start Studio normally:
+
+    .\Start-RetroCartStudio.ps1 -CartID NICK02

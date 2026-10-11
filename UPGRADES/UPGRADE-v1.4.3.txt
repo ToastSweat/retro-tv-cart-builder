@@ -1,0 +1,45 @@
+RETRO TV CART BUILDER v1.4.3
+==============================
+
+NICK02 REVIEW-APPLY RELIABILITY FIX
+
+The NICK02 debug bundle proved that r002 never advanced to r003.
+
+The exported r002 review requested:
+- 10 crops
+- 2 trims
+- 10 BAD_AUDIO repairs
+- 6 replacement-required changes
+
+Two SHOW rows were replacement-required but had no replacement:
+- NICK02-SHOW-09: WRONG_NETWORK
+- NICK02-SHOW-11: BAD_QUALITY
+
+Older Apply-RetroCartReview did not support SHOW auto replacement, so it exited
+as unresolved before creating the next revision. Unfortunately, it had already
+written source-health flags before detecting that failure.
+
+That is why rebuilding r002 showed none of the requested crop/audio/replacement
+work: no repaired revision had ever been committed.
+
+The debug bundle also exposed a schema bug. NICK02 r001 used the old manifest
+schema with no trim/crop/audio columns. Add-RetroCartSignOff carried those old
+objects forward and appended a full-schema sign-off row, but PowerShell
+Export-Csv used the first row's old property set and silently dropped the newer
+repair columns.
+
+v1.4.3 changes:
+- review apply is preflighted before durable state mutation
+- unresolved reviews do not commit source-health or cart state
+- SHOW replacement is supported in the reviewer and AutoReplace
+- stale review CSVs are rejected by revision + SlotID/AssetID baseline
+- proposed manifests are verified against every requested replacement/crop/
+  trim/audio repair before write
+- new -PreflightOnly mode performs the complete check without committing
+- new cart manifests always include repair columns on every row
+- sign-off append normalizes legacy rows before Export-Csv
+- new Test-RetroCartManifestSchema.ps1 helper
+
+For NICK02, use the existing r002 review CSV. Run -PreflightOnly first.
+If no spare READY NICK episodes are registered, the two SHOW replacements will
+remain unresolved, but v1.4.3 will stop cleanly and change nothing.

@@ -1,0 +1,50 @@
+RETRO TV CART BUILDER v1.4.2
+==============================
+
+REUSABLE REPAIRED SIGN-OFF FIX
+------------------------------
+
+NICK1 exposed an important state-model edge case.
+
+The Nickelodeon sign-off was approved and finalized after being repaired
+(cropped). The global asset registry correctly preserved its source-health state
+as NEEDS_CROP instead of pretending the raw source was perfect.
+
+However, the sign-off helpers/planner previously interpreted ANY non-READY
+source as unusable. That meant NICK2 could not reuse the exact sign-off that
+NICK1 had already approved.
+
+v1.4.2 fixes this without lying about source health.
+
+Configured SIGN_OFF assets now behave as follows:
+
+READY
+  Use normally with no inherited repair.
+
+NEEDS_CLIPPED / NEEDS_CROP / BAD_AUDIO
+  Search prior FINAL builds for the same AssetID.
+  If an approved finalized use exists, inherit its:
+    - TrimStartSeconds
+    - TrimEndSeconds
+    - CropLeft/Right/Top/Bottom
+    - AudioRepair
+  and append the sign-off as UNREVIEWED for the new cart.
+
+BAD_QUALITY / DUPLICATE / EXCLUDED / MAYBE / other non-repairable states
+  Still refuse to use the source.
+
+The key rule:
+DO NOT manually change a repaired source back to READY just to make it reusable.
+That would lose the knowledge that the raw source requires repair.
+
+Affected scripts:
+- Add-RetroCartSignOff.ps1
+- New-RetroCartPlan.ps1
+- Apply-RetroCartReview.ps1
+
+For the current NICK02 cart, replace those scripts (or install v1.4.2) and run:
+
+  .\Add-RetroCartSignOff.ps1 -CartID NICK02
+
+It should find NICK1's finalized sign-off recipe, create the next NICK02
+revision, and carry the approved crop/audio/trim instructions with it.

@@ -1,0 +1,37 @@
+RETRO TV CART BUILDER v1.4.5
+==============================
+
+FFMPEG ARGUMENT ARRAY HOTFIX
+
+NICK02 r004 exposed a PowerShell-specific bug in Build-RetroCartReview.ps1.
+
+The script used the variable:
+
+    $args
+
+for the FFmpeg argument array.
+
+$args is a built-in PowerShell automatic variable. In this context FFmpeg was
+effectively being launched without the intended argument list, even though the
+same exact crop + STRONG audio repair command worked when tested manually with a
+normal variable.
+
+v1.4.5 changes Build-RetroCartReview.ps1 to use:
+
+    $ffArgs
+
+instead.
+
+It also captures the last FFmpeg diagnostic lines and includes them in the
+exception if a real encode failure occurs, rather than only saying:
+
+    FFmpeg failed on <file>
+
+No cart state, manifests, review decisions, cache identity, or media profile
+changed in this release. Existing NICK02 r004 state is valid.
+
+After installing v1.4.5, simply rerun:
+
+    .\Build-RetroCartReview.ps1 -CartID NICK02
+
+Successful proxies already present in the cache will be reused.

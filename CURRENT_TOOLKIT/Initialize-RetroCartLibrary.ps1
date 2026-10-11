@@ -109,9 +109,17 @@ $knownBrandingKeywords = @(
             @($c.Episodes) | ForEach-Object { @($_.BrandingKeywords) }
         } |
         ForEach-Object { $_ } |
-        Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) } |
-        Sort-Object -Unique
+        Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) }
 )
+
+# Durable replacement-pool episodes may also carry branding aliases.
+$handpickedEpisodesCsv = Join-Path $stateDir 'handpicked-episodes.csv'
+foreach($hep in (Read-CsvSafe $handpickedEpisodesCsv)){
+    foreach($kw in @(([string]$hep.BrandingKeywords) -split ';')){
+        if(-not [string]::IsNullOrWhiteSpace($kw)){$knownBrandingKeywords += $kw.Trim()}
+    }
+}
+$knownBrandingKeywords=@($knownBrandingKeywords|Sort-Object -Unique)
 
 function Get-InferredTags {
     param([string]$Title,[string]$Notes,[string]$Subtype)
@@ -232,6 +240,24 @@ foreach ($configFile in @(Get-ChildItem -LiteralPath $ConfigDir -File -Filter '*
             -SourcePath $ep.SourcePath -Duration '' -CuratedStatus 'MANIFEST' -DerivedStatus 'READY' -ReusePolicy 'UNIQUE' `
             -SourceCollection 'TV Library' -Notes $ep.Series -OriginalID '' -Year ''
     }
+}
+
+# Extra episodes registered specifically for replacement pools.
+foreach($ep in (Read-CsvSafe $handpickedEpisodesCsv)){
+    if(-not $ep.AssetID -or -not $ep.SourcePath){continue}
+    $dupe=@($rows|Where-Object{$_.AssetID -eq $ep.AssetID}|Select-Object -First 1)
+    if($dupe.Count -gt 0){continue}
+
+    $derived = switch ([string]$ep.Status) {
+        'KEEP' {'READY'}
+        'NEEDS_CLIPPED' {'NEEDS_CLIPPED'}
+        'NEEDS_CROP' {'NEEDS_CROP'}
+        'SKIP' {'EXCLUDED'}
+        default {'UNREVIEWED'}
+    }
+    Add-RegistryRow -AssetID $ep.AssetID -AssetType 'EPISODE' -Subtype $ep.Series -Title $ep.Title -Pool '' -Network $ep.Network `
+        -SourcePath $ep.SourcePath -Duration $ep.DurationSeconds -CuratedStatus $ep.Status -DerivedStatus $derived `
+        -ReusePolicy 'UNIQUE' -SourceCollection 'TV Library Handpicked' -Notes $ep.Notes -OriginalID '' -Year $ep.Year
 }
 
 $rows = @($rows | Sort-Object AssetID)

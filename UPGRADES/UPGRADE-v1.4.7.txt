@@ -1,0 +1,41 @@
+RETRO TV CART BUILDER v1.4.7
+==============================
+
+DIRECT FFMPEG LAUNCH FIX
+
+NICK02 isolated a Windows PowerShell 5.1 / native-process interaction.
+
+The exact same FFmpeg encode:
+- succeeded when launched directly with: & ffmpeg @ffArgs
+- succeeded when writing to the exact CACHE path
+- crashed with Windows status 0xC0000374 when Build-RetroCartReview captured
+  FFmpeg stdout/stderr into a PowerShell array/pipeline.
+
+That proves the source media, crop, STRONG audio repair chain, cache path, and
+FFmpeg arguments were all valid. The remaining difference was PowerShell's
+native output capture path.
+
+v1.4.7 changes Build-RetroCartReview.ps1 to launch FFmpeg directly:
+
+    & $FFmpeg @ffArgs
+
+No stdout/stderr collection or merged PowerShell pipeline is used.
+
+FFmpeg errors are allowed to print directly to the console. If FFmpeg exits
+nonzero, any partial proxy file is immediately deleted so it cannot become a
+future corrupt cache hit.
+
+No cart state, manifest format, cache key, media profile, or review decisions
+changed.
+
+CURRENT NICK02 NOTE
+-------------------
+The manual diagnostic test successfully created the exact cache proxy:
+
+    PX-046aa1d1c5ca.mp4
+
+So after installing v1.4.7, simply rerun:
+
+    .\Build-RetroCartReview.ps1 -CartID NICK02
+
+That proxy should be reused as a valid cache hit and the build should continue.

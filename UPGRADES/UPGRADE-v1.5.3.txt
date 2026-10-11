@@ -1,0 +1,29 @@
+RETRO TV CART BUILDER v1.5.3
+==============================
+
+STUDIO LAUNCHER [VIDEOS] PATH FIX
+
+The Studio launcher failed with:
+
+    Start-Process : Cannot perform operation because the wildcard path
+    F:\[VIDEOS]\Retro TV Cart Builder\Toolkit did not resolve to a file.
+
+This was caused by Windows PowerShell Start-Process trying to resolve the
+CURRENT working directory. Square brackets are wildcard syntax in PowerShell,
+and the Retro TV project deliberately lives below:
+
+    F:\[VIDEOS]\...
+
+The executable and Studio paths were valid; the current working directory was
+the problem.
+
+v1.5.3 launches Node from a neutral bracket-free working directory (%TEMP%)
+while continuing to pass absolute paths for settings, Toolkit, and server.js.
+The browser launch uses the same neutral directory.
+
+No Studio draft data, cart revisions, manifests, repair settings, or caches are
+changed.
+
+After replacing the Toolkit:
+
+    .\Start-RetroCartStudio.ps1 -CartID NICK02

@@ -125,3 +125,22 @@ Fox Kids, Cartoon Network, SNICK, etc. can have different profiles based on how 
 - Changing the action to a keep/repair state clears any selected replacement.
 - Replacement-bearing actions are limited to `REPLACE_THIS_CART`, `BAD_QUALITY`, `DUPLICATE`, `WRONG_ERA`, and `WRONG_NETWORK`.
 - This prevents contradictory exported rows such as `GOOD + ReplacementAssetID`.
+
+
+## v1.4.3 apply reliability
+
+- Transactional-style preflight before durable mutation.
+- `-PreflightOnly` verifies requested operations without committing.
+- SHOW slots support available same-network EPISODE replacements.
+- Proposed manifests are checked against requested replacement/crop/trim/audio operations before write.
+- New manifests use a complete repair schema from r001 onward.
+- Sign-off append normalizes legacy row schemas before CSV export.
+
+
+## v1.4.4 repairable replacements and episode pool
+
+- Selected replacements in `NEEDS_CROP`, `NEEDS_CLIPPED`, or `BAD_AUDIO` may be reused when a valid repair recipe exists.
+- Same-review repair recipes take precedence over prior FINAL recipes.
+- Replacement manifests inherit the repair metadata and verification checks it.
+- `Add-HandpickedEpisode.ps1` creates durable replacement-pool episode assets in `STATE\handpicked-episodes.csv`.
+- Library refresh imports those spare episodes without adding them to a cart lineup.

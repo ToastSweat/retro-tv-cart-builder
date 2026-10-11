@@ -1,0 +1,52 @@
+RETRO TV CART BUILDER v1.4.4
+==============================
+
+REPAIRABLE REPLACEMENTS + DURABLE EPISODE REPLACEMENT POOL
+
+The NICK02 r002 preflight did exactly what v1.4.3 was supposed to do:
+it refused to commit an incomplete revision.
+
+It also exposed two follow-on usability problems.
+
+1. A selected branding replacement could become NEEDS_CROP / NEEDS_CLIPPED /
+   BAD_AUDIO elsewhere in the same review. Older builds then rejected the
+   selected replacement and silently fell back to another READY asset.
+
+2. Episode assets were primarily registered from cart configs. That meant a
+   cart could have no spare READY episodes available when a SHOW needed
+   replacement.
+
+v1.4.4 fixes both.
+
+REPAIRABLE REPLACEMENTS
+-----------------------
+A manually selected replacement may now be used when its source health is:
+  NEEDS_CROP
+  NEEDS_CLIPPED
+  BAD_AUDIO
+
+provided a valid repair recipe exists.
+
+Recipe order:
+  1. Repair instructions from another slot in the SAME exported review.
+  2. Approved repair instructions from a prior FINAL build.
+
+The replacement keeps those trim/crop/audio instructions in the new manifest
+instead of being discarded or replaced by an unrelated asset.
+
+Non-repairable states such as BAD_QUALITY, DUPLICATE, EXCLUDED, MAYBE, etc.
+remain blocked.
+
+HANDPICKED EPISODES
+-------------------
+New helper:
+  Add-HandpickedEpisode.ps1
+
+It writes durable replacement-pool episode records to:
+  STATE\handpicked-episodes.csv
+
+Initialize-RetroCartLibrary.ps1 now imports those episodes as UNIQUE assets,
+so they can be used as SHOW replacements without adding them to a cart's
+planned Episodes array.
+
+This is the preferred way to maintain spare episode replacement candidates.

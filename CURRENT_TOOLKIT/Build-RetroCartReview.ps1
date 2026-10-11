@@ -76,6 +76,8 @@ $af = 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100'
 $audioRepairProfileVersion = 'audio-restore-v2'
 $afRepairRestore = 'highpass=f=70,lowpass=f=12500,adeclip,adeclick,afftdn=nr=18:nf=-32:tn=1:gs=8,dynaudnorm=f=250:g=15:p=0.90:m=6:c=1,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100'
 $afRepairStrong = 'highpass=f=90,lowpass=f=10500,adeclip,adeclick,afftdn=nr=28:nf=-28:tn=1:gs=12,anlmdn=s=0.002:p=0.002:r=0.006:m=11,dynaudnorm=f=200:g=11:p=0.88:m=4:c=1,loudnorm=I=-16:TP=-1.5:LRA=7,aresample=44100'
+$afRepairAggressive = 'highpass=f=100,lowpass=f=9500,adeclip,adeclick,afftdn=nr=34:nf=-27:tn=1:gs=15,anlmdn=s=0.0035:p=0.003:r=0.008:m=13,dynaudnorm=f=180:g=9:p=0.86:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=6,aresample=44100'
+$afRepairMax = 'highpass=f=110,lowpass=f=8500,adeclip,adeclick,afftdn=nr=40:nf=-25:tn=1:gs=18,anlmdn=s=0.005:p=0.004:r=0.010:m=15,dynaudnorm=f=160:g=8:p=0.84:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=5,aresample=44100'
 
 function To-DoubleOrZero($value) {
     $d=0.0
@@ -171,13 +173,45 @@ function Has-Audio([string]$source) {
     $s = & $FFprobe -v error -select_streams a:0 -show_entries stream=index -of csv=p=0 $source 2>$null
     return -not [string]::IsNullOrWhiteSpace(($s -join ''))
 }
-function Get-Duration([string]$source) {
-    $raw = & $FFprobe -v error -show_entries format=duration -of default=nw=1:nk=1 $source 2>$null
-    $d=0.0
-    if (-not [double]::TryParse((($raw -join '').Trim()),[System.Globalization.NumberStyles]::Float,[cultureinfo]::InvariantCulture,[ref]$d)) {
-        throw "Could not read duration: $source"
+function Test-Duration([string]$source) {
+    $oldEap=$ErrorActionPreference
+    try{
+        # Windows PowerShell 5.1 can promote native STDERR to NativeCommandError
+        # when ErrorActionPreference is Stop. Capture it instead so callers can
+        # decide whether a broken file should abort or be regenerated.
+        $ErrorActionPreference='Continue'
+        $raw=@(& $FFprobe -v error -show_entries format=duration -of default=nw=1:nk=1 $source 2>&1)
+        $exit=$LASTEXITCODE
+    }finally{
+        $ErrorActionPreference=$oldEap
     }
-    return $d
+
+    $d=0.0
+    $parsed=$false
+    foreach($line in $raw){
+        $candidate=([string]$line).Trim()
+        if([double]::TryParse($candidate,[System.Globalization.NumberStyles]::Float,[cultureinfo]::InvariantCulture,[ref]$d)){
+            $parsed=$true
+            break
+        }
+    }
+
+    [pscustomobject][ordered]@{
+        Success=($exit -eq 0 -and $parsed -and $d -gt 0.0)
+        Duration=$d
+        ExitCode=$exit
+        Diagnostic=(@($raw | ForEach-Object {[string]$_}) -join [Environment]::NewLine)
+    }
+}
+
+function Get-Duration([string]$source) {
+    $probe=Test-Duration $source
+    if(-not $probe.Success){
+        $detail=$probe.Diagnostic
+        if([string]::IsNullOrWhiteSpace($detail)){$detail='ffprobe returned no diagnostic output.'}
+        throw "Could not read duration: $source (ffprobe exit $($probe.ExitCode)).`n$detail"
+    }
+    return [double]$probe.Duration
 }
 
 $proxyRows = New-Object 'System.Collections.Generic.List[object]'
@@ -216,6 +250,20 @@ foreach ($m in $manifest) {
     $proxy = Join-Path $cacheDir ($cacheKey + '.mp4')
     if ($ReencodeAll -and (Test-Path -LiteralPath $proxy)) { Remove-Item -LiteralPath $proxy -Force }
 
+    # A failed/interrupted FFmpeg run can leave a zero-byte or header-only MP4.
+    # Existence alone is not a valid cache hit. Validate cached proxies and
+    # automatically discard/rebuild only the corrupt one.
+    if (Test-Path -LiteralPath $proxy -PathType Leaf) {
+        $cachedProbe=Test-Duration $proxy
+        if(-not $cachedProbe.Success){
+            Write-Warning ("Discarding corrupt cached proxy for {0}: {1}" -f $m.SlotID,$proxy)
+            if(-not [string]::IsNullOrWhiteSpace($cachedProbe.Diagnostic)){
+                Write-Host (($cachedProbe.Diagnostic -split "`r?`n" | Select-Object -Last 4) -join [Environment]::NewLine)
+            }
+            Remove-Item -LiteralPath $proxy -Force
+        }
+    }
+
     if (-not (Test-Path -LiteralPath $proxy -PathType Leaf)) {
         Write-Progress -Activity "Normalizing $CartID review proxies" -Status "$index / $($manifest.Count): $($m.Title)" -PercentComplete (($index/[math]::Max(1,$manifest.Count))*100)
         $hasAudio = Has-Audio $source
@@ -226,6 +274,8 @@ foreach ($m in $manifest) {
         $activeAf=$af
         if($audioRepair -eq 'RESTORE'){$activeAf=$afRepairRestore}
         elseif($audioRepair -eq 'STRONG'){$activeAf=$afRepairStrong}
+        elseif($audioRepair -eq 'AGGRESSIVE'){$activeAf=$afRepairAggressive}
+        elseif($audioRepair -eq 'MAX'){$activeAf=$afRepairMax}
         elseif($audioRepair -ne 'NONE'){throw "Unknown AudioRepair '$audioRepair' on $($m.SlotID)."}
 
         if($audioRepair -ne 'NONE'){
@@ -245,7 +295,7 @@ foreach ($m in $manifest) {
         $inputArgs += @('-t',$effectiveDuration.ToString([cultureinfo]::InvariantCulture))
 
         if ($hasAudio) {
-            $args = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
+            $ffArgs = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
                 '-map','0:v:0','-map','0:a:0',
                 '-vf',$activeVf,'-af',$activeAf,
                 '-c:v','libx264','-preset','medium','-crf','20','-pix_fmt','yuv420p',
@@ -255,7 +305,7 @@ foreach ($m in $manifest) {
                 $proxy
             )
         } else {
-            $args = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
+            $ffArgs = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
                 '-f','lavfi','-i','anullsrc=channel_layout=stereo:sample_rate=44100',
                 '-map','0:v:0','-map','1:a:0',
                 '-vf',$activeVf,
@@ -266,8 +316,26 @@ foreach ($m in $manifest) {
                 $proxy
             )
         }
-        & $FFmpeg @args
-        if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $proxy)) { throw "FFmpeg failed on $source" }
+        $oldEap=$ErrorActionPreference
+        try{
+            # IMPORTANT: launch FFmpeg directly. On Windows PowerShell 5.1,
+            # collecting native stdout/stderr into a PowerShell pipeline can
+            # destabilize this FFmpeg build during heavy audio filtering.
+            # Let FFmpeg write diagnostics directly to the console instead.
+            $ErrorActionPreference='Continue'
+            & $FFmpeg @ffArgs
+            $ffExit=$LASTEXITCODE
+        }finally{
+            $ErrorActionPreference=$oldEap
+        }
+
+        if ($ffExit -ne 0 -or -not (Test-Path -LiteralPath $proxy)) {
+            # Do not leave a partial MP4 behind as a future cache hit.
+            if(Test-Path -LiteralPath $proxy -PathType Leaf){
+                Remove-Item -LiteralPath $proxy -Force -ErrorAction SilentlyContinue
+            }
+            throw "FFmpeg failed on $source (exit $ffExit). FFmpeg diagnostics were printed directly above."
+        }
     }
 
     $duration = Get-Duration $proxy
@@ -466,7 +534,7 @@ function currentIndex(t){let lo=0,hi=ITEMS.length-1;while(lo<=hi){const m=(lo+hi
 function compatible(item,a){
  if(!a.available||a.id===item.assetId)return false;
  if(item.role==='AD')return a.type==='COMMERCIAL'&&a.pool===item.pool;
- if(item.role==='SHOW')return false;
+ if(item.role==='SHOW')return a.type==='EPISODE'&&a.network===item.network;
  if(a.type!=='BRANDING'||a.network!==item.network)return false;
  if(item.role==='ANCHOR_BRANDING')return ['IDENT','PROMO','INTRO'].includes(a.subtype)&&Number(a.duration)>=20;
  if(item.role==='STING')return ['IDENT','BUMPER_GENERIC','TRANSITION'].includes(a.subtype)&&Number(a.duration)<=15;

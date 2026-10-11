@@ -1,0 +1,26 @@
+RETRO TV CART BUILDER v1.5.1
+==============================
+
+AUTO-PLAY / PREVIEW UX FIX
+
+v1.5.0 only selected a clip when you clicked it. The video element was
+deliberately cleared and stayed empty until you manually pressed
+RENDER / REFRESH PREVIEW.
+
+That made the Studio look like video playback was broken.
+
+v1.5.1 changes the Studio review flow:
+
+- the first clip automatically renders/loads when Studio opens
+- clicking a clip automatically renders/loads that clip
+- PREV / NEXT automatically load the selected clip
+- GOOD + NEXT automatically loads the next clip
+- switching carts automatically loads the first clip
+- after committing a draft, the first clip of the new revision loads
+- RENDER / REFRESH PREVIEW is renamed PLAY / REFRESH PREVIEW
+
+Repair/crop/trim/replacement actions already rendered their changed preview
+automatically and continue to do so.
+
+The first time an uncached clip is opened, Studio may need a moment to encode
+its browser-safe preview. After that, the cached preview should load quickly.

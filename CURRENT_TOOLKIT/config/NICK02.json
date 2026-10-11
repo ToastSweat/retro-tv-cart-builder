@@ -1,0 +1,134 @@
+﻿{
+    "CartID":  "NICK02",
+    "DisplayName":  "Nickelodeon, 2000 weekday-heavy rotation",
+    "Network":  "NICK",
+    "CommercialPool":  "KIDS_90S",
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "CatDog",
+                         "BrandingKeywords":  [
+                                                  "CatDog",
+                                                  "Cat Dog"
+                                              ],
+                         "Title":  "CatDog - S01 E03-E04 - Flea or Die and CatDog Food",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E03-E04 - Flea or Die and  CatDog Food (720p - Web-DL).mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Hey Arnold!",
+                         "BrandingKeywords":  [
+                                                  "Hey Arnold",
+                                                  "Arnold"
+                                              ],
+                         "Title":  "Hey Arnold! S01E06 Heat \u0026 Snow",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E06 Heat \u0026 Snow.mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Rugrats",
+                         "BrandingKeywords":  [
+                                                  "Rugrats"
+                                              ],
+                         "Title":  "Rugrats - S01E14-15 - Real Or Robots + Special Delivery",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E14-15 - Real Or Robots + Special Delivery.mp4"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Doug",
+                         "BrandingKeywords":  [
+                                                  "Doug"
+                                              ],
+                         "Title":  "DOUG - S01 E06-E07 - Doug Takes a Hike and Doug Rocks",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DOUG\\Season 1\\DOUG - S01 E06-E07 - Doug Takes a Hike and Doug Rocks (480p - DVDRip).mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Doug",
+                         "BrandingKeywords":  [
+                                                  "Doug"
+                                              ],
+                         "Title":  "DOUG - S01 E12-E13 - Doug\u0027s Cool Shoes and Doug to the Rescue",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DOUG\\Season 1\\DOUG - S01 E12-E13 - Doug\u0027s Cool Shoes and Doug to the Rescue (480p - DVDRip).mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Hey Arnold!",
+                         "BrandingKeywords":  [
+                                                  "Hey Arnold",
+                                                  "Arnold"
+                                              ],
+                         "Title":  "Hey Arnold! S01E08 The List \u0026 Haunted Train",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E08 The List \u0026 Haunted Train.mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "CatDog",
+                         "BrandingKeywords":  [
+                                                  "CatDog",
+                                                  "Cat Dog"
+                                              ],
+                         "Title":  "CatDog - S01 E07-E08 - Shriek Loves Dog and WorkForce",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E07-E08 - Shriek Loves Dog and WorkForce (720p - Web-DL).mp4"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Rugrats",
+                         "BrandingKeywords":  [
+                                                  "Rugrats"
+                                              ],
+                         "Title":  "Rugrats - S01E20-21 - Touchdown Tommy + The Trial",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E20-21 - Touchdown Tommy + The Trial.mp4"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Pinky \u0026 the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain",
+                                                  "Pinky \u0026 the Brain",
+                                                  "Pinky",
+                                                  "Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 01 Das Mouse",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 01 Das Mouse [Honeyko].avi"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Hey Arnold!",
+                         "BrandingKeywords":  [
+                                                  "Hey Arnold",
+                                                  "Arnold"
+                                              ],
+                         "Title":  "Hey Arnold! S01E11 Arnold\u0027s Christmas",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E11 Arnold\u0027s Christmas.mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Rugrats",
+                         "BrandingKeywords":  [
+                                                  "Rugrats"
+                                              ],
+                         "Title":  "Rugrats - S01E22-23 - Fluffy Vs. Spike + Reptar\u0027s Revenge",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Rugrats\\Season 1\\Rugrats - S01E22-23 - Fluffy Vs. Spike + Reptar\u0027s Revenge.mp4"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "CatDog",
+                         "BrandingKeywords":  [
+                                                  "CatDog",
+                                                  "Cat Dog"
+                                              ],
+                         "Title":  "CatDog - S01 E11-E12 - Party Animal and Mush, Dog, Mush",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E11-E12 - Party Animal  and Mush, Dog, Mush (720p - Web-DL).mp4"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-c3b2425c7660"
+}

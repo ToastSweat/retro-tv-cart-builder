@@ -1,0 +1,37 @@
+RETRO TV CART BUILDER v1.4.6
+==============================
+
+SELF-HEALING CORRUPT CACHE PROXIES
+
+After the v1.4.5 FFmpeg argument-array fix, NICK02 exposed a leftover cache
+artifact from the earlier failed encode.
+
+A failed/interrupted FFmpeg process can create an MP4 path before it has written
+a valid MP4 header / moov atom. Older review builds treated:
+
+    file exists
+
+as sufficient proof that a cached proxy was valid.
+
+The next run therefore skipped re-encoding that proxy, then ffprobe failed with:
+
+    moov atom not found
+
+v1.4.6 changes:
+
+- cached proxy files are validated with ffprobe before reuse
+- invalid/partial cached proxies are deleted automatically
+- ONLY the corrupt cache entry is regenerated
+- healthy cached proxies are still reused
+- ffprobe is invoked safely under Windows PowerShell 5.1
+- duration failures now report the actual file path and ffprobe diagnostics
+
+No cache identity, media profile, manifest state, review state, or cart revision
+format changed.
+
+For the current NICK02 r004 build, install v1.4.6 and simply rerun:
+
+    .\Build-RetroCartReview.ps1 -CartID NICK02
+
+The broken cached MP4 should be detected, removed, rebuilt, and the rest of the
+existing cache reused.

@@ -1,3 +1,11 @@
+﻿RETRO TV CART STUDIO (v1.5.0)
+-------------------------------
+For normal review/repair work, launch the new Studio instead of doing the CSV/apply/build loop by hand:
+
+    .\Start-RetroCartStudio.ps1 -CartID NICK02
+
+Studio previews one selected clip at a time, supports iterative audio/crop/trim/replacement work, autosaves a draft, and commits once to the next immutable revision. See studio\README-STUDIO.txt.
+
 RETRO TV CART BUILDER v1 — NICK01 REFERENCE BUILD
 ===================================================
 

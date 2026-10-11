@@ -1,0 +1,10 @@
+﻿{
+    "CommercialRoot":  "F:\\[VIDEOS]\\Commercials",
+    "CurationDir":  "F:\\[VIDEOS]\\Commercials\\_CURATION_BACKUPS",
+    "SystemRoot":  "F:\\[VIDEOS]\\Retro TV Cart Builder",
+    "BuildRoot":  "F:\\[VIDEOS]\\Retro TV Builds",
+    "ConfigDir":  "F:\\[VIDEOS]\\Retro TV Cart Builder\\Toolkit\\config",
+    "RegistryPath":  "F:\\[VIDEOS]\\Retro TV Cart Builder\\STATE\\asset-registry.csv",
+    "AssignmentPath":  "F:\\[VIDEOS]\\Retro TV Cart Builder\\STATE\\assignments.csv",
+    "CartRegistryPath":  "F:\\[VIDEOS]\\Retro TV Cart Builder\\STATE\\cart-registry.csv"
+}
