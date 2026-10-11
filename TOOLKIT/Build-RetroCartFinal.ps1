@@ -129,6 +129,85 @@ function Copy-FileWithOverallProgress {
     } catch {}
 }
 
+function To-NumberOrZero($Value){
+    $n=0.0
+    [void][double]::TryParse(
+        ([string]$Value),
+        [System.Globalization.NumberStyles]::Float,
+        [cultureinfo]::InvariantCulture,
+        [ref]$n
+    )
+    return $n
+}
+
+function Remove-DirectoryWithRetry {
+    param(
+        [Parameter(Mandatory=$true)][string]$Path,
+        [int]$Attempts = 6,
+        [int]$DelayMs = 200
+    )
+    if(-not (Test-Path -LiteralPath $Path)){ return $true }
+
+    for($try=1; $try -le $Attempts; $try++){
+        try {
+            Remove-Item -LiteralPath $Path -Recurse -Force -ErrorAction Stop
+            return $true
+        }
+        catch {
+            if($try -lt $Attempts){ Start-Sleep -Milliseconds $DelayMs }
+        }
+    }
+    return -not (Test-Path -LiteralPath $Path)
+}
+
+function Test-FinalMatchesCurrent {
+    param(
+        [Parameter(Mandatory=$true)][string]$FinalDir,
+        [Parameter(Mandatory=$true)]$Manifest,
+        [Parameter(Mandatory=$true)]$ReviewBySlot
+    )
+
+    $finalManifestPath=Join-Path $FinalDir 'cart-final-manifest.csv'
+    if(-not (Test-Path -LiteralPath $finalManifestPath -PathType Leaf)){ return $false }
+
+    try { $rows=@(Import-Csv -LiteralPath $finalManifestPath) }
+    catch { return $false }
+
+    if($rows.Count -ne $Manifest.Count){ return $false }
+    $bySlot=@{}
+    foreach($row in $rows){ $bySlot[$row.SlotID]=$row }
+
+    foreach($m in $Manifest){
+        $row=$bySlot[$m.SlotID]
+        $reviewRow=$ReviewBySlot[$m.SlotID]
+        if(-not $row -or -not $reviewRow){ return $false }
+        if($row.AssetID -ne $m.AssetID){ return $false }
+
+        foreach($pair in @(
+            @('TrimStartSeconds','TrimStartSeconds'),
+            @('TrimEndSeconds','TrimEndSeconds'),
+            @('CropLeft','CropLeft'),
+            @('CropRight','CropRight'),
+            @('CropTop','CropTop'),
+            @('CropBottom','CropBottom')
+        )){
+            if((To-NumberOrZero $row.($pair[0])) -ne (To-NumberOrZero $m.($pair[1]))){ return $false }
+        }
+
+        if(([string]$row.AudioRepair).Trim().ToUpperInvariant() -ne ([string]$m.AudioRepair).Trim().ToUpperInvariant()){
+            return $false
+        }
+
+        $file=Join-Path $FinalDir $row.FileName
+        if(-not (Test-Path -LiteralPath $file -PathType Leaf)){ return $false }
+
+        $finalLength=[long](Get-Item -LiteralPath $file).Length
+        $proxyLength=[long](Get-Item -LiteralPath $reviewRow.ProxyPath).Length
+        if($finalLength -ne $proxyLength){ return $false }
+    }
+
+    return $true
+}
 $stateDir=Join-Path $SystemRoot 'STATE'
 $settings=Get-Content -LiteralPath (Join-Path $stateDir 'settings.json') -Raw | ConvertFrom-Json
 $carts=@(Import-Csv -LiteralPath $settings.CartRegistryPath)
@@ -154,6 +233,7 @@ foreach($m in $manifest){
 }
 
 $limit=$TargetBytes
+$effectiveLabel=''
 if(-not [string]::IsNullOrWhiteSpace($TargetDrive)){
     $root=[IO.Path]::GetPathRoot($TargetDrive)
     if([string]::IsNullOrWhiteSpace($root)){ $root=$TargetDrive }
@@ -168,7 +248,6 @@ if(-not [string]::IsNullOrWhiteSpace($TargetDrive)){
     } else {
         $VolumeLabel
     }
-    [void](Set-CartridgeVolumeLabel -TargetDrive $TargetDrive -Label $effectiveLabel)
 }
 
 $total=[long]0
@@ -186,42 +265,74 @@ if($total -gt $limit){
 }
 
 $finalDir=Join-Path $revDir 'FINAL'
+$reuseExistingFinal=$false
+
 if(Test-Path -LiteralPath $finalDir){
-    if(-not $Force){throw "FINAL already exists: $finalDir. Use -Force to rebuild it."}
-    Remove-Item -LiteralPath $finalDir -Recurse -Force
+    $reuseExistingFinal=Test-FinalMatchesCurrent -FinalDir $finalDir -Manifest $manifest -ReviewBySlot $reviewBySlot
+    if($reuseExistingFinal){
+        Write-Host ""
+        Write-Host "Existing FINAL already matches the current revision."
+        Write-Host "Reusing: $finalDir"
+    }
+    elseif(-not $Force){
+        throw "FINAL already exists but does not match the current revision: $finalDir. Use -Force to rebuild it."
+    }
 }
-[void][IO.Directory]::CreateDirectory($finalDir)
 
-$finalRows=New-Object 'System.Collections.Generic.List[object]'
-foreach($m in $manifest){
-    $r=$reviewBySlot[$m.SlotID]
-    $role=(Sanitize-FileName $m.Role).Replace(' ','_')
-    $title=(Sanitize-FileName $m.Title).Replace(' ','_')
-    $name="$($m.Position)_${role}_${title}.mp4"
-    $dest=Join-Path $finalDir $name
-    Copy-Item -LiteralPath $r.ProxyPath -Destination $dest -Force
-    $finalRows.Add([pscustomobject][ordered]@{
-        Position=$m.Position;SlotID=$m.SlotID;AssetID=$m.AssetID;Role=$m.Role;Title=$m.Title
-        FileName=$name;Bytes=(Get-Item -LiteralPath $dest).Length
-        TrimStartSeconds=$m.TrimStartSeconds;TrimEndSeconds=$m.TrimEndSeconds
-        CropLeft=$m.CropLeft;CropRight=$m.CropRight;CropTop=$m.CropTop;CropBottom=$m.CropBottom
-        AudioRepair=$m.AudioRepair
-    })
-}
-Export-Utf8Csv $finalRows (Join-Path $finalDir 'cart-final-manifest.csv')
+if(-not $reuseExistingFinal){
+    $stagingDir="$finalDir.__building-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+    [void][IO.Directory]::CreateDirectory($stagingDir)
 
-$readme=@"
+    try {
+        $finalRows=New-Object 'System.Collections.Generic.List[object]'
+        foreach($m in $manifest){
+            $r=$reviewBySlot[$m.SlotID]
+            $role=(Sanitize-FileName $m.Role).Replace(' ','_')
+            $title=(Sanitize-FileName $m.Title).Replace(' ','_')
+            $name="$($m.Position)_${role}_${title}.mp4"
+            $dest=Join-Path $stagingDir $name
+            Copy-Item -LiteralPath $r.ProxyPath -Destination $dest -Force
+            $finalRows.Add([pscustomobject][ordered]@{
+                Position=$m.Position;SlotID=$m.SlotID;AssetID=$m.AssetID;Role=$m.Role;Title=$m.Title
+                FileName=$name;Bytes=(Get-Item -LiteralPath $dest).Length
+                TrimStartSeconds=$m.TrimStartSeconds;TrimEndSeconds=$m.TrimEndSeconds
+                CropLeft=$m.CropLeft;CropRight=$m.CropRight;CropTop=$m.CropTop;CropBottom=$m.CropBottom
+                AudioRepair=$m.AudioRepair
+            })
+        }
+        Export-Utf8Csv $finalRows (Join-Path $stagingDir 'cart-final-manifest.csv')
+
+        $readme=@"
 $CartID $revName
 Built: $([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss'))
 Files are normalized to the tested Mini Retro TV profile:
 H.264 / 618x480 / 30 fps / yuv420p / AAC / 44.1 kHz stereo.
 Total bytes: $total
 "@
-Set-Content -LiteralPath (Join-Path $finalDir 'README.txt') -Value $readme -Encoding UTF8
+        Set-Content -LiteralPath (Join-Path $stagingDir 'README.txt') -Value $readme -Encoding UTF8
+
+        if(Test-Path -LiteralPath $finalDir){
+            if(-not (Remove-DirectoryWithRetry -Path $finalDir)){
+                throw "The existing FINAL is stale but Windows has it locked: $finalDir`n`nClose any video/player/Explorer preview using files in that FINAL folder, then retry. The USB has NOT been relabeled or written."
+            }
+        }
+
+        Move-Item -LiteralPath $stagingDir -Destination $finalDir -Force
+    }
+    catch {
+        if(Test-Path -LiteralPath $stagingDir){
+            [void](Remove-DirectoryWithRetry -Path $stagingDir -Attempts 2 -DelayMs 50)
+        }
+        throw
+    }
+}
 
 if(-not [string]::IsNullOrWhiteSpace($TargetDrive)){
     $root=[IO.Path]::GetPathRoot($TargetDrive)
     if([string]::IsNullOrWhiteSpace($root)){ $root=$TargetDrive }
+
+    # Mutate the USB only after the local FINAL has been validated/reused/rebuilt.
+    [void](Set-CartridgeVolumeLabel -TargetDrive $TargetDrive -Label $effectiveLabel)
 
     $copyFiles = @(Get-ChildItem -LiteralPath $finalDir -File -Filter '*.mp4' | Sort-Object Name)
     $copyTotal = [long](($copyFiles | Measure-Object -Property Length -Sum).Sum)

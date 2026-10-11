@@ -1,0 +1,40 @@
+Retro TV Cart Studio v1.8.2 — Final Cartridge Reuse Fix
+===============================================================
+
+This fixes the failure shown during USB deployment:
+
+    Remove-Item : Cannot remove item ...\FINAL ...
+
+WHY IT HAPPENED
+---------------
+Studio always called the finalizer with -Force. The finalizer therefore tried
+to delete FINAL even when FINAL already represented the exact current revision.
+If Windows had any file in that directory open/locked, deployment failed before
+copying to the cartridge.
+
+WHAT CHANGED
+------------
+- Existing FINAL is validated against the current manifest and review proxies.
+- If it already matches, it is REUSED. No delete/rebuild is performed.
+- If a rebuild really is required, it is built in a temporary staging folder
+  first and only published after it is complete.
+- If a stale FINAL is genuinely locked, the message now explicitly tells you
+  what is locked and stops safely.
+- The USB volume is not relabeled until a valid local FINAL is ready.
+
+The patch does NOT touch:
+- STATE
+- your committed NICK03 revision
+- review results
+- media sources
+- USB contents during installation
+
+INSTALL
+-------
+Run:
+
+    & 'F:\[VIDEOS]\retro-tv-cart-builder\Apply-v1.8.2-FinalCartridgeFix.ps1'
+
+The patcher backs up the changed toolkit files under HOTFIXES first.
+
+Then restart Studio and use BUILD FINAL + COPY TO SELECTED DRIVE again.

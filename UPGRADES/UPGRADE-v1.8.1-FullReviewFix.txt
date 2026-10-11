@@ -1,0 +1,33 @@
+Retro TV Cart Studio v1.8.1 — Full Review Builder Fix
+==========================================================
+
+Fixes the BUILD FULL REVIEW failure involving:
+
+    moov atom not found
+    Invalid data found when processing input
+    Remove-Item: Cannot remove item ...
+
+The old corrupt CACHE\review-v1 file does NOT need to be deleted.
+
+This patch:
+- moves Full Review to CACHE\review-v2
+- makes Full Review use the same SAR-safe crop/scale/pad geometry as Studio v1.8.0
+- writes proxies transactionally and validates them before caching
+- bypasses locked corrupt cache entries instead of dying on Remove-Item
+- builds the combined review movie transactionally
+- replaces giant BUILD FULL REVIEW browser alerts with Studio's error panel
+
+The patcher backs up every touched file first under:
+
+    HOTFIXES\v1.8.1-YYYYMMDD-HHMMSS\
+
+Run:
+
+    & '.\Apply-v1.8.1-FullReviewFix.ps1'
+
+Default project root:
+
+    F:\[VIDEOS]\retro-tv-cart-builder
+
+You do NOT need to recommit NICK03, redo your review, or create another revision.
+After patching, restart Studio and click BUILD FULL REVIEW again.

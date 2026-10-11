@@ -62,11 +62,11 @@ if ($manifest.Count -eq 0) { throw "Manifest is empty." }
 
 $reviewDir = Join-Path $revDir 'REVIEW'
 [void][IO.Directory]::CreateDirectory($reviewDir)
-$cacheDir = Join-Path $SystemRoot 'CACHE\review-v1'
+$cacheDir = Join-Path $SystemRoot 'CACHE\review-v2'
 [void][IO.Directory]::CreateDirectory($cacheDir)
 
-$profileText = 'review-v1|618x480|30fps|h264-crf20|gop30|aac128|44100-stereo|loudnorm-16|-1.5'
-$vf = 'scale=618:480:force_original_aspect_ratio=decrease,pad=618:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=30'
+$profileText = 'review-v2|618x480|30fps|h264-crf20|gop30|aac128|44100-stereo|loudnorm-16|-1.5|sar-safe'
+$vf = "scale='max(2,trunc(iw*sar/2)*2)':ih,setsar=1,scale=618:480:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=618:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=30"
 $af = 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100'
 
 # Audio restoration profiles.
@@ -214,6 +214,30 @@ function Get-Duration([string]$source) {
     return [double]$probe.Duration
 }
 
+function Remove-FileWithRetry {
+    param(
+        [Parameter(Mandatory=$true)][string]$Path,
+        [int]$Attempts = 6,
+        [int]$DelayMs = 150
+    )
+    if(-not (Test-Path -LiteralPath $Path -PathType Leaf)){ return $true }
+
+    for($try=1; $try -le $Attempts; $try++){
+        try {
+            Remove-Item -LiteralPath $Path -Force -ErrorAction Stop
+            return $true
+        }
+        catch {
+            if($try -lt $Attempts){ Start-Sleep -Milliseconds $DelayMs }
+        }
+    }
+    return -not (Test-Path -LiteralPath $Path -PathType Leaf)
+}
+
+function New-RebuildProxyPath {
+    param([Parameter(Mandatory=$true)][string]$CacheDir,[Parameter(Mandatory=$true)][string]$CacheKey)
+    return Join-Path $CacheDir ("{0}-rebuild-{1}.mp4" -f $CacheKey,([guid]::NewGuid().ToString('N').Substring(0,8)))
+}
 $proxyRows = New-Object 'System.Collections.Generic.List[object]'
 $index=0
 foreach ($m in $manifest) {
@@ -247,12 +271,21 @@ foreach ($m in $manifest) {
     }
 
     $cacheKey = Get-FileCacheKey $source $trimStart $trimEnd $cropLeft $cropRight $cropTop $cropBottom $audioRepair
-    $proxy = Join-Path $cacheDir ($cacheKey + '.mp4')
-    if ($ReencodeAll -and (Test-Path -LiteralPath $proxy)) { Remove-Item -LiteralPath $proxy -Force }
+    $canonicalProxy = Join-Path $cacheDir ($cacheKey + '.mp4')
+    $proxy = $canonicalProxy
 
-    # A failed/interrupted FFmpeg run can leave a zero-byte or header-only MP4.
-    # Existence alone is not a valid cache hit. Validate cached proxies and
-    # automatically discard/rebuild only the corrupt one.
+    # Never let one locked/corrupt cache artifact abort a full review.
+    # review-v2 intentionally ignores every old review-v1 proxy because the
+    # geometry pipeline changed in Studio v1.8.0.
+    if ($ReencodeAll -and (Test-Path -LiteralPath $proxy -PathType Leaf)) {
+        if(-not (Remove-FileWithRetry -Path $proxy)){
+            $proxy = New-RebuildProxyPath -CacheDir $cacheDir -CacheKey $cacheKey
+            Write-Warning ("Existing proxy is locked; rebuilding to a fresh cache file: {0}" -f $proxy)
+        }
+    }
+
+    # Validate every cache hit. If Windows has the corrupt file locked, leave
+    # it alone and build a fresh proxy instead of aborting the cart.
     if (Test-Path -LiteralPath $proxy -PathType Leaf) {
         $cachedProbe=Test-Duration $proxy
         if(-not $cachedProbe.Success){
@@ -260,7 +293,10 @@ foreach ($m in $manifest) {
             if(-not [string]::IsNullOrWhiteSpace($cachedProbe.Diagnostic)){
                 Write-Host (($cachedProbe.Diagnostic -split "`r?`n" | Select-Object -Last 4) -join [Environment]::NewLine)
             }
-            Remove-Item -LiteralPath $proxy -Force
+            if(-not (Remove-FileWithRetry -Path $proxy)){
+                $proxy = New-RebuildProxyPath -CacheDir $cacheDir -CacheKey $cacheKey
+                Write-Warning ("Corrupt proxy is locked. It will be ignored; rebuilding to: {0}" -f $proxy)
+            }
         }
     }
 
@@ -294,6 +330,7 @@ foreach ($m in $manifest) {
         $inputArgs += @('-i',$source)
         $inputArgs += @('-t',$effectiveDuration.ToString([cultureinfo]::InvariantCulture))
 
+        $encodeProxy = Join-Path $cacheDir ("{0}.partial-{1}.mp4" -f $cacheKey,([guid]::NewGuid().ToString('N')))
         if ($hasAudio) {
             $ffArgs = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
                 '-map','0:v:0','-map','0:a:0',
@@ -302,7 +339,7 @@ foreach ($m in $manifest) {
                 '-r','30','-g','30','-keyint_min','30','-sc_threshold','0',
                 '-c:a','aac','-b:a','128k','-ar','44100','-ac','2',
                 '-movflags','+faststart',
-                $proxy
+                $encodeProxy
             )
         } else {
             $ffArgs = @('-hide_banner','-loglevel','error','-nostdin','-y') + $inputArgs + @(
@@ -313,7 +350,7 @@ foreach ($m in $manifest) {
                 '-r','30','-g','30','-keyint_min','30','-sc_threshold','0',
                 '-c:a','aac','-b:a','128k','-ar','44100','-ac','2',
                 '-shortest','-movflags','+faststart',
-                $proxy
+                $encodeProxy
             )
         }
         $oldEap=$ErrorActionPreference
@@ -329,12 +366,23 @@ foreach ($m in $manifest) {
             $ErrorActionPreference=$oldEap
         }
 
-        if ($ffExit -ne 0 -or -not (Test-Path -LiteralPath $proxy)) {
-            # Do not leave a partial MP4 behind as a future cache hit.
-            if(Test-Path -LiteralPath $proxy -PathType Leaf){
-                Remove-Item -LiteralPath $proxy -Force -ErrorAction SilentlyContinue
-            }
+        if ($ffExit -ne 0 -or -not (Test-Path -LiteralPath $encodeProxy -PathType Leaf)) {
+            [void](Remove-FileWithRetry -Path $encodeProxy -Attempts 2 -DelayMs 50)
             throw "FFmpeg failed on $source (exit $ffExit). FFmpeg diagnostics were printed directly above."
+        }
+
+        $encodedProbe=Test-Duration $encodeProxy
+        if(-not $encodedProbe.Success){
+            [void](Remove-FileWithRetry -Path $encodeProxy -Attempts 2 -DelayMs 50)
+            throw "FFmpeg produced an invalid review proxy for $source. The partial file was discarded."
+        }
+
+        try {
+            Move-Item -LiteralPath $encodeProxy -Destination $proxy -Force -ErrorAction Stop
+        }
+        catch {
+            [void](Remove-FileWithRetry -Path $encodeProxy -Attempts 2 -DelayMs 50)
+            throw "Could not publish validated review proxy to $proxy. $($_.Exception.Message)"
         }
     }
 
@@ -357,8 +405,25 @@ foreach ($p in $proxyRows) {
 }
 Set-Content -LiteralPath $concatPath -Value $concatLines -Encoding ASCII
 $reviewVideo = Join-Path $reviewDir ($CartID + '-review.mp4')
-& $FFmpeg -hide_banner -loglevel error -nostdin -y -f concat -safe 0 -i $concatPath -c copy -movflags +faststart $reviewVideo
-if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $reviewVideo)) { throw "Could not concatenate review video." }
+$reviewTemp = Join-Path $reviewDir ("{0}-review.partial-{1}.mp4" -f $CartID,([guid]::NewGuid().ToString('N')))
+& $FFmpeg -hide_banner -loglevel error -nostdin -y -f concat -safe 0 -i $concatPath -c copy -movflags +faststart $reviewTemp
+if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $reviewTemp -PathType Leaf)) {
+    [void](Remove-FileWithRetry -Path $reviewTemp -Attempts 2 -DelayMs 50)
+    throw "Could not concatenate review video."
+}
+$reviewProbe=Test-Duration $reviewTemp
+if(-not $reviewProbe.Success){
+    [void](Remove-FileWithRetry -Path $reviewTemp -Attempts 2 -DelayMs 50)
+    throw "The concatenated review movie failed validation and was discarded."
+}
+
+if(Test-Path -LiteralPath $reviewVideo -PathType Leaf){
+    if(-not (Remove-FileWithRetry -Path $reviewVideo)){
+        $reviewVideo = Join-Path $reviewDir ("{0}-review-{1}.mp4" -f $CartID,(Get-Date -Format 'yyyyMMdd-HHmmss'))
+        Write-Warning ("Previous review movie is open/locked. New review will use: {0}" -f $reviewVideo)
+    }
+}
+Move-Item -LiteralPath $reviewTemp -Destination $reviewVideo -Force
 
 # Exact timeline based on normalized proxy durations.
 $timeline = New-Object 'System.Collections.Generic.List[object]'
