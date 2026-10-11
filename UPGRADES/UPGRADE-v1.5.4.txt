@@ -1,0 +1,39 @@
+RETRO TV CART BUILDER v1.5.4
+==============================
+
+AUDIO REPAIR PREVIEW FIX + SELF-DIAGNOSING FAILURES
+
+The NICK02 r009 audit showed NICK02-ANCHOR-01 already at STRONG.
+Clicking "REPAIR AUDIO +1 & PREVIEW" therefore exercised the newly-added
+AGGRESSIVE profile, and that preview failed.
+
+v1.5.4 changes:
+
+1. Safer AGGRESSIVE and MAX repair profiles
+   - RESTORE and STRONG are unchanged.
+   - AGGRESSIVE and MAX no longer use the anlmdn stage.
+   - They use two FFT denoise passes plus progressively tighter bandwidth and
+     normalization instead.
+   - The exact same profiles are used by Studio and Build-RetroCartReview so
+     what you approve in Studio is what the full review build will render.
+
+2. New Studio preview cache identity
+   - Studio now uses CACHE\studio-v3.
+   - No old failed preview is reused.
+
+3. Exact FFmpeg diagnostics
+   - FFmpeg writes its own report file (not through a PowerShell output pipe).
+   - If a preview fails, Studio reads the real FFmpeg exit code and the tail of
+     the report and puts it directly in the browser error.
+   - No more "see the console" with no useful details.
+
+4. Transactional Audio +/- buttons
+   - Studio changes the repair level and tries the preview.
+   - If rendering fails, the draft automatically rolls back to the previous
+     audio level/action.
+   - A failed experiment can no longer leave the draft silently stuck at a
+     broken repair level.
+
+Existing Studio drafts are preserved. If the current NICK02 draft already says
+AGGRESSIVE because of the failed v1.5.3 attempt, v1.5.4 will simply try that
+same draft using the new safer AGGRESSIVE profile when the clip is loaded.

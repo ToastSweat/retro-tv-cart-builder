@@ -76,8 +76,8 @@ $af = 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100'
 $audioRepairProfileVersion = 'audio-restore-v2'
 $afRepairRestore = 'highpass=f=70,lowpass=f=12500,adeclip,adeclick,afftdn=nr=18:nf=-32:tn=1:gs=8,dynaudnorm=f=250:g=15:p=0.90:m=6:c=1,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100'
 $afRepairStrong = 'highpass=f=90,lowpass=f=10500,adeclip,adeclick,afftdn=nr=28:nf=-28:tn=1:gs=12,anlmdn=s=0.002:p=0.002:r=0.006:m=11,dynaudnorm=f=200:g=11:p=0.88:m=4:c=1,loudnorm=I=-16:TP=-1.5:LRA=7,aresample=44100'
-$afRepairAggressive = 'highpass=f=100,lowpass=f=9500,adeclip,adeclick,afftdn=nr=34:nf=-27:tn=1:gs=15,anlmdn=s=0.0035:p=0.003:r=0.008:m=13,dynaudnorm=f=180:g=9:p=0.86:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=6,aresample=44100'
-$afRepairMax = 'highpass=f=110,lowpass=f=8500,adeclip,adeclick,afftdn=nr=40:nf=-25:tn=1:gs=18,anlmdn=s=0.005:p=0.004:r=0.010:m=15,dynaudnorm=f=160:g=8:p=0.84:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=5,aresample=44100'
+$afRepairAggressive = 'highpass=f=100,lowpass=f=9500,adeclip,adeclick,afftdn=nr=36:nf=-27:tn=1:gs=15,afftdn=nr=18:nf=-34:tn=1:gs=8,dynaudnorm=f=180:g=9:p=0.86:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=6,aresample=44100'
+$afRepairMax = 'highpass=f=120,lowpass=f=8000,adeclip,adeclick,afftdn=nr=48:nf=-24:tn=1:gs=20,afftdn=nr=26:nf=-31:tn=1:gs=12,dynaudnorm=f=160:g=7:p=0.84:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=5,aresample=44100'
 
 function To-DoubleOrZero($value) {
     $d=0.0

@@ -1,4 +1,4 @@
-﻿# Retro TV Cart Studio v1.5.3 launcher
+﻿# Retro TV Cart Studio v1.5.4 launcher
 [CmdletBinding()]
 param(
     [string]$CartID = '',
@@ -17,7 +17,7 @@ $url="http://127.0.0.1:$Port/"
 $nodeArgs=@($server,'--settings',$settingsPath,'--toolkit',$toolkit,'--port',[string]$Port)
 if(-not [string]::IsNullOrWhiteSpace($CartID)){$nodeArgs+=@('--cart',$CartID)}
 $argLine=($nodeArgs|ForEach-Object{'"'+($_ -replace '"','\"')+'"'}) -join ' '
-Write-Host "Retro TV Cart Studio v1.5.3" -ForegroundColor Cyan
+Write-Host "Retro TV Cart Studio v1.5.4" -ForegroundColor Cyan
 Write-Host "Starting local Studio server..."
 # PowerShell's Start-Process can misinterpret '[' and ']' in the CURRENT
 # working directory as wildcard characters. The Retro TV tree intentionally

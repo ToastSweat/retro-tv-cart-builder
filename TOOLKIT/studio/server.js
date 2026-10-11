@@ -25,7 +25,7 @@ if (!SETTINGS_PATH) {
 
 const settings = JSON.parse(fs.readFileSync(SETTINGS_PATH, 'utf8').replace(/^\uFEFF/, ''));
 const SYSTEM_ROOT = settings.SystemRoot;
-const CACHE_ROOT = path.join(SYSTEM_ROOT, 'CACHE', 'studio-v1');
+const CACHE_ROOT = path.join(SYSTEM_ROOT, 'CACHE', 'studio-v3');
 const DRAFT_ROOT = path.join(SYSTEM_ROOT, 'STATE', 'studio-drafts');
 fs.mkdirSync(CACHE_ROOT, { recursive: true });
 fs.mkdirSync(DRAFT_ROOT, { recursive: true });
@@ -35,8 +35,8 @@ const AUDIO_FILTERS = {
   NONE: 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100',
   RESTORE: 'highpass=f=70,lowpass=f=12500,adeclip,adeclick,afftdn=nr=18:nf=-32:tn=1:gs=8,dynaudnorm=f=250:g=15:p=0.90:m=6:c=1,loudnorm=I=-16:TP=-1.5:LRA=8,aresample=44100',
   STRONG: 'highpass=f=90,lowpass=f=10500,adeclip,adeclick,afftdn=nr=28:nf=-28:tn=1:gs=12,anlmdn=s=0.002:p=0.002:r=0.006:m=11,dynaudnorm=f=200:g=11:p=0.88:m=4:c=1,loudnorm=I=-16:TP=-1.5:LRA=7,aresample=44100',
-  AGGRESSIVE: 'highpass=f=100,lowpass=f=9500,adeclip,adeclick,afftdn=nr=34:nf=-27:tn=1:gs=15,anlmdn=s=0.0035:p=0.003:r=0.008:m=13,dynaudnorm=f=180:g=9:p=0.86:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=6,aresample=44100',
-  MAX: 'highpass=f=110,lowpass=f=8500,adeclip,adeclick,afftdn=nr=40:nf=-25:tn=1:gs=18,anlmdn=s=0.005:p=0.004:r=0.010:m=15,dynaudnorm=f=160:g=8:p=0.84:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=5,aresample=44100'
+  AGGRESSIVE: 'highpass=f=100,lowpass=f=9500,adeclip,adeclick,afftdn=nr=36:nf=-27:tn=1:gs=15,afftdn=nr=18:nf=-34:tn=1:gs=8,dynaudnorm=f=180:g=9:p=0.86:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=6,aresample=44100',
+  MAX: 'highpass=f=120,lowpass=f=8000,adeclip,adeclick,afftdn=nr=48:nf=-24:tn=1:gs=20,afftdn=nr=26:nf=-31:tn=1:gs=12,dynaudnorm=f=160:g=7:p=0.84:m=3:c=1,loudnorm=I=-16:TP=-1.5:LRA=5,aresample=44100'
 };
 
 function normalizeAudio(v) {
@@ -217,7 +217,7 @@ function previewKey(asset, d) {
     source: asset.SourcePath, size: st.size, mtime: st.mtimeMs,
     trimStart: d.trimStartSeconds, trimEnd: d.trimEndSeconds,
     crop: [d.cropLeft,d.cropRight,d.cropTop,d.cropBottom], audio: d.audioRepair,
-    profile: 'studio-v2|618x480|30fps|h264-crf20|medium|aac128|44100-stereo|powershell-direct'
+    profile: 'studio-v3|618x480|30fps|h264-crf20|medium|aac128|44100-stereo|powershell-direct|safe-upper-audio'
   }));
 }
 
@@ -250,10 +250,13 @@ async function renderPreview(cartId, slotId) {
   // Keep the Studio server in Node, but delegate the actual encode to a tiny
   // PowerShell runner that invokes: & ffmpeg @ffArgs
   const runner = path.join(__dirname, 'Render-StudioPreview.ps1');
+  const statusFile = out + '.status.json';
+  try { fs.unlinkSync(statusFile); } catch (_) {}
   const psArgs = [
     '-NoProfile','-ExecutionPolicy','Bypass','-File',runner,
     '-Source',a.SourcePath,
     '-Output',out,
+    '-StatusFile',statusFile,
     '-StartSeconds',String(start),
     '-DurationSeconds',String(effective),
     '-CropLeft',String(int(d.cropLeft)),
@@ -266,9 +269,16 @@ async function renderPreview(cartId, slotId) {
 
   console.log(`Studio render: ${cartId} ${slotId} · ${ar} · ${a.Title}`);
   const r = await run('powershell.exe', psArgs, { stdio:['ignore','inherit','inherit'], windowsHide:false });
+  let status = null;
+  if (fs.existsSync(statusFile)) {
+    try { status = JSON.parse(fs.readFileSync(statusFile,'utf8').replace(/^\uFEFF/,'')); } catch (_) {}
+    try { fs.unlinkSync(statusFile); } catch (_) {}
+  }
   if (r.code !== 0 || !fs.existsSync(out)) {
     try { fs.unlinkSync(out); } catch (_) {}
-    throw new Error(`FFmpeg preview failed (exit ${r.code}) for ${a.SourcePath}. See the Studio console for FFmpeg diagnostics.`);
+    const originalExit = status && status.ffmpegExit !== undefined ? status.ffmpegExit : 'unknown';
+    const detail = status && status.diagnostic ? `\n\n${status.diagnostic}` : '';
+    throw new Error(`Preview encode failed for ${a.Title}\nAudio level: ${ar}\nFFmpeg exit: ${originalExit}${detail}`);
   }
 
   await ffprobeDuration(out);
