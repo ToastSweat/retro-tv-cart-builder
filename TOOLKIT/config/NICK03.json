@@ -1,0 +1,130 @@
+{
+  "CartID": "NICK03",
+  "DisplayName": "Nickelodeon summer rerun block",
+  "Network": "NICK",
+  "CommercialPool": "KIDS_90S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S02E03-04 - Chuckie Vs. The Potty + Together At Last",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 2\\Rugrats - S02E03-04 - Chuckie Vs. The Potty + Together At Last.mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "Hey Arnold!",
+      "BrandingKeywords": [
+        "Hey Arnold",
+        "Arnold"
+      ],
+      "Title": "Hey Arnold! S01E15 Spelling Bee & Pigeon Man",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 1\\Hey Arnold! S01E15 Spelling Bee & Pigeon Man.mp4"
+    },
+    {
+      "Order": 3,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S01 E22-E23 - Doug is Quailman and Out in Left Field",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 1\\DOUG - S01 E22-E23 - Doug is Quailman and Out in Left Field (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 4,
+      "Series": "The Angry Beavers",
+      "BrandingKeywords": [
+        "Angry Beavers",
+        "Beavers"
+      ],
+      "Title": "S01E13 Bummer of Love & Food of the Clods",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\\S01E13 Bummer of Love & Food of the Clods.mkv"
+    },
+    {
+      "Order": 5,
+      "Series": "CatDog",
+      "BrandingKeywords": [
+        "CatDog",
+        "Cat Dog"
+      ],
+      "Title": "CatDog - S01 E13-E14 - Armed and Dangerous and Fistful of Mail",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E13-E14 - Armed and Dangerous and Fistful of Mail (720p - Web-DL).mp4"
+    },
+    {
+      "Order": 6,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S02E19-20 - Reptar On Ice + Family Feud",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 2\\Rugrats - S02E19-20 - Reptar On Ice + Family Feud.mp4"
+    },
+    {
+      "Order": 7,
+      "Series": "Hey Arnold!",
+      "BrandingKeywords": [
+        "Hey Arnold",
+        "Arnold"
+      ],
+      "Title": "Hey Arnold! S02E07 Arnold's Halloween",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 2\\Hey Arnold! S02E07 Arnold's Halloween.mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S02 E01-E02 - Doug Takes the Case and Doug's Secret Song",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 2\\DOUG - S02 E01-E02 - Doug Takes the Case and Doug's Secret Song (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 9,
+      "Series": "The Angry Beavers",
+      "BrandingKeywords": [
+        "Angry Beavers",
+        "Beavers"
+      ],
+      "Title": "S02E01 Beaver Fever & Same Time Last Week",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\\S02E01 Beaver Fever & Same Time Last Week.mkv"
+    },
+    {
+      "Order": 10,
+      "Series": "CatDog",
+      "BrandingKeywords": [
+        "CatDog",
+        "Cat Dog"
+      ],
+      "Title": "CatDog - S01 E19-E20 - Escape From the Deep End and The Collector",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\CatDog\\Season 1\\CatDog - S01 E19-E20 - Escape From the Deep End and The Collector (720p - Web-DL).mp4"
+    },
+    {
+      "Order": 11,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S02E27 - The Santa Experience",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 2\\Rugrats - S02E27 - The Santa Experience.mp4"
+    },
+    {
+      "Order": 12,
+      "Series": "Rocko's Modern Life",
+      "BrandingKeywords": [
+        "Rocko",
+        "Rockos Modern Life"
+      ],
+      "Title": "Rocko's Modern Life - 1x02 - Leap Frogs - Bedfellows",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rockos Modern Life\\Rockos Modern Life Season 1\\Rocko's Modern Life - 1x02 - Leap Frogs - Bedfellows [dummy].mp4"
+    }
+  ],
+  "SignOffAssetID": "HBR-c3b2425c7660"
+}

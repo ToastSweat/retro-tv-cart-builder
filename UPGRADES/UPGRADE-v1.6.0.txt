@@ -1,0 +1,57 @@
+Retro TV Cart Studio v1.6.0 — Review UX Restoration
+======================================================
+
+This is a repo-relative hotfix for the current structure:
+
+    F:\[VIDEOS]\retro-tv-cart-builder\
+        TOOLKIT\
+        STATE\
+        CACHE\
+        ...
+
+WHAT'S BACK / NEW
+-----------------
+- START button: jump to the beginning of the current preview.
+- END button: jump to ~0.2 sec before the end.
+- TRIM START TO HERE:
+    removes the elapsed playback time from the beginning.
+    Existing trim-start is preserved and the new elapsed time is added.
+- TRIM END FROM HERE:
+    removes the remaining playback time from the end.
+    Existing trim-end is preserved and the new remaining time is added.
+- Existing APPLY VALUES & PREVIEW and RESET TRIM TO ORIGINAL remain available.
+- Existing RESET AUDIO TO ORIGINAL and RESET CROP TO ORIGINAL remain available.
+- Preview render progress bar with percentage.
+- Duplicate identical preview renders are deduplicated server-side.
+- Stale preview results are ignored if you move to another clip.
+- SHOW replacement dropdown is grouped into:
+    Same show backups
+    Other <network> shows
+- SHOW candidates exclude episodes already used elsewhere in the current draft.
+- Back-to-back same-series SHOW slots are flagged in the list and clip badges.
+- Studio launcher now derives the repo root from its own TOOLKIT folder.
+  It no longer defaults to the old "Retro TV Cart Builder" directory.
+- BUILD FULL REVIEW / OPEN FULL REVIEW pass the current repo root through.
+
+IMPORTANT ABOUT REPLACEMENT OPTIONS
+-----------------------------------
+Studio can only offer episodes that are already registered in the asset registry.
+It will prioritize unused READY episodes from the same show, then unused READY
+episodes from other shows on the same network. It will not silently steal a
+UNIQUE episode actively assigned to another cart.
+
+INSTALL
+-------
+Close Retro TV Cart Studio first.
+
+Copy the TOOLKIT folder from this ZIP over:
+
+    F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\
+
+allowing Windows to replace the four included files.
+
+Then launch from anywhere with:
+
+    & 'F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\Start-RetroCartStudio.ps1' -CartID NICK02
+
+No STATE, manifests, cart revisions, or Studio drafts are included in this ZIP.

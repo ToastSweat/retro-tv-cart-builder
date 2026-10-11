@@ -1,0 +1,55 @@
+Retro TV Cart Studio v1.8.0 — Real Crop Box
+================================================
+
+The v1.7 crop guide was still misleading. Its overlays were positioned against
+the crop panel instead of a dedicated image-sized stage, so the blue geometry
+could disagree with the actual source frame.
+
+v1.8.0 replaces edge-dragging with a real crop box.
+
+CROP BOX
+--------
+- The blue rectangle is the exact source area that survives.
+- Drag inside the box to MOVE/reframe it.
+- Drag any CORNER to RESIZE it.
+- Corner resizing is locked to the physical 618x480 TV display proportions.
+- Pixel offsets are calculated from the box and shown only as reference.
+- The overlay now lives on the source image itself, so its geometry cannot drift
+  because of panel height or layout.
+
+FIT MAXIMUM TV AREA
+-------------------
+Finds the largest centered 618x480-shaped crop that fits inside the source.
+This maximizes physical screen use without stretching.
+
+AUTO DETECT BORDERS + FIT
+-------------------------
+Detects baked borders, then fits the largest TV-shaped crop inside the detected
+clean area.
+
+EXACT FINAL RESULT
+------------------
+The right pane is rendered with the same geometry as the actual Studio preview:
+
+    crop original source pixels
+    -> correct the source pixel/sample aspect ratio
+    -> proportional scale to 618x480
+    -> pad only if required
+    -> square-pixel 618x480 output
+
+SOURCE ASPECT FIX
+-----------------
+The actual Render-StudioPreview.ps1 pipeline is updated too. Anamorphic or
+non-square-pixel VHS/DVD-era sources are corrected before fitting the TV, so
+they are not silently stretched.
+
+Nothing is applied until APPLY THIS CROP & PREVIEW VIDEO is clicked.
+
+FILES INCLUDED
+--------------
+TOOLKIT\studio\index.html
+TOOLKIT\studio\server.js
+TOOLKIT\studio\Render-StudioPreview.ps1
+TOOLKIT\Start-RetroCartStudio.ps1
+
+No STATE, drafts, revisions, manifests, CACHE, or media files are included.

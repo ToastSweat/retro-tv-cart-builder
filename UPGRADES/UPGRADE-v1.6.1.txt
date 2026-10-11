@@ -1,0 +1,36 @@
+Retro TV Cart Studio v1.6.1 — Damaged Source Handling
+=======================================================
+
+NICK02 exposed a real damaged-media case:
+
+    90s Commercials - S02.E61.mp4
+
+The source has previously emitted H.264/AAC decode errors such as:
+- Invalid NAL unit size
+- missing picture in access unit
+- Error splitting the input into NAL units
+- AAC channel element errors
+
+A normal cached preview could appear usable, but requesting a fresh STRONG
+audio render forced FFmpeg to decode the damaged packets again and FFmpeg
+crashed with Windows status 0xC0000374 (-1073740940).
+
+CHANGES
+-------
+- On a failed preview encode, Studio performs a short source-health decode pass.
+- Known H.264/AAC corruption is classified as SOURCE MEDIA IS DAMAGED.
+- The UI no longer throws giant browser alert boxes full of FFmpeg output.
+- Errors appear in an in-app error panel instead.
+- Failed AUDIO +/- experiments still roll back automatically.
+- If the source is damaged, the UI tells you to replace the clip and moves
+  focus to the replacement dropdown.
+- Full technical details still go to the Studio log/console.
+- Preview cache identity bumped to studio-v5.
+
+IMPORTANT
+---------
+Audio restoration is for hiss, hum, clipping, uneven loudness, etc.
+It cannot repair damaged H.264/AAC packets. A source with decoder corruption
+should be replaced rather than pushed through stronger restoration.
+
+No STATE, cart revisions, manifests, or Studio drafts are included.

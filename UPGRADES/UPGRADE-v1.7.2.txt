@@ -1,0 +1,72 @@
+Retro TV Cart Studio v1.7.2 — Exact Crop Preview
+================================================
+
+The v1.7.1 crop guide showed the correct SOURCE pixels that would be removed,
+but it did not show the second half of the actual video pipeline:
+
+    CROP SOURCE
+        ↓
+    RESCALE CROPPED AREA TO FIT 618x480
+        ↓
+    PAD TO 618x480
+
+That made the applied result look much more "zoomed" or reframed than the blue
+KEEP rectangle suggested. The numbers were being applied correctly, but the
+visualizer was incomplete and therefore misleading.
+
+v1.7.2 fixes that.
+
+NEW TWO-PANEL CROP VIEW
+-----------------------
+LEFT:
+    SOURCE — DRAG BLUE EDGES
+
+    - dark areas are literally removed from the source
+    - blue box is the kept source region
+    - the blue crop edges can be dragged directly
+    - numeric fields remain available for precise adjustment
+
+RIGHT:
+    EXACT FINAL 618x480 RESULT
+
+    - Studio renders a still using the SAME visual filter order as the real
+      review proxy
+    - crop
+    - scale to fit 618x480
+    - pad with black as needed
+    - square pixels
+
+This right-hand image is the result the full APPLY CROP & PREVIEW encode should
+match geometrically.
+
+LIVE BEHAVIOR
+-------------
+- Dragging a blue edge updates the pixel values.
+- Typing pixel values moves the blue guides.
+- After a brief debounce, Studio renders the exact final 618x480 still.
+- AUTO DETECT updates both panels before anything is applied.
+- Nothing is committed until APPLY CROP & PREVIEW is clicked.
+- Invalid crop geometry is still blocked.
+
+REFERENCE GEOMETRY
+------------------
+The source reference frame is now explicitly converted to square pixels for
+display while retaining source-pixel coordinate proportions, avoiding browser
+confusion from unusual source sample-aspect-ratio metadata.
+
+CACHE
+-----
+Source crop stills:
+    CACHE\studio-crop-frames\
+
+Exact final crop stills:
+    CACHE\studio-crop-final\
+
+No STATE, manifests, revisions, drafts, or original media are changed merely by
+moving the crop guides.
+
+INSTALL
+-------
+Close Retro TV Cart Studio, copy TOOLKIT over the repository TOOLKIT, then:
+
+    & 'F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\Start-RetroCartStudio.ps1' -CartID NICK03

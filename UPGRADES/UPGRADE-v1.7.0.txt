@@ -1,0 +1,61 @@
+Retro TV Cart Studio v1.7.0 — Final Cartridge UI
+================================================
+
+The finish line is now in Studio.
+
+NEW FINAL CARTRIDGE CARD
+------------------------
+Studio now provides two explicit final actions:
+
+    BUILD FINAL LOCALLY
+    BUILD FINAL + COPY TO SELECTED DRIVE
+
+No PowerShell command is required for the normal finish-line workflow.
+
+DRIVE SAFETY
+------------
+- Studio enumerates mounted removable and fixed drives.
+- NO drive is auto-selected.
+- The dropdown shows drive letter, volume label, type, filesystem, and free space.
+- Fixed disks are shown with a stronger warning than removable drives.
+- BUILD + COPY stays disabled until:
+    1. a drive is selected, and
+    2. the user checks the "I verified this drive" checkbox.
+- A second confirmation names the cart, exact drive letter, current volume
+  label, and the new cartridge label before the build starts.
+- The current finalizer does NOT erase unrelated files from the selected drive.
+  It copies/overwrites matching cartridge MP4 names and relabels the volume.
+
+FINAL BUILD GATES
+-----------------
+Studio refuses to build a final cartridge when:
+- the current Studio draft has uncommitted changes, or
+- any current clip is not marked GOOD.
+
+The app therefore cannot silently build an older manifest while uncommitted
+Studio changes are visible.
+
+FINAL BUILD BEHAVIOR
+--------------------
+The app invokes the existing Build-RetroCartFinal.ps1 with:
+- the current repo SystemRoot
+- the selected CartID
+- -Force, because the app already asks for explicit confirmation
+- optional -TargetDrive when building directly to a cartridge
+
+This safely rebuilds the local FINAL folder for the current immutable revision
+before copying to the selected drive.
+
+INSTALL
+-------
+Close Retro TV Cart Studio.
+
+Copy this ZIP's TOOLKIT contents over:
+
+    F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\
+
+Then launch normally:
+
+    & 'F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\Start-RetroCartStudio.ps1' -CartID NICK02
+
+No STATE, manifests, cart revisions, drafts, CACHE, or media files are included.

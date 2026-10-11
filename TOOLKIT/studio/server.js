@@ -26,8 +26,12 @@ if (!SETTINGS_PATH) {
 const settings = JSON.parse(fs.readFileSync(SETTINGS_PATH, 'utf8').replace(/^\uFEFF/, ''));
 const SYSTEM_ROOT = settings.SystemRoot;
 const CACHE_ROOT = path.join(SYSTEM_ROOT, 'CACHE', 'studio-v3');
+const CROP_FRAME_ROOT = path.join(SYSTEM_ROOT, 'CACHE', 'studio-crop-frames');
+const CROP_FINAL_ROOT = path.join(SYSTEM_ROOT, 'CACHE', 'studio-crop-final');
 const DRAFT_ROOT = path.join(SYSTEM_ROOT, 'STATE', 'studio-drafts');
 fs.mkdirSync(CACHE_ROOT, { recursive: true });
+fs.mkdirSync(CROP_FRAME_ROOT, { recursive: true });
+fs.mkdirSync(CROP_FINAL_ROOT, { recursive: true });
 fs.mkdirSync(DRAFT_ROOT, { recursive: true });
 
 const AUDIO_LEVELS = ['NONE', 'RESTORE', 'STRONG', 'AGGRESSIVE', 'MAX'];
@@ -180,13 +184,44 @@ function compatible(roleRow, a) {
   return true;
 }
 
-function availableCandidates(m, registry, assignments) {
-  const active = new Set(assignments.filter(x => ['RESERVED','ACTIVE'].includes(x.AssignmentStatus)).map(x => x.AssetID));
+function episodeSeries(row) {
+  return String(row.Series || row.Subtype || '').trim();
+}
+
+function availableCandidates(m, registry, assignments, manifest, draft) {
+  const activeAssignments = new Map();
+  for (const x of assignments.filter(x => ['RESERVED','ACTIVE'].includes(x.AssignmentStatus))) {
+    if (!activeAssignments.has(x.AssetID)) activeAssignments.set(x.AssetID, []);
+    activeAssignments.get(x.AssetID).push(x);
+  }
+  const usedByCurrentDraft = new Set(Object.values(draft?.slots || {}).map(x => x.assetId).filter(Boolean));
+  const currentSeries = episodeSeries(m);
+
   return registry.filter(a => {
     if (!compatible(m, a)) return false;
-    if (String(a.ReusePolicy).toUpperCase() === 'UNIQUE' && active.has(a.AssetID)) return false;
+    if (a.AssetID === m.AssetID) return false;
+
+    // Never offer another episode already used elsewhere in this cart draft.
+    if (m.Role === 'SHOW' && usedByCurrentDraft.has(a.AssetID)) return false;
+
+    // Preserve UNIQUE semantics across other carts. Assignments from this same
+    // cart/revision are already filtered by usedByCurrentDraft above.
+    if (String(a.ReusePolicy).toUpperCase() === 'UNIQUE') {
+      const blockers = (activeAssignments.get(a.AssetID) || []).filter(x => x.CartID !== draft.cartId);
+      if (blockers.length) return false;
+    }
     return true;
-  }).sort((a,b) => String(a.Title).localeCompare(String(b.Title))).slice(0, 500);
+  }).map(a => ({
+    ...a,
+    CandidateSeries: episodeSeries(a),
+    CandidateGroup: m.Role === 'SHOW' && currentSeries && episodeSeries(a).toLowerCase() === currentSeries.toLowerCase() ? 'SAME_SHOW' : (m.Role === 'SHOW' ? 'OTHER_SHOW' : 'DEFAULT')
+  })).sort((a,b) => {
+    const rank = x => x.CandidateGroup === 'SAME_SHOW' ? 0 : x.CandidateGroup === 'OTHER_SHOW' ? 1 : 0;
+    const r = rank(a) - rank(b);
+    if (r) return r;
+    const sr = String(a.CandidateSeries || '').localeCompare(String(b.CandidateSeries || ''));
+    return sr || String(a.Title).localeCompare(String(b.Title));
+  }).slice(0, 500);
 }
 
 function run(proc, args, opts={}) {
@@ -217,8 +252,60 @@ function previewKey(asset, d) {
     source: asset.SourcePath, size: st.size, mtime: st.mtimeMs,
     trimStart: d.trimStartSeconds, trimEnd: d.trimEndSeconds,
     crop: [d.cropLeft,d.cropRight,d.cropTop,d.cropBottom], audio: d.audioRepair,
-    profile: 'studio-v3|618x480|30fps|h264-crf20|medium|aac128|44100-stereo|powershell-direct|safe-upper-audio'
+    profile: 'studio-v6|618x480|30fps|h264-crf20|medium|aac128|44100-stereo|sar-safe|crop-box-v1|progress-dedupe|source-health'
   }));
+}
+
+const renderStatus = new Map();
+const inflightRenders = new Map();
+function renderStatusKey(cartId, slotId) { return `${cartId}|${slotId}`; }
+function parseProgressFile(file, durationSeconds) {
+  try {
+    const txt = fs.readFileSync(file, 'utf8');
+    const vals = [...txt.matchAll(/out_time_(?:us|ms)=(\d+)/g)].map(m => Number(m[1]));
+    if (!vals.length || !durationSeconds) return 0;
+    // FFmpeg's out_time_us/out_time_ms value is microseconds in current builds.
+    const seconds = vals[vals.length - 1] / 1000000;
+    return Math.max(0, Math.min(99, Math.round(seconds / durationSeconds * 100)));
+  } catch (_) { return 0; }
+}
+function publicRenderStatus(cartId, slotId) {
+  const st = renderStatus.get(renderStatusKey(cartId, slotId));
+  if (!st) return {state:'idle',progress:0};
+  let progress = st.progress || 0;
+  if (st.state === 'rendering' && st.progressFile) progress = Math.max(progress, parseProgressFile(st.progressFile, st.duration));
+  return {state:st.state,progress,title:st.title||'',error:st.error||''};
+}
+
+const sourceHealthCache = new Map();
+function sourceHealthKey(file) {
+  try {
+    const st = fs.statSync(file);
+    return `${file}|${st.size}|${st.mtimeMs}`;
+  } catch (_) { return file; }
+}
+function corruptionSummary(text) {
+  const lines = String(text || '').split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const rx = /(Invalid NAL unit size|missing picture in access unit|Error splitting the input into NAL units|channel element .* is not allocated|Invalid data found when processing input|moov atom not found|corrupt decoded frame|error while decoding|non-existing PPS|sps_id .* out of range)/i;
+  const hits = [];
+  for (const line of lines) {
+    if (rx.test(line) && !hits.includes(line)) hits.push(line);
+    if (hits.length >= 6) break;
+  }
+  return hits;
+}
+async function inspectSourceHealth(file, startSeconds=0, durationSeconds=35) {
+  const k = sourceHealthKey(file);
+  if (sourceHealthCache.has(k)) return sourceHealthCache.get(k);
+  const args = ['-hide_banner','-loglevel','error','-nostdin','-xerror'];
+  if (startSeconds > 0) args.push('-ss',String(startSeconds));
+  args.push('-i',file,'-t',String(Math.max(1,Math.min(35,durationSeconds||35))),'-map','0:v:0?','-map','0:a:0?','-f','null','NUL');
+  const r = await run('ffmpeg', args);
+  const diagnostic = `${r.err || ''}\n${r.out || ''}`.trim();
+  const hits = corruptionSummary(diagnostic);
+  const result = { damaged:hits.length>0, hits, exit:r.code, diagnostic };
+  sourceHealthCache.set(k,result);
+  return result;
 }
 
 async function renderPreview(cartId, slotId) {
@@ -230,59 +317,214 @@ async function renderPreview(cartId, slotId) {
   if (!fs.existsSync(a.SourcePath)) throw new Error(`Missing source: ${a.SourcePath}`);
 
   const key = previewKey(a,d), out = path.join(CACHE_ROOT, `${key}.mp4`);
+  const statusKey = renderStatusKey(cartId, slotId);
   if (fs.existsSync(out)) {
-    try { await ffprobeDuration(out); return out; } catch (_) { try { fs.unlinkSync(out); } catch (_) {} }
+    try {
+      await ffprobeDuration(out);
+      renderStatus.set(statusKey,{state:'ready',progress:100,title:a.Title});
+      return out;
+    } catch (_) { try { fs.unlinkSync(out); } catch (_) {} }
   }
 
-  const srcDur = await ffprobeDuration(a.SourcePath);
-  const start = Math.max(0,num(d.trimStartSeconds));
-  const endTrim = Math.max(0,num(d.trimEndSeconds));
-  const effective = srcDur - start - endTrim;
-  if (effective <= .1) throw new Error(`Invalid trim: start ${start}s + end ${endTrim}s on ${srcDur.toFixed(2)}s source`);
+  // Identical requests share one encode instead of launching duplicate FFmpeg jobs.
+  if (inflightRenders.has(key)) return inflightRenders.get(key);
 
-  const ar = normalizeAudio(d.audioRepair);
-  const audio = await hasAudio(a.SourcePath);
-  if (!audio && ar !== 'NONE') throw new Error('Audio repair requested but source has no audio stream.');
+  const task = (async()=>{
+    const srcDur = await ffprobeDuration(a.SourcePath);
+    const start = Math.max(0,num(d.trimStartSeconds));
+    const endTrim = Math.max(0,num(d.trimEndSeconds));
+    const effective = srcDur - start - endTrim;
+    if (effective <= .1) throw new Error(`Invalid trim: start ${start}s + end ${endTrim}s on ${srcDur.toFixed(2)}s source`);
 
-  // FFmpeg 9 on this Windows setup has shown a native 0xC0000374 heap-corruption
-  // crash when launched directly from Node for restoration-heavy previews.
-  // The exact same command is stable when launched directly from PowerShell.
-  // Keep the Studio server in Node, but delegate the actual encode to a tiny
-  // PowerShell runner that invokes: & ffmpeg @ffArgs
-  const runner = path.join(__dirname, 'Render-StudioPreview.ps1');
-  const statusFile = out + '.status.json';
-  try { fs.unlinkSync(statusFile); } catch (_) {}
-  const psArgs = [
-    '-NoProfile','-ExecutionPolicy','Bypass','-File',runner,
-    '-Source',a.SourcePath,
-    '-Output',out,
-    '-StatusFile',statusFile,
-    '-StartSeconds',String(start),
-    '-DurationSeconds',String(effective),
-    '-CropLeft',String(int(d.cropLeft)),
-    '-CropRight',String(int(d.cropRight)),
-    '-CropTop',String(int(d.cropTop)),
-    '-CropBottom',String(int(d.cropBottom)),
-    '-AudioRepair',ar
-  ];
-  if (!audio) psArgs.push('-NoAudio');
+    const ar = normalizeAudio(d.audioRepair);
+    const audio = await hasAudio(a.SourcePath);
+    if (!audio && ar !== 'NONE') throw new Error('Audio repair requested but source has no audio stream.');
 
-  console.log(`Studio render: ${cartId} ${slotId} · ${ar} · ${a.Title}`);
-  const r = await run('powershell.exe', psArgs, { stdio:['ignore','inherit','inherit'], windowsHide:false });
-  let status = null;
-  if (fs.existsSync(statusFile)) {
-    try { status = JSON.parse(fs.readFileSync(statusFile,'utf8').replace(/^\uFEFF/,'')); } catch (_) {}
+    const runner = path.join(__dirname, 'Render-StudioPreview.ps1');
+    const statusFile = out + '.status.json';
+    const progressFile = out + '.progress.txt';
     try { fs.unlinkSync(statusFile); } catch (_) {}
+    try { fs.unlinkSync(progressFile); } catch (_) {}
+    renderStatus.set(statusKey,{state:'rendering',progress:0,duration:effective,progressFile,title:a.Title});
+
+    const psArgs = [
+      '-NoProfile','-ExecutionPolicy','Bypass','-File',runner,
+      '-Source',a.SourcePath,
+      '-Output',out,
+      '-StatusFile',statusFile,
+      '-ProgressFile',progressFile,
+      '-StartSeconds',String(start),
+      '-DurationSeconds',String(effective),
+      '-CropLeft',String(int(d.cropLeft)),
+      '-CropRight',String(int(d.cropRight)),
+      '-CropTop',String(int(d.cropTop)),
+      '-CropBottom',String(int(d.cropBottom)),
+      '-AudioRepair',ar
+    ];
+    if (!audio) psArgs.push('-NoAudio');
+
+    console.log(`Studio render: ${cartId} ${slotId} · ${ar} · ${a.Title}`);
+    const r = await run('powershell.exe', psArgs, { stdio:['ignore','inherit','inherit'], windowsHide:false });
+    let status = null;
+    if (fs.existsSync(statusFile)) {
+      try { status = JSON.parse(fs.readFileSync(statusFile,'utf8').replace(/^\uFEFF/,'')); } catch (_) {}
+      try { fs.unlinkSync(statusFile); } catch (_) {}
+    }
+    try { fs.unlinkSync(progressFile); } catch (_) {}
+
+    if (r.code !== 0 || !fs.existsSync(out)) {
+      try { fs.unlinkSync(out); } catch (_) {}
+      const originalExit = status && status.ffmpegExit !== undefined ? status.ffmpegExit : 'unknown';
+
+      // A native FFmpeg crash can hide the actual decode error. On failure, do
+      // one short source-health decode pass and turn known H.264/AAC corruption
+      // into a concise review error instead of dumping an FFmpeg report at the user.
+      let health = {damaged:false,hits:[]};
+      try { health = await inspectSourceHealth(a.SourcePath,start,effective); } catch (_) {}
+
+      let msg;
+      if (health.damaged) {
+        const evidence = health.hits.length ? `\n\nDetected:\n- ${health.hits.join('\n- ')}` : '';
+        msg = `SOURCE MEDIA IS DAMAGED\n\n${a.Title}\n\nThe original file contains H.264/AAC decode errors. Audio restoration can reduce hiss/noise/level problems, but it cannot repair broken encoded packets. Replace this clip instead.${evidence}`;
+      } else {
+        const detail = status && status.diagnostic ? `\n\n${status.diagnostic}` : '';
+        msg = `Preview encode failed for ${a.Title}\nAudio level: ${ar}\nFFmpeg exit: ${originalExit}${detail}`;
+      }
+      renderStatus.set(statusKey,{state:'error',progress:0,title:a.Title,error:msg});
+      throw new Error(msg);
+    }
+
+    await ffprobeDuration(out);
+    renderStatus.set(statusKey,{state:'ready',progress:100,title:a.Title});
+    return out;
+  })();
+
+  inflightRenders.set(key, task);
+  try { return await task; }
+  finally { inflightRenders.delete(key); }
+}
+
+
+function parseRatio(value, fallback=1) {
+  const s=String(value||'').trim();
+  if(!s || s==='N/A') return fallback;
+  const m=s.match(/^(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)$/);
+  if(m){
+    const a=Number(m[1]),b=Number(m[2]);
+    if(Number.isFinite(a)&&Number.isFinite(b)&&a>0&&b>0) return a/b;
   }
-  if (r.code !== 0 || !fs.existsSync(out)) {
-    try { fs.unlinkSync(out); } catch (_) {}
-    const originalExit = status && status.ffmpegExit !== undefined ? status.ffmpegExit : 'unknown';
-    const detail = status && status.diagnostic ? `\n\n${status.diagnostic}` : '';
-    throw new Error(`Preview encode failed for ${a.Title}\nAudio level: ${ar}\nFFmpeg exit: ${originalExit}${detail}`);
+  const n=Number(s);
+  return Number.isFinite(n)&&n>0?n:fallback;
+}
+
+async function ffprobeVideoInfo(file) {
+  const r = await run('ffprobe',[
+    '-v','error',
+    '-select_streams','v:0',
+    '-show_entries','stream=width,height,sample_aspect_ratio,display_aspect_ratio',
+    '-show_entries','format=duration',
+    '-of','json',
+    file
+  ]);
+  if(r.code!==0) throw new Error(`ffprobe failed for ${file}: ${r.err || r.out}`);
+  let j;
+  try { j=JSON.parse(String(r.out||'{}')); } catch (_) { throw new Error(`Could not parse ffprobe video info for ${file}`); }
+  const st=(j.streams||[])[0]||{};
+  const width=Number(st.width||0), height=Number(st.height||0), duration=Number(j.format?.duration||0);
+  if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0) throw new Error(`Could not read source dimensions: ${file}`);
+  const sar=parseRatio(st.sample_aspect_ratio,1);
+  const dar=parseRatio(st.display_aspect_ratio,(width*sar)/height);
+  return {width,height,sar,dar,duration:Number.isFinite(duration)?duration:0};
+}
+
+function cropFrameKey(asset) {
+  const st=fs.statSync(asset.SourcePath);
+  return sha(JSON.stringify({source:asset.SourcePath,size:st.size,mtime:st.mtimeMs,profile:'crop-reference-v3-display-correct'}));
+}
+
+async function renderCropReference(cartId, slotId) {
+  const cart=getCart(cartId), manifest=getManifest(cart), draft=loadDraft(cart,manifest), registry=getRegistry(), regMap=assetMap(registry);
+  const m=manifest.find(x=>x.SlotID===slotId), d=draft.slots[slotId];
+  if(!m||!d) throw new Error(`Unknown slot: ${slotId}`);
+  const a=effectiveAsset(m,d,regMap);
+  if(!fs.existsSync(a.SourcePath)) throw new Error(`Missing source: ${a.SourcePath}`);
+
+  const info=await ffprobeVideoInfo(a.SourcePath);
+  const key=cropFrameKey(a), out=path.join(CROP_FRAME_ROOT,`${key}.jpg`);
+  if(!fs.existsSync(out)){
+    const seek=info.duration>1 ? Math.max(0.25,Math.min(info.duration-0.25,info.duration*0.25)) : 0;
+    const r=await run('ffmpeg',[
+      '-hide_banner','-loglevel','error','-nostdin','-y',
+      '-ss',String(seek),'-i',a.SourcePath,
+      '-frames:v','1',
+      '-vf',"scale='min(960,max(2,trunc(iw*sar/2)*2))':-2,setsar=1",
+      '-q:v','3',
+      out
+    ]);
+    if(r.code!==0 || !fs.existsSync(out)){
+      try{fs.unlinkSync(out)}catch(_){}
+      throw new Error(`Could not create crop reference frame for ${a.Title}: ${r.err || r.out}`);
+    }
+  }
+  return {file:out,width:info.width,height:info.height,sar:info.sar,dar:info.dar,title:a.Title};
+}
+
+
+function cropFinalKey(asset, crop) {
+  const st=fs.statSync(asset.SourcePath);
+  return sha(JSON.stringify({
+    source:asset.SourcePath,size:st.size,mtime:st.mtimeMs,
+    crop:[crop.left,crop.right,crop.top,crop.bottom],
+    profile:'crop-final-v2|618x480|sar-safe|same-as-studio-preview'
+  }));
+}
+
+async function renderCropFinalReference(cartId, slotId, proposed) {
+  const cart=getCart(cartId), manifest=getManifest(cart), draft=loadDraft(cart,manifest), registry=getRegistry(), regMap=assetMap(registry);
+  const m=manifest.find(x=>x.SlotID===slotId), d=draft.slots[slotId];
+  if(!m||!d) throw new Error(`Unknown slot: ${slotId}`);
+  const a=effectiveAsset(m,d,regMap);
+  if(!fs.existsSync(a.SourcePath)) throw new Error(`Missing source: ${a.SourcePath}`);
+
+  const info=await ffprobeVideoInfo(a.SourcePath);
+  const crop={
+    left:int(proposed?.left), right:int(proposed?.right),
+    top:int(proposed?.top), bottom:int(proposed?.bottom)
+  };
+  if(crop.left+crop.right>=info.width || crop.top+crop.bottom>=info.height){
+    throw new Error(`Invalid crop for ${info.width}x${info.height} source.`);
   }
 
-  await ffprobeDuration(out);
-  return out;
+  const key=cropFinalKey(a,crop), out=path.join(CROP_FINAL_ROOT,`${key}.jpg`);
+  if(!fs.existsSync(out)){
+    const seek=info.duration>1 ? Math.max(0.25,Math.min(info.duration-0.25,info.duration*0.25)) : 0;
+    const cropW=crop.left+crop.right, cropH=crop.top+crop.bottom;
+    const vfParts=[];
+    if(cropW+cropH>0){
+      vfParts.push(`crop=iw-${cropW}:ih-${cropH}:${crop.left}:${crop.top}`);
+    }
+    // SAME geometry as Render-StudioPreview.ps1:
+    // crop original coded pixels, correct source pixel aspect, then fit the TV.
+    vfParts.push("scale='max(2,trunc(iw*sar/2)*2)':ih");
+    vfParts.push('setsar=1');
+    vfParts.push('scale=618:480:force_original_aspect_ratio=decrease:force_divisible_by=2');
+    vfParts.push('pad=618:480:(ow-iw)/2:(oh-ih)/2:black');
+    vfParts.push('setsar=1');
+
+    const r=await run('ffmpeg',[
+      '-hide_banner','-loglevel','error','-nostdin','-y',
+      '-ss',String(seek),'-i',a.SourcePath,
+      '-frames:v','1',
+      '-vf',vfParts.join(','),
+      '-q:v','2',
+      out
+    ]);
+    if(r.code!==0 || !fs.existsSync(out)){
+      try{fs.unlinkSync(out)}catch(_){}
+      throw new Error(`Could not render exact crop result for ${a.Title}: ${r.err || r.out}`);
+    }
+  }
+  return {file:out,width:618,height:480,title:a.Title};
 }
 
 async function cropDetect(source) {
@@ -308,11 +550,11 @@ function viewState(cartId) {
     const changed=d.assetId!==m.AssetID || num(d.trimStartSeconds)!==num(m.TrimStartSeconds) || num(d.trimEndSeconds)!==num(m.TrimEndSeconds) || int(d.cropLeft)!==int(m.CropLeft) || int(d.cropRight)!==int(m.CropRight) || int(d.cropTop)!==int(m.CropTop) || int(d.cropBottom)!==int(m.CropBottom) || normalizeAudio(d.audioRepair)!==normalizeAudio(m.AudioRepair) || d.action!==(m.ReviewStatus||'UNREVIEWED');
     return {
       position:m.Position,slotId:m.SlotID,role:m.Role,baseAssetId:m.AssetID,assetId:d.assetId,
-      title:a?.Title || m.Title,baseTitle:m.Title,sourcePath:a?.SourcePath || m.SourcePath,pool:m.Pool,network:m.Network,
+      title:a?.Title || m.Title,baseTitle:m.Title,sourcePath:a?.SourcePath || m.SourcePath,pool:m.Pool,network:m.Network,series:(a?.AssetType==='EPISODE'?(a?.Subtype||m.Series):m.Series)||'',
       action:d.action||'UNREVIEWED',notes:d.notes||'',trimStartSeconds:num(d.trimStartSeconds),trimEndSeconds:num(d.trimEndSeconds),
       cropLeft:int(d.cropLeft),cropRight:int(d.cropRight),cropTop:int(d.cropTop),cropBottom:int(d.cropBottom),audioRepair:normalizeAudio(d.audioRepair),
       base:{trimStartSeconds:num(m.TrimStartSeconds),trimEndSeconds:num(m.TrimEndSeconds),cropLeft:int(m.CropLeft),cropRight:int(m.CropRight),cropTop:int(m.CropTop),cropBottom:int(m.CropBottom),audioRepair:normalizeAudio(m.AudioRepair)},
-      changed,candidates:availableCandidates(m,registry,assignments).map(x=>({assetId:x.AssetID,title:x.Title,type:x.AssetType,subtype:x.Subtype,pool:x.Pool,network:x.Network,duration:num(x.DurationSeconds)}))
+      changed,candidates:availableCandidates(m,registry,assignments,manifest,draft).map(x=>({assetId:x.AssetID,title:x.Title,type:x.AssetType,subtype:x.Subtype,pool:x.Pool,network:x.Network,duration:num(x.DurationSeconds),series:x.CandidateSeries||'',group:x.CandidateGroup||'DEFAULT'}))
     };
   });
   return {cart:{cartId:cart.CartID,revision:Number(cart.CurrentRevision),displayName:cart.DisplayName,network:cart.Network},audioLevels:AUDIO_LEVELS,clips};
@@ -412,6 +654,69 @@ function commitDraft(cartId) {
   return {revision:newRev,manifestPath:newManifestPath,changes:actualChanges.length};
 }
 
+
+async function listDrives() {
+  // Do not auto-select anything in the UI. Return mounted removable/fixed
+  // volumes so the user must deliberately choose the cartridge target.
+  const ps = [
+    "$ErrorActionPreference='Stop'",
+    "$rows=@(Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DriveType -in 2,3 -and $_.DeviceID } | ForEach-Object {",
+    "  [pscustomobject]@{ device=$_.DeviceID; label=[string]$_.VolumeName; filesystem=[string]$_.FileSystem; free=[int64]$_.FreeSpace; size=[int64]$_.Size; driveType=[int]$_.DriveType }",
+    "})",
+    "@($rows) | ConvertTo-Json -Compress"
+  ].join('; ');
+  const r = await run('powershell.exe',['-NoProfile','-Command',ps],{});
+  if (r.code !== 0) throw new Error(`Could not enumerate drives: ${r.err || r.out}`);
+  let rows=[];
+  const raw=String(r.out||'').trim();
+  if(raw){
+    const parsed=JSON.parse(raw.replace(/^\uFEFF/,''));
+    rows=Array.isArray(parsed)?parsed:[parsed];
+  }
+  return rows.map(x=>({
+    drive:`${String(x.device||'').toUpperCase()}\\`,
+    label:String(x.label||''),
+    filesystem:String(x.filesystem||''),
+    free:Number(x.free||0),
+    size:Number(x.size||0),
+    type:Number(x.driveType)===2?'REMOVABLE':'FIXED'
+  })).filter(x=>/^[A-Z]:\\$/.test(x.drive))
+    .sort((a,b)=>(a.type==='REMOVABLE'?0:1)-(b.type==='REMOVABLE'?0:1)||a.drive.localeCompare(b.drive));
+}
+
+function assertFinalReady(cartId) {
+  const state=viewState(cartId);
+  const changed=state.clips.filter(c=>c.changed);
+  if(changed.length){
+    throw new Error(`${changed.length} Studio draft change(s) are not committed. Commit the draft before building the final cartridge.`);
+  }
+  const notGood=state.clips.filter(c=>String(c.action||'').toUpperCase()!=='GOOD');
+  if(notGood.length){
+    const sample=notGood.slice(0,5).map(c=>`${c.position} ${c.title} [${c.action}]`).join('\n');
+    throw new Error(`${notGood.length} clip(s) are not marked GOOD. Finish review before building the cartridge.${sample?`\n\n${sample}`:''}`);
+  }
+  return state;
+}
+
+async function buildFinal(cartId,targetDrive='') {
+  assertFinalReady(cartId);
+  const ps=path.join(TOOLKIT_DIR,'Build-RetroCartFinal.ps1');
+  const args=['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',cartId,'-SystemRoot',SYSTEM_ROOT,'-Force'];
+
+  if(targetDrive){
+    const normalized=String(targetDrive).toUpperCase();
+    if(!/^[A-Z]:\\$/.test(normalized)) throw new Error(`Invalid target drive: ${targetDrive}`);
+    const drives=await listDrives();
+    const selected=drives.find(d=>d.drive===normalized);
+    if(!selected) throw new Error(`Selected drive is no longer mounted: ${normalized}`);
+    args.push('-TargetDrive',normalized);
+  }
+
+  const r=await run('powershell.exe',args,{});
+  if(r.code!==0) throw new Error((r.out+'\n'+r.err).trim()||`Final build failed with exit ${r.code}.`);
+  return {code:r.code,output:(r.out+'\n'+r.err).trim(),targetDrive:targetDrive||''};
+}
+
 function json(res,status,obj){const b=Buffer.from(JSON.stringify(obj));res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Content-Length':b.length,'Cache-Control':'no-store'});res.end(b);}
 async function body(req){let s='';for await(const ch of req)s+=ch;return s?JSON.parse(s):{};}
 function serveFile(res,file,type){const b=fs.readFileSync(file);res.writeHead(200,{'Content-Type':type,'Content-Length':b.length,'Cache-Control':'no-store'});res.end(b);}
@@ -423,6 +728,8 @@ function serveVideo(req,res,file){
 }
 
 let previewByToken=new Map();
+let cropFrameByToken=new Map();
+let cropFinalByToken=new Map();
 const server=http.createServer(async(req,res)=>{
   try{
     const u=new URL(req.url,`http://${req.headers.host}`);
@@ -432,11 +739,18 @@ const server=http.createServer(async(req,res)=>{
     if(req.method==='POST'&&u.pathname==='/api/slot'){const b=await body(req);return json(res,200,{slot:patchSlot(b.cartId,b.slotId,b.patch||{})});}
     if(req.method==='POST'&&u.pathname==='/api/reset'){const b=await body(req);return json(res,200,{slot:resetSlot(b.cartId,b.slotId,b.what)});}
     if(req.method==='POST'&&u.pathname==='/api/render'){const b=await body(req);const file=await renderPreview(b.cartId,b.slotId);const token=sha(file+Date.now()+Math.random());previewByToken.set(token,file);return json(res,200,{url:`/media/${token}`});}
+    if(req.method==='GET'&&u.pathname==='/api/render-status'){return json(res,200,publicRenderStatus(u.searchParams.get('cart')||INITIAL_CART,u.searchParams.get('slot')||''));}
     if(req.method==='GET'&&u.pathname.startsWith('/media/')){const token=u.pathname.slice('/media/'.length),file=previewByToken.get(token);if(!file){res.writeHead(404);return res.end();}return serveVideo(req,res,file);}
     if(req.method==='POST'&&u.pathname==='/api/cropdetect'){const b=await body(req);const cart=getCart(b.cartId),manifest=getManifest(cart),draft=loadDraft(cart,manifest),regMap=assetMap(getRegistry()),m=manifest.find(x=>x.SlotID===b.slotId),d=draft.slots[b.slotId],a=effectiveAsset(m,d,regMap);return json(res,200,await cropDetect(a.SourcePath));}
+    if(req.method==='POST'&&u.pathname==='/api/crop-reference'){const b=await body(req);const ref=await renderCropReference(b.cartId,b.slotId);const token=sha(ref.file+Date.now()+Math.random());cropFrameByToken.set(token,ref.file);return json(res,200,{url:`/crop-media/${token}`,width:ref.width,height:ref.height,sar:ref.sar,dar:ref.dar,title:ref.title});}
+    if(req.method==='GET'&&u.pathname.startsWith('/crop-media/')){const token=u.pathname.slice('/crop-media/'.length),file=cropFrameByToken.get(token);if(!file){res.writeHead(404);return res.end();}return serveFile(res,file,'image/jpeg');}
+    if(req.method==='POST'&&u.pathname==='/api/crop-final-reference'){const b=await body(req);const ref=await renderCropFinalReference(b.cartId,b.slotId,b.crop||{});const token=sha(ref.file+Date.now()+Math.random());cropFinalByToken.set(token,ref.file);return json(res,200,{url:`/crop-final-media/${token}`,width:ref.width,height:ref.height,title:ref.title});}
+    if(req.method==='GET'&&u.pathname.startsWith('/crop-final-media/')){const token=u.pathname.slice('/crop-final-media/'.length),file=cropFinalByToken.get(token);if(!file){res.writeHead(404);return res.end();}return serveFile(res,file,'image/jpeg');}
     if(req.method==='POST'&&u.pathname==='/api/commit'){const b=await body(req);return json(res,200,commitDraft(b.cartId));}
-    if(req.method==='POST'&&u.pathname==='/api/build-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Build-RetroCartReview.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
-    if(req.method==='POST'&&u.pathname==='/api/open-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Open-RetroCart.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
+    if(req.method==='POST'&&u.pathname==='/api/build-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Build-RetroCartReview.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId,'-SystemRoot',SYSTEM_ROOT],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
+    if(req.method==='POST'&&u.pathname==='/api/open-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Open-RetroCart.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId,'-SystemRoot',SYSTEM_ROOT],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
+    if(req.method==='GET'&&u.pathname==='/api/drives'){return json(res,200,{drives:await listDrives()});}
+    if(req.method==='POST'&&u.pathname==='/api/build-final'){const b=await body(req);return json(res,200,await buildFinal(b.cartId,b.targetDrive||''));}
     res.writeHead(404);res.end('Not found');
   }catch(e){console.error(e);json(res,500,{error:e.message||String(e)});}
 });

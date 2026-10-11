@@ -4,13 +4,13 @@
   "baseRevision": 9,
   "baseManifestPath": "F:\\[VIDEOS]\\Retro TV Builds\\NICK02\\r009\\cart-manifest.csv",
   "createdUtc": "2026-10-11T04:33:15.381Z",
-  "updatedUtc": "2026-10-11T04:34:05.176Z",
+  "updatedUtc": "2026-10-11T19:24:23.447Z",
   "slots": {
     "NICK02-ANCHOR-01": {
       "slotId": "NICK02-ANCHOR-01",
       "baseAssetId": "BR-8be7884f4181",
       "assetId": "BR-8be7884f4181",
-      "action": "UNREVIEWED",
+      "action": "GOOD",
       "notes": "",
       "trimStartSeconds": 0,
       "trimEndSeconds": 0,
@@ -24,7 +24,7 @@
     "NICK02-SHOW-01": {
       "slotId": "NICK02-SHOW-01",
       "baseAssetId": "EP-18f87567a4d4",
-      "assetId": "EP-18f87567a4d4",
+      "assetId": "EP-13e5d9d9094f",
       "action": "GOOD",
       "notes": "",
       "trimStartSeconds": 0,
@@ -39,7 +39,7 @@
     "NICK02-BREAK-01-AD-01": {
       "slotId": "NICK02-BREAK-01-AD-01",
       "baseAssetId": "AD-2b60b8812fa4",
-      "assetId": "AD-2b60b8812fa4",
+      "assetId": "AD-6c0c1df87834",
       "action": "GOOD",
       "notes": "",
       "trimStartSeconds": 0,
@@ -48,7 +48,7 @@
       "cropRight": 0,
       "cropTop": 0,
       "cropBottom": 0,
-      "audioRepair": "NONE",
+      "audioRepair": "STRONG",
       "rejected": []
     },
     "NICK02-BREAK-01-IN": {
@@ -84,17 +84,24 @@
     "NICK02-BREAK-02-AD-01": {
       "slotId": "NICK02-BREAK-02-AD-01",
       "baseAssetId": "AD-85c05d5c6a1e",
-      "assetId": "AD-85c05d5c6a1e",
-      "action": "UNREVIEWED",
+      "assetId": "AD-7b46359e2226",
+      "action": "GOOD",
       "notes": "",
-      "trimStartSeconds": 0,
-      "trimEndSeconds": 0,
-      "cropLeft": 8,
-      "cropRight": 4,
-      "cropTop": 20,
-      "cropBottom": 22,
+      "trimStartSeconds": 3.427529,
+      "trimEndSeconds": 1.2638439999999989,
+      "cropLeft": 0,
+      "cropRight": 0,
+      "cropTop": 0,
+      "cropBottom": 0,
       "audioRepair": "STRONG",
-      "rejected": []
+      "rejected": [
+        {
+          "assetId": "AD-85c05d5c6a1e",
+          "action": "BAD_AUDIO",
+          "notes": "",
+          "utc": "2026-10-11T19:19:30.361Z"
+        }
+      ]
     },
     "NICK02-BREAK-02-IN": {
       "slotId": "NICK02-BREAK-02-IN",
@@ -355,15 +362,15 @@
       "slotId": "NICK02-BREAK-08-AD-01",
       "baseAssetId": "AD-b69de749c13f",
       "assetId": "AD-b69de749c13f",
-      "action": "UNREVIEWED",
+      "action": "GOOD",
       "notes": "",
       "trimStartSeconds": 0,
       "trimEndSeconds": 0,
-      "cropLeft": 0,
-      "cropRight": 0,
-      "cropTop": 0,
-      "cropBottom": 0,
-      "audioRepair": "STRONG",
+      "cropLeft": 88,
+      "cropRight": 88,
+      "cropTop": 38,
+      "cropBottom": 38,
+      "audioRepair": "MAX",
       "rejected": []
     },
     "NICK02-BREAK-08-IN": {

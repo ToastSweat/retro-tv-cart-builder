@@ -1,0 +1,55 @@
+Retro TV Cart Studio v1.7.1 — Visual Crop Guide
+================================================
+
+Cropping is now visual before it is applied.
+
+WHAT CHANGED
+------------
+The Crop card now loads a still frame from the ORIGINAL SOURCE file and draws
+the proposed crop directly over it.
+
+- Dark shaded regions = pixels that will be removed.
+- Blue rectangle = image area that will remain.
+- Edge labels show the proposed LEFT / RIGHT / TOP / BOTTOM removal in pixels.
+- The kept source dimensions are shown live.
+- Editing any crop number updates the guide immediately.
+- AUTO DETECT updates the guide immediately but still does NOT apply the crop.
+- APPLY CROP & PREVIEW is the only action that saves those proposed values and
+  renders a new video preview.
+- Invalid crops (for example left + right >= source width) are visibly flagged
+  and cannot be applied.
+
+The inputs are also relabeled to remove the old ambiguity:
+
+    Remove from LEFT edge
+    Remove from RIGHT edge
+    Remove from TOP edge
+    Remove from BOTTOM edge
+
+WHY A SEPARATE REFERENCE FRAME?
+-------------------------------
+The normal Studio player shows the CURRENT PROCESSED preview, which may already
+have a crop applied and is normalized to 618x480. Drawing original-source pixel
+values directly on that processed player would be misleading.
+
+The new Crop Visualizer therefore uses an uncropped still from the actual source
+and maps the crop values against the source's real width and height.
+
+The reference frame is cached under:
+
+    CACHE\studio-crop-frames\
+
+No STATE, manifests, revisions, drafts, or media sources are modified by the
+visualizer until APPLY CROP & PREVIEW is clicked.
+
+INSTALL
+-------
+Close Retro TV Cart Studio.
+
+Copy this ZIP's TOOLKIT contents over:
+
+    F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\
+
+Then launch normally:
+
+    & 'F:\[VIDEOS]\retro-tv-cart-builder\TOOLKIT\Start-RetroCartStudio.ps1' -CartID NICK03

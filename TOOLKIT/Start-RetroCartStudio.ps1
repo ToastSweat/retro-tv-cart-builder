@@ -1,11 +1,12 @@
-﻿# Retro TV Cart Studio v1.5.4 launcher
+﻿# Retro TV Cart Studio v1.8.0 launcher
 [CmdletBinding()]
 param(
     [string]$CartID = '',
-    [string]$SystemRoot = 'F:\[VIDEOS]\Retro TV Cart Builder',
+    [string]$SystemRoot = '',
     [int]$Port = 17871
 )
 $ErrorActionPreference='Stop'
+if([string]::IsNullOrWhiteSpace($SystemRoot)){ $SystemRoot = Split-Path -Parent $PSScriptRoot }
 $settingsPath=Join-Path (Join-Path $SystemRoot 'STATE') 'settings.json'
 if(-not (Test-Path -LiteralPath $settingsPath)){throw "settings.json not found: $settingsPath"}
 $node=(Get-Command node -ErrorAction SilentlyContinue)
@@ -17,7 +18,7 @@ $url="http://127.0.0.1:$Port/"
 $nodeArgs=@($server,'--settings',$settingsPath,'--toolkit',$toolkit,'--port',[string]$Port)
 if(-not [string]::IsNullOrWhiteSpace($CartID)){$nodeArgs+=@('--cart',$CartID)}
 $argLine=($nodeArgs|ForEach-Object{'"'+($_ -replace '"','\"')+'"'}) -join ' '
-Write-Host "Retro TV Cart Studio v1.5.4" -ForegroundColor Cyan
+Write-Host "Retro TV Cart Studio v1.8.0" -ForegroundColor Cyan
 Write-Host "Starting local Studio server..."
 # PowerShell's Start-Process can misinterpret '[' and ']' in the CURRENT
 # working directory as wildcard characters. The Retro TV tree intentionally

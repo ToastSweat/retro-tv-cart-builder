@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory=$true)][string]$Source,
     [Parameter(Mandatory=$true)][string]$Output,
     [string]$StatusFile = '',
+    [string]$ProgressFile = '',
     [double]$StartSeconds = 0,
     [Parameter(Mandatory=$true)][double]$DurationSeconds,
     [int]$CropLeft = 0,
@@ -38,7 +39,9 @@ function Write-Status([bool]$success, $ffmpegExit, [string]$diagnostic) {
     $obj | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $StatusFile -Encoding UTF8
 }
 
-$vf = 'scale=618:480:force_original_aspect_ratio=decrease,pad=618:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=30'
+# Correct non-square/anamorphic source pixels before fitting the physical TV.
+# Crop coordinates remain original source-pixel coordinates.
+$vf = "scale='max(2,trunc(iw*sar/2)*2)':ih,setsar=1,scale=618:480:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=618:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=30"
 if (($CropLeft + $CropRight + $CropTop + $CropBottom) -gt 0) {
     $cropW = $CropLeft + $CropRight
     $cropH = $CropTop + $CropBottom
@@ -59,6 +62,10 @@ $oldReport = $env:FFREPORT
 $env:FFREPORT = "file=$reportName`:level=32"
 
 $ffArgs = @('-hide_banner','-loglevel','error','-report','-nostdin','-y')
+if (-not [string]::IsNullOrWhiteSpace($ProgressFile)) {
+    Remove-Item -LiteralPath $ProgressFile -Force -ErrorAction SilentlyContinue
+    $ffArgs += @('-stats_period','0.25','-progress',$ProgressFile)
+}
 
 if ($StartSeconds -gt 0) {
     $ffArgs += @('-ss', $StartSeconds.ToString($inv))
