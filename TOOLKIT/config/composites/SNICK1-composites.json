@@ -1,0 +1,41 @@
+{
+  "Name": "SNICK1 Ren & Stimpy composite episodes",
+  "Jobs": [
+    {
+      "Name": "Space Madness + The Boy Who Cried Rat",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e03a-Space Madness.mkv",
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e03b-The Boy Who Cried Rat!.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e03a Space Madness + 1e03b The Boy Who Cried Rat.mkv"
+    },
+    {
+      "Name": "Fire Dogs + The Littlest Giant",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e04a-Fire Dogs.mkv",
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e04b-The Littlest Giant.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e04a Fire Dogs + 1e04b The Littlest Giant.mkv"
+    },
+    {
+      "Name": "Black Hole + Stimpy's Invention",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e06a-Black Hole.mkv",
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\1\\1e06b-Stimpy's Invention.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e06a Black Hole + 1e06b Stimpy's Invention.mkv"
+    },
+    {
+      "Name": "Powdered Toast Man + Ren's Toothache",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\2\\2e01b-Powdered Toast Man.mkv",
+        "F:\\[VIDEOS]\\TV\\The Ren and Stimpy Show Complete 5 Seasons  DVDRip\\2\\2e02a-Ren's Toothache.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 2e01b Powdered Toast Man + 2e02a Ren's Toothache.mkv"
+    }
+  ]
+}

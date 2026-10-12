@@ -1,0 +1,103 @@
+{
+  "CartID": "SNICK1",
+  "DisplayName": "SNICK-inspired late-night block",
+  "Network": "SNICK",
+  "CommercialPool": "KIDS_90S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Are You Afraid of the Dark?",
+      "BrandingKeywords": [
+        "Are You Afraid of the Dark",
+        "AYAOTD"
+      ],
+      "Title": "Are You Afraid of the Dark - The Tale of the Laughing in the Dark",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\\Season 1\\-02 Are You Afraid of the Dark - The Tale of the Laughing in the Dark.mpg"
+    },
+    {
+      "Order": 2,
+      "Series": "Ren & Stimpy",
+      "BrandingKeywords": [
+        "Ren & Stimpy",
+        "Ren and Stimpy",
+        "Ren",
+        "Stimpy"
+      ],
+      "Title": "Ren & Stimpy - Space Madness + The Boy Who Cried Rat!",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e03a Space Madness + 1e03b The Boy Who Cried Rat.mkv"
+    },
+    {
+      "Order": 3,
+      "Series": "Are You Afraid of the Dark?",
+      "BrandingKeywords": [
+        "Are You Afraid of the Dark",
+        "AYAOTD"
+      ],
+      "Title": "Are You Afraid of the Dark - The Tale of the Super Specs",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\\Season 1\\-06 Are You Afraid of the Dark - The Tale of the Super Specs.avi"
+    },
+    {
+      "Order": 4,
+      "Series": "Ren & Stimpy",
+      "BrandingKeywords": [
+        "Ren & Stimpy",
+        "Ren and Stimpy",
+        "Ren",
+        "Stimpy"
+      ],
+      "Title": "Ren & Stimpy - Fire Dogs + The Littlest Giant",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e04a Fire Dogs + 1e04b The Littlest Giant.mkv"
+    },
+    {
+      "Order": 5,
+      "Series": "Are You Afraid of the Dark?",
+      "BrandingKeywords": [
+        "Are You Afraid of the Dark",
+        "AYAOTD"
+      ],
+      "Title": "Are You Afraid of the Dark - The Tale of the Midnight Madness",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\\Season 2\\AYAOTD - S02E06 - The Tale of the Midnight Madness.avi"
+    },
+    {
+      "Order": 6,
+      "Series": "Ren & Stimpy",
+      "BrandingKeywords": [
+        "Ren & Stimpy",
+        "Ren and Stimpy",
+        "Ren",
+        "Stimpy"
+      ],
+      "Title": "Ren & Stimpy - Black Hole + Stimpy's Invention",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 1e06a Black Hole + 1e06b Stimpy's Invention.mkv"
+    },
+    {
+      "Order": 7,
+      "Series": "Are You Afraid of the Dark?",
+      "BrandingKeywords": [
+        "Are You Afraid of the Dark",
+        "AYAOTD"
+      ],
+      "Title": "Are You Afraid of the Dark - The Tale of the Doll Maker",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Are You Afraid Of The Dark=COMPLETE Collection=S-1-7\\Season 3\\AYAOTD - S03E05 - The Tale of the Doll Maker.avi"
+    },
+    {
+      "Order": 8,
+      "Series": "Ren & Stimpy",
+      "BrandingKeywords": [
+        "Ren & Stimpy",
+        "Ren and Stimpy",
+        "Ren",
+        "Stimpy"
+      ],
+      "Title": "Ren & Stimpy - Powdered Toast Man + Ren's Toothache",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\SNICK\\Ren & Stimpy - 2e01b Powdered Toast Man + 2e02a Ren's Toothache.mkv"
+    }
+  ],
+  "SignOffAssetID": "BR-23f28ca8bcdb"
+}

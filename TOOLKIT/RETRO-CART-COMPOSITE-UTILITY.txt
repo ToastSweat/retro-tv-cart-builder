@@ -1,0 +1,58 @@
+Retro TV Cart Composite Utility
+================================
+
+WHY THIS EXISTS
+---------------
+Some planned "show blocks" are made from multiple source shorts, but the cart
+should treat them as one continuous episode block. SNICK1 exposed this first
+with Ren & Stimpy.
+
+The original 20-cart plan also calls for this later with:
+- Powerpuff Girls (2 source shorts)
+- Dexter's Laboratory (3 source shorts)
+- Looney Tunes (3 source shorts)
+
+FILES
+-----
+Build-RetroCartComposite.ps1
+    Generic utility for combining 2+ episode parts.
+
+SNICK1-composites.json
+    Rebuild recipe for the four Ren & Stimpy composite files used by SNICK1.
+
+BEHAVIOR
+--------
+Mode Auto:
+1. Inspects the primary video and primary audio streams.
+2. If they match, strips extra secondary streams by remuxing and concatenates
+   with FFmpeg stream copy. No video/audio re-encode.
+3. If the primary streams differ, normalizes them to a common square-pixel
+   canvas without cropping picture content, then creates a high-quality H.264
+   CRF 16 / AAC intermediate.
+4. Validates output duration before publishing the file.
+
+Original source files are never modified.
+
+SNICK1 REBUILD
+--------------
+Example:
+
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
+
+& "$root\TOOLKIT\Build-RetroCartComposite.ps1" `
+    -RecipePath "$root\TOOLKIT\config\composites\SNICK1-composites.json"
+
+If you intentionally want to rebuild outputs that already exist, add -Force.
+
+DIRECT USE
+----------
+& "$root\TOOLKIT\Build-RetroCartComposite.ps1" `
+    -Parts @('C:\part1.mkv','C:\part2.mkv') `
+    -Output 'C:\combined.mkv'
+
+IMPORTANT
+---------
+Do not delete composite source files while an unfinished Studio/cart revision
+still depends on them unless you are prepared to regenerate them first.
+The utility makes regeneration deterministic, but Studio still needs the
+composite file at the SourcePath whenever it must render/re-render that slot.

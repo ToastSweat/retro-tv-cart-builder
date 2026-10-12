@@ -1,0 +1,133 @@
+{
+  "CartID": "NICK04",
+  "DisplayName": "Older-school Nickelodeon / Nicktoons",
+  "Network": "NICK",
+  "CommercialPool": "KIDS_90S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S02 E09-E10 - Doug's on Stage and Doug's Worst Nightmare",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 2\\DOUG - S02 E09-E10 - Doug's on Stage and Doug's Worst Nightmare (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S03E21-22 - Home Movies + The Mysterious Mr. Fiend",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 3\\Rugrats - S03E21-22 - Home Movies + The Mysterious Mr. Fiend.mp4"
+    },
+    {
+      "Order": 3,
+      "Series": "Rocko's Modern Life",
+      "BrandingKeywords": [
+        "Rocko",
+        "Rocko's Modern Life",
+        "Rockos Modern Life"
+      ],
+      "Title": "Rocko's Modern Life - 1x04 - Keeping Up With the Bigheads - Skid Marks",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rockos Modern Life\\Rockos Modern Life Season 1\\Rocko's Modern Life - 1x04 - Keeping Up With the Bigheads - Skid Marks [dummy].mp4"
+    },
+    {
+      "Order": 4,
+      "Series": "Aaahh!!! Real Monsters",
+      "BrandingKeywords": [
+        "Aaahh",
+        "Real Monsters",
+        "Aaahh Real Monsters"
+      ],
+      "Title": "AAAHH, Real Monsters - S01 E02 - Monsters, Get Real",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Aaahh! Real Monsters\\Season 1\\AAAHH, Real Monsters - S01 E02 - Monsters, Get Real (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 5,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S02 E17-E18 - Doug's a Big Fat Liar and Doug Wears Tights",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 2\\DOUG - S02 E17-E18 - Doug's a Big Fat Liar and Doug Wears Tights (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 6,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S03E31-32 - Under Chuckie's Bed + Chuckie Is Rich",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 3\\Rugrats - S03E31-32 - Under Chuckie's Bed + Chuckie Is Rich.mp4"
+    },
+    {
+      "Order": 7,
+      "Series": "Rocko's Modern Life",
+      "BrandingKeywords": [
+        "Rocko",
+        "Rocko's Modern Life",
+        "Rockos Modern Life"
+      ],
+      "Title": "Rocko's Modern Life - 1x05 - Power Trip - To Heck and Back",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rockos Modern Life\\Rockos Modern Life Season 1\\Rocko's Modern Life - 1x05 - Power Trip - To Heck and Back [dummy].mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "Angry Beavers",
+      "BrandingKeywords": [
+        "Angry Beavers",
+        "Beavers"
+      ],
+      "Title": "S02E10 The Day the World Got Really Screwed Up",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Angry Beavers (Complete Nickelodeon Series) [DVDRip] [HEVC]\\S02E10 The Day the World Got Really Screwed Up.mkv"
+    },
+    {
+      "Order": 9,
+      "Series": "Hey Arnold!",
+      "BrandingKeywords": [
+        "Hey Arnold",
+        "Arnold"
+      ],
+      "Title": "Hey Arnold! S02E17 Eugene Goes Bad & What's Opera, Arnold",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Hey Arnold!\\Season 2\\Hey Arnold! S02E17 Eugene Goes Bad & What's Opera, Arnold.mp4"
+    },
+    {
+      "Order": 10,
+      "Series": "Aaahh!!! Real Monsters",
+      "BrandingKeywords": [
+        "Aaahh",
+        "Real Monsters",
+        "Aaahh Real Monsters"
+      ],
+      "Title": "AAAHH, Real Monsters - S01 E04 - Curse of the Krumm",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Aaahh! Real Monsters\\Season 1\\AAAHH, Real Monsters - S01 E04 - Curse of the Krumm (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 11,
+      "Series": "Doug",
+      "BrandingKeywords": [
+        "Doug"
+      ],
+      "Title": "DOUG - S02 E25-E26 - Doug's Lost Weekend and Doug's Lucky Hat",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\DOUG\\Season 2\\DOUG - S02 E25-E26 - Doug's Lost Weekend and Doug's Lucky Hat (480p - DVDRip).mp4"
+    },
+    {
+      "Order": 12,
+      "Series": "Rugrats",
+      "BrandingKeywords": [
+        "Rugrats"
+      ],
+      "Title": "Rugrats - S03E41-42 - Angelica's Worst Nightmare + The Mega Diaper Babies",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Rugrats\\Season 3\\Rugrats - S03E41-42 - Angelica's Worst Nightmare + The Mega Diaper Babies.mp4"
+    }
+  ],
+  "SignOffAssetID": "HBR-c3b2425c7660"
+}
