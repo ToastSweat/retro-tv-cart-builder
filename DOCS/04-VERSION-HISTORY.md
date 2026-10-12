@@ -312,10 +312,126 @@ NEEDS_CROP
 
 This prevents future exported CSVs from containing contradictory replacement state.
 
+## v1.4.2 — Reusable repaired sign-off recipes
+
+A configured sign-off with repairable source-health state can reuse an approved
+repair recipe from a prior FINAL instead of lying that the raw source is READY.
+
+## v1.4.3 — Review-apply transactional preflight
+
+Added preflight before durable state mutation, stale-review detection, SHOW
+replacement support, complete repair schema normalization, and verification that
+requested repair/replacement operations actually reach the proposed manifest.
+
+## v1.4.4 — Repairable replacements + handpicked episode pool
+
+Selected replacement sources in repairable states can inherit a valid repair
+recipe. Added `Add-HandpickedEpisode.ps1` and durable
+`STATE\handpicked-episodes.csv` replacement-pool support.
+
+## v1.4.5 — FFmpeg PowerShell argument fix
+
+Stopped using PowerShell's automatic `$args` variable as the FFmpeg argument
+array.
+
+## v1.4.6 — Corrupt cache validation
+
+Cached proxies are probed before reuse so interrupted/invalid MP4s are not
+treated as valid cache hits.
+
+## v1.4.7 — Direct FFmpeg launch
+
+Avoided a Windows PowerShell native-process output-capture path that could crash
+otherwise valid FFmpeg encodes.
+
+## v1.5.0 — Retro TV Cart Studio
+
+Introduced the local Studio app and mutable revision-specific draft layer.
+
+Studio made clip-level repair iterative without forcing a new immutable revision
+for every preview attempt.
+
+## v1.5.1–v1.5.4 — Studio preview/launcher/audio hardening
+
+This generation added automatic preview behavior, PowerShell preview rendering,
+bracket-safe launcher behavior for `F:\[VIDEOS]\...`, and safer high audio
+repair behavior.
+
+## v1.6.0 — Studio UX refinement
+
+Improved the practical clip-review workflow and made Studio the normal
+day-to-day repair surface.
+
+## v1.6.1 — Damaged source detection
+
+Added source-health diagnostics so real H.264/AAC corruption produces a concise
+replace-the-source message instead of being confused with ordinary noise/level
+problems.
+
+## v1.7.0 — Final Cartridge UI
+
+Added final-cartridge controls to Studio:
+
+- build final locally
+- enumerate target drives
+- explicit target-drive verification
+- build + copy to selected drive
+- all-GOOD and uncommitted-draft gates
+
+## v1.7.1 — Visual crop guide
+
+Added original-source crop visualization.
+
+## v1.7.2 — Exact final crop preview
+
+Added a second pane that renders the actual crop → fit → pad final geometry.
+
+## v1.8.0 — Real crop box + SAR-safe render geometry
+
+Replaced misleading edge guides with a draggable/resizable crop box locked to
+the physical Mini Retro TV proportions.
+
+Updated Studio preview rendering so anamorphic/non-square-pixel source media is
+corrected before final fit.
+
+## v1.8.1 — Full Review builder fix
+
+Full Review moved to `CACHE\review-v2`.
+
+Changes include:
+
+- SAR-safe geometry matching Studio
+- transactional review proxy encoding
+- validation before cache publication
+- locked corrupt-cache fallback instead of hard failure
+- transactional combined review movie
+- concise Studio error display
+
+## v1.8.2 — Final Cartridge reuse
+
+Fixed FINAL deletion/locking failures.
+
+The finalizer now:
+
+- validates an existing FINAL
+- reuses it when it matches the current revision
+- builds replacements in a staging directory
+- refuses clearly when a stale FINAL is genuinely locked
+- delays USB relabeling until local FINAL is valid
+
 ## Current baseline
 
-**v1.4.1 is the checkpoint baseline.**
+**v1.8.2 is the current Studio checkpoint.**
 
-NICK01 reached r009 under this generation of the workflow and finished with 36/36 clips marked GOOD.
+Current working-cart milestone at the 2026-10-11 snapshot:
 
-Future versions should be incremental and preserve state/revision compatibility where practical.
+```text
+NICK01 r009 BUILT
+NICK02 r010 BUILT
+NICK03 r002 BUILT
+NICK04 r002 BUILT
+SNICK1 r002 in progress
+```
+
+NICK01 remains the first completed reference cart, but it is no longer the only
+proof that the architecture works.

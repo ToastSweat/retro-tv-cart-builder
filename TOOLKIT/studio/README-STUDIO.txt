@@ -1,71 +1,164 @@
-RETRO TV CART STUDIO v1.5.0
+RETRO TV CART STUDIO v1.8.2
 ============================
 
-WHY THIS EXISTS
----------------
-The old review loop required:
+PURPOSE
+-------
+Studio is the normal day-to-day review/workbench UI for Retro TV Cart Builder.
 
-  review -> export CSV -> preflight -> apply -> build -> open -> review again
+It replaces the old repeated:
 
-That is fine for immutable revision history, but terrible for iterative clip repair.
-Studio adds a DRAFT layer in front of revision commits.
+  export review CSV
+  -> apply
+  -> build
+  -> reopen
+
+loop for ordinary clip repair.
 
 START
 -----
-From the Toolkit folder:
+Recommended:
 
-  .\Start-RetroCartStudio.ps1 -CartID NICK02
+  TOOLKIT\Start-RetroCartStudio.cmd
 
-Or double-click:
+Or:
 
-  Start-RetroCartStudio.cmd
+  $root = 'F:\[VIDEOS]\retro-tv-cart-builder'
 
-The .cmd launcher opens a cart picker if no CartID was supplied.
+  & "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+      -CartID SNICK1
+
+The launcher derives SystemRoot from the repository layout when SystemRoot is
+not supplied.
+
 Leave the launcher/Node console open while Studio is running.
 
-DRAFT BEHAVIOR
---------------
-Changes are saved under:
+DRAFTS
+------
+Studio saves revision-specific mutable drafts under:
 
   STATE\studio-drafts\<CartID>-rNNN.json
 
-The current immutable cart manifest is not edited in place.
+The immutable cart manifest is not edited in place.
 
-For a selected clip you can change one thing, render only that clip, listen/watch,
-and change it again without creating r010, r011, r012 just to audition repairs.
+PREVIEW
+-------
+Studio renders only the selected effective clip and shows render progress.
+
+Identical in-flight preview requests are deduplicated.
+
+Damaged H.264/AAC source packets are reported as source-media corruption rather
+than pretending audio restoration can fix broken encoded packets.
 
 AUDIO
 -----
-Audio repair levels:
+Repair ladder:
 
   NONE -> RESTORE -> STRONG -> AGGRESSIVE -> MAX
 
-REPAIR AUDIO +1 & PREVIEW moves up one level and immediately rebuilds only the
-selected clip. AUDIO - moves down. RESET AUDIO TO ORIGINAL returns to NONE.
-
-Every level reprocesses the original source with that level's recipe. The app
-does not repeatedly filter a previous repaired proxy.
+Every level reprocesses the original source.
 
 CROP
 ----
-Crop values in Studio are ABSOLUTE pixels removed from the original source.
-They are not additive deltas.
+The current crop UI uses a real blue crop box:
 
-APPLY CROP & PREVIEW rebuilds only the selected clip.
-AUTO DETECT runs cropdetect and fills a suggestion.
-RESET CROP TO ORIGINAL sets all four crop values to zero.
+- drag the box to reframe
+- drag corners to resize
+- corner resize is locked to the physical 618x480 TV ratio
+- source sample/pixel aspect ratio is corrected before final fit
+- right pane shows the exact final 618x480 geometry
+
+Current render order:
+
+  crop source coded pixels
+  -> correct source SAR
+  -> proportional fit to 618x480
+  -> pad if needed
+  -> square-pixel output
+
+Nothing is saved until APPLY THIS CROP & PREVIEW VIDEO is used.
 
 REPLACEMENTS
 ------------
-The replacement dropdown is filtered to compatible READY assets and avoids
-already-reserved UNIQUE assets. Selecting a replacement resets trim/crop/audio
-repair because those recipes belonged to the old source.
+Compatible READY candidates are filtered by role/network/pool.
+
+SHOW candidates prefer same-show replacements first in the UI ordering.
+
+UNIQUE assets already active/reserved elsewhere are blocked.
+
+NETWORK IDENTITY
+----------------
+Network is functional.
+
+For example:
+
+  NICK != SNICK
+
+A SNICK cart must be configured as SNICK to receive SNICK branding and episode
+replacement candidates.
 
 COMMIT
 ------
 COMMIT DRAFT -> NEXT REVISION creates one new immutable revision containing the
-current absolute Studio recipes and replacement choices, then updates the cart
-registry and assignment snapshot.
+current Studio choices.
 
-BUILD FULL REVIEW / OPEN FULL REVIEW are available in Studio so normal use no
-longer requires the command-line review sequence.
+FULL REVIEW
+-----------
+BUILD FULL REVIEW / OPEN FULL REVIEW are available in Studio.
+
+Current Full Review cache:
+
+  CACHE\review-v2
+
+The v1.8.1 builder writes proxies and the combined review transactionally and
+uses the same SAR-safe geometry as Studio.
+
+Current limitation:
+Full Review does not yet show overall build progress.
+
+FINAL CARTRIDGE
+---------------
+The main Studio page includes:
+
+  BUILD FINAL LOCALLY
+  BUILD FINAL + COPY TO SELECTED DRIVE
+
+Studio refuses finalization when:
+
+- the draft has uncommitted changes
+- any clip is not GOOD
+
+The finalizer validates/reuses a matching existing FINAL. A required replacement
+FINAL is built in staging first.
+
+The USB is not relabeled until a valid local FINAL is ready.
+
+The current finalizer does not wipe unrelated files from the selected drive.
+
+CURRENT JOB-LIFECYCLE LIMIT
+---------------------------
+Long-running build/final buttons do not yet have a server-side single-job lock.
+
+Click once and wait.
+
+Future:
+- disable button while running
+- overall progress
+- current phase
+- server-side duplicate request rejection
+
+SOURCE MEDIA
+------------
+Studio references source media in place.
+
+Original source files are not modified.
+
+Derived/cache/final files may be regenerated.
+
+MORE
+----
+See:
+
+  DOCS\00-CURRENT-CHECKPOINT.md
+  DOCS\02-OPERATOR-GUIDE.md
+  DOCS\06-KNOWN-ISSUES-AND-ROADMAP.md
+  DOCS\09-END-TO-END-PRODUCT-VISION.md

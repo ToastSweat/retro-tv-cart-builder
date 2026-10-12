@@ -1,166 +1,214 @@
 # Retro TV Cart Builder — GitHub / Public Release Checklist
 
-The project is not ready to publish merely because NICK1 works.
+The engine is usable internally. A friendly public release still requires
+productization.
 
-The software works; the repository still needs productization.
+**Current Studio checkpoint:** v1.8.2
 
-## Phase 1 — Freeze the checkpoint
+## Already proven / partially complete
 
-- Preserve v1.4.1.
-- Preserve current `STATE`.
-- Preserve NICK01 r009.
-- Preserve the all-GOOD review CSV.
-- Preserve all historical version zips.
-- Tag this local milestone conceptually as `first-usable-checkpoint`.
+The repository already has working implementations for:
 
-This checkpoint package does that.
+- durable revision/state model
+- cached normalized preview/review media
+- non-destructive trim/crop/audio repair
+- compatible replacements
+- show-aware branding matching
+- Studio draft workflow
+- Full Review
+- all-GOOD / uncommitted-draft final-build gates
+- local FINAL creation
+- removable-drive selection
+- direct USB copy
+- automatic cartridge labeling
+- composite episode utility
 
-## Phase 2 — Create a clean source tree
+Do not redo these solely for a cleaner architecture.
 
-Do not initialize Git from the live state/build directory.
+## 1. Preserve working history
 
-Create a clean project folder containing only:
-- scripts
-- example configuration
-- documentation
-- future GUI code
+Before major productization:
+
+- preserve v1.8.2
+- preserve current durable STATE backup
+- preserve NICK01 r009 reference data
+- preserve completed NICK02/NICK03/NICK04 state
+- preserve the SNICK1 transition/composite lessons
+- preserve historical release/update notes
+
+## 2. Separate a distributable tree from live personal state
+
+The development working tree currently contains real durable state and local
+absolute paths.
+
+A public distributable should contain:
+
+- engine/scripts
+- Studio
+- docs
+- sanitized examples
 - tests
+- bootstrap/install assets
 
-Do not commit:
-- copyrighted TV episodes
-- commercials
-- bumpers
-- user cache
-- active state
-- generated review movies
-- generated final cartridges
+Do not ship personal:
 
-## Phase 3 — Remove machine-specific assumptions
+- active STATE
+- media
+- cache
+- review movies
+- FINAL cartridges
+- machine-specific build paths
 
-Centralize:
+## 3. Centralize environment/bootstrap
+
+Remaining machine assumptions should be replaced by one setup/configuration
+flow.
+
+Needs to resolve:
 
 ```text
-CommercialRoot
-TVRoot
-SystemRoot
+media locations
+SystemRoot / app data root
 BuildRoot
-FFmpeg path
-FFprobe path
+FFmpeg
+FFprobe
+Node/runtime if still required
 ```
 
-A setup/bootstrap command should write these once.
+Several standalone scripts still contain historical default paths even though
+the Studio launcher now derives the repo root correctly.
 
-The user should not need to edit multiple scripts.
+## 4. Build the media-library UI
 
-## Phase 4 — Make content import understandable
+The application must index source media **in place**.
 
-Document or implement:
-- add episode
-- add commercial
-- add branding
-- add sign-off
-- bulk import/curation
-- source-health repair/re-enable behavior
+Do not copy a user's whole library into app storage.
 
-The current mixture of config-driven episodes and CSV-driven commercials/branding is workable internally but too implicit for strangers.
+Required concepts:
 
-## Phase 5 — Add environment diagnostics
+- media locations
+- scan/rescan
+- Inbox
+- classify episode/commercial/branding
+- bulk tagging
+- source health
+- missing-source detection
+- relink
 
-Before any expensive build, a command should verify:
-- PowerShell version
-- FFmpeg exists
-- FFprobe exists
-- required filters exist
-- configured folders exist
-- curation sources exist
-- cart configs parse
-- source files referenced by configs exist
+## 5. Add show entities
 
-## Phase 6 — Add final approval safety
+A show should exist independently of filenames.
 
-Final build should not rely on "I remember everything was green."
+Needs:
 
-Require a durable approval artifact or imported current review CSV and fail if any action is not `GOOD`.
+- show name
+- aliases
+- episodes
+- episode parts
+- grouping multi-part shorts into one broadcast block
 
-## Phase 7 — GUI wrapper
+The current composite utility should become an internal derived-media feature.
 
-Keep the proven scripts as the engine initially.
+## 6. Add channel/block editor
 
-A small Windows app can provide:
-- cart selection
-- current revision/status
-- refresh library
-- create plan
-- build/open review
-- apply exported review
-- audit audio
-- build final
-- target USB selection
-- logs/progress
-
-Do not rewrite stable logic just to get buttons.
-
-## Phase 8 — Documentation
-
-Minimum public docs:
+A non-power-user should configure:
 
 ```text
-README.md
-Quick Start
-Installation
-FFmpeg Setup
-Folder Layout
-Asset Import
-Creating a Cart
-Review Actions
-Audio/Crop/Trim Repair
-Building USB
-State Backup/Restore
-Troubleshooting
-Architecture
-Changelog
+channel/block name
+branding pool
+allowed shows
+commercial pools
+break style
+ads per break
+show-matched branding preference
+opening: Auto
+sign-off: Auto
 ```
 
-## Phase 9 — Repository hygiene
+Advanced Mode can expose raw branding subtypes and pinned assets.
 
-Add:
+## 7. Add job lifecycle/progress
+
+Before public release:
+
+- Full Review progress
+- final-copy progress in Studio
+- disable buttons while running
+- server-side duplicate-job rejection
+- cancellation where safe
+- clear success/failure state
+
+## 8. Make Full Review the finish line
+
+Full Review should become a focused QC view.
+
+Ideal flow:
+
+```text
+Build Full Review
+→ watch
+→ approve
+→ export to USB
+```
+
+## 9. Add environment diagnostics
+
+Before expensive work, validate:
+
+- required runtime/tools
+- FFmpeg/FFprobe
+- required filters/codecs
+- configured media locations
+- config/database health
+- source files
+- write permissions
+- target drive
+
+## 10. Decide durable application storage
+
+CSV/JSON is excellent for current development.
+
+SQLite is a likely future fit for the end-to-end application, but only after the
+library/channel UI requirements stabilize.
+
+Preserve human-readable export/manifests and provide an upgrade path from
+existing state.
+
+## 11. Repository hygiene
+
+Public release should include:
+
 - `.gitignore`
 - license
-- version number strategy
-- release notes
-- example config
-- sanitized screenshots
-- no private/local paths in public examples where avoidable
+- version strategy
+- release notes/changelog
+- sanitized sample data
+- screenshots
+- no copyrighted media
+- no personal active state
+- no generated caches/builds
+- no timestamped local hotfix backup directories
 
-## Phase 10 — Fresh-machine test
+## 12. Fresh-machine test
 
-The strongest release test:
+Release candidate test:
 
-1. Clone repository on a clean Windows environment.
-2. Install FFmpeg.
-3. Point setup at a tiny test media library.
-4. Initialize.
-5. Build one demo cart.
-6. Review it.
-7. Apply one trim/crop/replacement/audio repair.
-8. Rebuild.
-9. Finalize to a USB folder/drive.
+1. install on a clean Windows machine
+2. add a tiny media location
+3. classify a few assets
+4. define one show
+5. define one channel
+6. generate a cart
+7. repair one clip
+8. Full Review
+9. final build
+10. export to USB
+11. close/reopen app and confirm state survives
 
-Anything that requires undocumented tribal knowledge becomes a documentation or software bug.
+Anything requiring undocumented tribal knowledge is a product or documentation
+bug.
 
-## Suggested first commit
+## Definition of "friendly public release"
 
-Possible message:
-
-```text
-Initial public release of Retro TV Cart Builder
-
-- revisioned cartridge planning
-- HTML broadcast review
-- cached Mini Retro TV normalization
-- non-destructive trim/crop/audio repair
-- replacement and source-health workflow
-- final USB cartridge builder
-```
-
-Before making that commit, sanitize the source tree rather than committing the live working directory.
+A person who understands folders and video files, but does not know PowerShell,
+FFmpeg, JSON, or CSV, can complete the entire workflow without a terminal.

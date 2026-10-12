@@ -144,3 +144,67 @@ Fox Kids, Cartoon Network, SNICK, etc. can have different profiles based on how 
 - Replacement manifests inherit the repair metadata and verification checks it.
 - `Add-HandpickedEpisode.ps1` creates durable replacement-pool episode assets in `STATE\handpicked-episodes.csv`.
 - Library refresh imports those spare episodes without adding them to a cart lineup.
+
+
+## v1.8.2 current design invariants
+
+### Studio is the repair workbench
+
+Studio owns iterative clip-level experimentation through revision-specific
+drafts. Immutable revisions are created only at explicit commit boundaries.
+
+### Full Review is assembled-cart QA
+
+Full Review is for sequence, pacing, transitions, relative volume, and final
+broadcast feel. It should continue evolving toward a simpler QC-only surface,
+not a duplicate repair workbench.
+
+### Source media is user-owned and referenced in place
+
+The builder must not silently move, rewrite, reorganize, or wholesale-copy the
+user's media archive.
+
+A future library layer should index paths and support missing-source relinking.
+
+### Derived media is builder-owned
+
+Preview proxies, crop stills, Full Review proxies/movies, composites, and FINAL
+cartridge files are derived artifacts and may be regenerated.
+
+### Network/block identity is functional
+
+Exact network identity participates in planning and compatible replacement
+selection.
+
+`NICK` and `SNICK` are intentionally different.
+
+### Branding selection is functional
+
+The archive may preserve literal subtypes, while the planner selects assets for
+functional roles.
+
+LEAN mode prefers a show-matched `BUMPER_IN` for the upcoming show, then falls
+back to genuinely generic network branding.
+
+### Composite episodes are derived sources
+
+A show block may consist of 2+ source shorts.
+
+`Build-RetroCartComposite.ps1` can generate a durable composite source from a
+recipe. When safe, it uses stream-copy; otherwise it creates a high-quality
+normalized intermediate without modifying the originals.
+
+### Final output is guarded
+
+Studio finalization requires:
+
+- no uncommitted draft changes
+- every current clip GOOD
+
+The finalizer validates/reuses matching FINAL output and publishes rebuilt FINAL
+content transactionally.
+
+### Long-running jobs still need lifecycle locking
+
+Full Review and Final build actions must eventually become single active jobs
+with visible progress and duplicate-request rejection.

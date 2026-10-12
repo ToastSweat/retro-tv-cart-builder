@@ -1,488 +1,374 @@
 # Retro TV Cart Builder — Operator Guide
 
-This is the current practical workflow for v1.4.1.
+**Current Studio:** v1.8.2  
+**Current development root:** `F:\[VIDEOS]\retro-tv-cart-builder`
 
-## 1. Prerequisites
+This is the current practical workflow.
 
-Current environment assumptions:
+The old export-CSV/apply/rebuild loop is still part of the engine and historical
+record, but **Studio is the normal day-to-day operator interface**.
 
-```text
-Windows 11 / Windows PowerShell 5.1 compatible
-FFmpeg available as `ffmpeg`
-FFprobe available as `ffprobe`
-Browser capable of opening the generated local HTML reviewer
-```
+## 1. Start Studio
 
-Default toolkit location:
-
-```text
-F:\[VIDEOS]\Retro TV Cart Builder\Toolkit
-```
-
-Open PowerShell:
+Existing cart:
 
 ```powershell
-Set-Location -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit'
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
+
+& "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+    -CartID SNICK1
 ```
 
-If scripts were downloaded and Windows keeps warning about them:
-
-```powershell
-Get-ChildItem -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit' -Recurse -File |
-    Unblock-File
-```
-
-## 2. Initialize or refresh the library
-
-Run:
-
-```powershell
-.\Initialize-RetroCartLibrary.ps1
-```
-
-This:
-- reads the current curated branding/commercial CSVs
-- reads all cart config JSONs for episode sources
-- loads durable handpicked branding
-- refreshes `STATE\asset-registry.csv`
-- preserves durable bad/repair source-state flags
-- updates path settings
-
-Safe to run again after adding content.
-
-## 3. Create a brand-new cart plan
-
-For a cart that does not already exist:
-
-```powershell
-.\New-RetroCartPlan.ps1 -CartID NICK01
-```
-
-This creates:
+Or double-click:
 
 ```text
-F:\[VIDEOS]\Retro TV Builds\NICK01\r001\cart-manifest.csv
+TOOLKIT\Start-RetroCartStudio.cmd
 ```
 
-and reserves/logs the selected assets.
+If no `CartID` is supplied, use the cart picker.
 
-If the cart already exists, the planner refuses to overwrite it.
+Leave the launcher/Node console open while Studio is running.
 
-`-ForceNewRevision` exists, but use it only when intentionally creating a brand-new plan revision. Normal iteration should go through review/apply so history and repair intent remain coherent.
+## 2. Studio draft model
 
-## 4. First-run NICK01 shortcut
-
-For the historical NICK01 first-run workflow:
-
-```powershell
-.\Start-NICK01.ps1
-```
-
-That performs:
-- initialization
-- NICK01 plan creation
-- review build
-
-For ongoing work, running the individual commands is clearer.
-
-## 5. Build a review
-
-```powershell
-.\Build-RetroCartReview.ps1 -CartID NICK01
-```
-
-Output goes under the current revision:
+Studio edits a revision-specific mutable draft under:
 
 ```text
-...\NICK01\r00X\REVIEW\
+STATE\studio-drafts\<CartID>-rNNN.json
 ```
 
-Important outputs:
+The immutable current manifest is not edited in place.
+
+This means you can audition:
+
+- replacement sources
+- trims
+- crops
+- audio repair levels
+
+without creating a new revision every time you move a slider or reject a test.
+
+## 3. Review one clip
+
+The normal loop is:
 
 ```text
-NICK01-review.mp4
-review-manifest.csv
-cart-review.html
+select clip
+→ preview
+→ repair/replace if needed
+→ preview again
+→ GOOD + NEXT
 ```
 
-The first build can take a while.
+Changing trim/crop/audio/replacement should return the clip to `UNREVIEWED`
+until the new processed result is verified.
 
-Later revisions should reuse cached normalized proxies for unchanged clips.
+## 4. Audio repair
 
-## 6. Open the reviewer
-
-Use the helper instead of trying to open the path through wildcard-sensitive PowerShell commands:
-
-```powershell
-.\Open-RetroCart.ps1 -CartID NICK01
-```
-
-This safely uses `Invoke-Item -LiteralPath`.
-
-## 7. Review the broadcast
-
-The review movie is the exact proposed sequence.
-
-Useful actions:
+Current ladder:
 
 ```text
-GOOD
-REPLACE_THIS_CART
-BAD_QUALITY
-BAD_AUDIO
-NEEDS_CLIPPED
-NEEDS_CROP
-DUPLICATE
-WRONG_ERA
-WRONG_NETWORK
-UNREVIEWED
+NONE
+RESTORE
+STRONG
+AGGRESSIVE
+MAX
 ```
 
-### Replacement behavior in v1.4.1
+Every level processes the original source. Repairs are not stacked on top of a
+previous repaired proxy.
 
-Selecting a clip in the replacement dropdown automatically changes Action to:
+Use stronger levels only when the lighter level is not sufficient.
+
+If Studio reports that the source contains real encoded-media corruption,
+replace the source instead of expecting denoise/restoration to repair broken
+packets.
+
+## 5. Crop/reframe
+
+Current crop UI:
+
+- left pane: original source reference
+- blue box: exact source region that survives
+- drag inside the box to move it
+- drag a corner to resize it
+- resize is locked to the physical 618x480 TV proportions
+- right pane: exact final 618x480 geometry result
+
+Useful buttons:
 
 ```text
-REPLACE_THIS_CART
+FIT MAXIMUM TV AREA
+AUTO DETECT BORDERS + FIT
+NO CROP
+REVERT PROPOSAL
+APPLY THIS CROP & PREVIEW VIDEO
 ```
 
-If you later change the action to a keep/repair state such as:
+The current render order is:
 
 ```text
-GOOD
-UNREVIEWED
-BAD_AUDIO
-NEEDS_CLIPPED
-NEEDS_CROP
+crop original source pixels
+→ correct source sample/pixel aspect ratio
+→ fit proportionally to 618x480
+→ pad if necessary
+→ square-pixel output
 ```
 
-the replacement selection is cleared.
+Do not judge the crop only from numeric source pixels. Use the right-side final
+result and the rendered preview.
 
-This prevents ambiguous CSV rows like:
+## 6. Replacements
+
+Studio filters replacement candidates by compatibility and current availability.
+
+Important behavior:
+
+- SHOW replacements are same-network episodes
+- branding replacements are same-network compatible branding roles
+- commercials stay inside the current commercial pool
+- UNIQUE assets already assigned to another active/reserved cart are blocked
+- replacement of a source resets trim/crop/audio because those recipes belonged
+  to the old source
+
+`Network` is functional.
+
+Example:
 
 ```text
-Action = GOOD
-ReplacementAssetID = BR-...
+NICK != SNICK
 ```
 
-## 8. Trimming
+If a SNICK cart is accidentally configured as `NICK`, Studio will correctly but
+undesirably offer regular Nickelodeon replacement pools.
 
-Pause at the exact point.
+## 7. GOOD
+
+`GOOD` means the current effective clip and its current repair recipe have been
+reviewed and accepted.
+
+Unchanged GOOD slots carry forward where the revision logic can prove the
+effective output is unchanged.
+
+Changed output requires verification again.
+
+## 8. Commit the draft
+
+When the clip-level draft is ready:
+
+```text
+COMMIT DRAFT → NEXT REVISION
+```
+
+This creates one new immutable cart revision.
+
+Do not commit a new revision merely because a preview was still rendering or
+because a cache artifact failed. Fix the render/build problem first.
+
+## 9. Build Full Review
 
 Use:
 
 ```text
-TRIM START = ELAPSED
-TRIM END = REMAINING
+BUILD FULL REVIEW
+OPEN FULL REVIEW
 ```
 
-Non-zero trim fields automatically imply a clipping repair.
+Full Review is for continuous assembled-cart QA:
 
-The source file is never edited.
+- pacing
+- break rhythm
+- transitions
+- relative volume
+- sequence/order
+- start/end behavior
 
-## 9. Cropping
-
-For baked black borders:
-
-- inspect the cropdetect suggestion
-- click `Use Suggested Crop` if sensible
-- or enter left/right/top/bottom manually
-
-Do not blindly trust cropdetect on archival TV footage.
-
-## 10. BAD_AUDIO
-
-Mark the clip:
+Full Review currently uses:
 
 ```text
-BAD_AUDIO
+CACHE\review-v2
 ```
 
-The next revision keeps that source and processes the audio.
+and uses the same SAR-safe crop/scale/pad geometry as Studio.
 
-Repair progression:
+Review proxies and the combined movie are built transactionally and validated.
+
+### Current limitation
+
+There is not yet an overall Full Review progress bar.
+
+Click the build once and let it run. Do not click it again merely because the UI
+has not visibly advanced.
+
+A future update should show:
 
 ```text
-NONE
-→ RESTORE
-→ STRONG if BAD_AUDIO is reported again
+clip 14 / 36
+encoding proxy
+validating
+concatenating
+overall %
 ```
 
-Repaired clips are visibly indicated in the next review and should be listened to again.
+## 10. Final Cartridge
 
-## 11. Export the review CSV
+Finalization controls are on the main Studio page under **Final Cartridge**.
 
-**Always export the review CSV before rebuilding/replacing the review page.**
-
-The browser reviewer uses local state, but the CSV is the durable operator artifact.
-
-Example filename:
+Current choices:
 
 ```text
-NICK01-r009-review-state.csv
+BUILD FINAL LOCALLY
+BUILD FINAL + COPY TO SELECTED DRIVE
 ```
 
-## 12. Find the newest exported review CSV
+Studio blocks finalization when:
 
-If exported into Downloads:
+- any draft change is uncommitted
+- any clip is not GOOD
 
-```powershell
-$review = Get-ChildItem "$HOME\Downloads\NICK01-r*-review-state*.csv" |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
+The USB flow also requires explicit drive confirmation.
 
-$review.FullName
-```
-
-Read the printed path and verify it is the intended file before applying.
-
-## 13. Apply the review
-
-Typical current command:
-
-```powershell
-.\Apply-RetroCartReview.ps1 `
-    -CartID NICK01 `
-    -ReviewCsv $review.FullName `
-    -AutoReplace
-```
-
-`-AutoReplace` lets the script choose a compatible READY replacement when a replacement-required row has no valid manual replacement or a chosen replacement has become unusable.
-
-For the old overloaded NICK01 break layout, this was also used:
-
-```powershell
--LeanBreaks
-```
-
-`-LeanBreaks` removes legacy:
-- NEXT
-- BUMPER_OUT
-- STING
-- ads after AD-01
-
-A newly planned cart whose config already uses `BreakStyle: LEAN` normally does not need `-LeanBreaks`.
-
-Applying a review creates the next immutable revision.
-
-## 14. Audit audio repairs
-
-After an apply that included BAD_AUDIO, run:
-
-```powershell
-.\Test-RetroCartAudioRepairs.ps1 -CartID NICK01
-```
-
-Expected effective modes:
-
-```text
-LIGHT   -> RESTORE   (legacy compatibility)
-RESTORE -> RESTORE
-STRONG  -> STRONG
-```
-
-The audit shows whether a current review proxy was built with the requested repair.
-
-## 15. Rebuild and reopen
-
-```powershell
-.\Build-RetroCartReview.ps1 -CartID NICK01
-.\Open-RetroCart.ps1 -CartID NICK01
-```
-
-Unchanged approved clips carry forward as green `GOOD`.
-
-Changed/replaced/repaired/new clips should remain `UNREVIEWED` so they can be spot-checked.
-
-Repeat:
-
-```text
-review
-→ export CSV
-→ apply
-→ audit if needed
-→ build
-→ open
-```
-
-until the cart is clean.
-
-## 16. Final approval
-
-Before final build, visually verify the current reviewer is all green and/or export a final CSV and confirm every row is `GOOD`.
-
-Example PowerShell sanity check:
-
-```powershell
-$rows = Import-Csv -LiteralPath $review.FullName
-$rows | Group-Object Action | Select-Object Name,Count
-```
-
-For the finished NICK01 r009 reference state:
-
-```text
-GOOD  36
-```
-
-### Important limitation
-
-`Build-RetroCartFinal.ps1` validates that:
-- the current manifest has a review build
-- every manifest slot exists in `review-manifest.csv`
-- the reviewed AssetID matches the current manifest
-- every normalized proxy exists
-
-It does **not currently enforce that the browser/exported review state is all GOOD**.
-
-Human approval is still a required gate.
-
-This should be improved before public release.
-
-## 17. Build final output locally
-
-```powershell
-.\Build-RetroCartFinal.ps1 -CartID NICK01
-```
-
-Output:
-
-```text
-F:\[VIDEOS]\Retro TV Builds\NICK01\r00X\FINAL\
-```
-
-Contents:
-- numbered MP4 files in playback order
-- `cart-final-manifest.csv`
-- `README.txt`
-
-The finalizer copies the exact reviewed proxies rather than transcoding again.
-
-Default no-drive size ceiling:
-
-```text
-3,600,000,000 bytes
-```
-
-If the cart is too large, it stops instead of silently lowering quality.
-
-## 18. Build directly to USB
-
-Example:
-
-```powershell
-.\Build-RetroCartFinal.ps1 `
-    -CartID NICK01 `
-    -TargetDrive 'E:\'
-```
+### Current finalizer behavior
 
 The finalizer:
-- checks available drive space
-- uses 97% of free space as a safety limit
-- creates the FINAL folder
-- copies MP4s to the drive
-- shows whole-cart and current-file progress bars
-- automatically labels the drive
 
-Default label examples:
+- verifies current review proxies exist and match the manifest
+- checks total size against the target/drive safety limit
+- validates an existing `FINAL`
+- reuses it if it already matches
+- otherwise builds a staging FINAL and publishes it only when complete
+- relabels the USB only after a valid local FINAL is ready
+- copies only MP4 cartridge files
+- shows PowerShell copy progress
 
-```text
-NICK01 -> NICK1
-NICK02 -> NICK2
-CN01   -> CN1
-BOOM01 -> BOOM1
-SNICK  -> SNICK
-FOX96  -> FOX96
-```
+It does **not** wipe unrelated files from the selected drive.
 
-Override:
+### Current concurrency limitation
 
-```powershell
-.\Build-RetroCartFinal.ps1 `
-    -CartID NICK01 `
-    -TargetDrive 'E:\' `
-    -VolumeLabel 'NICKTOON'
-```
+Studio does not yet have a server-side final-build lock.
 
-FAT/FAT32 labels are sanitized and capped at 11 characters.
+Click the final action once and wait for it. Double-clicking can start two
+requests. v1.8.2 made the finalizer safer around this, but the UI/server should
+still gain a proper single-job lock.
 
-## 19. If FINAL already exists
+## 11. Creating a new cart
 
-The finalizer intentionally refuses to overwrite an existing FINAL directory.
+This part is still command/config driven.
 
-To rebuild:
-
-```powershell
-.\Build-RetroCartFinal.ps1 -CartID NICK01 -Force
-```
-
-Or to rebuild and copy to USB:
-
-```powershell
-.\Build-RetroCartFinal.ps1 `
-    -CartID NICK01 `
-    -TargetDrive 'E:\' `
-    -Force
-```
-
-## 20. After final build
-
-The current revision's `RESERVED` assignments become `ACTIVE`.
-
-The cart status becomes:
+Create:
 
 ```text
-BUILT
+TOOLKIT\config\<CARTID>.json
 ```
 
-That means unique episodes/commercials are now considered consumed by the active cart and should not be selected for another cart.
-
-## 21. Recommended backup after a successful cart
-
-Back up:
-
-```text
-F:\[VIDEOS]\Retro TV Cart Builder\STATE\
-F:\[VIDEOS]\Retro TV Cart Builder\Toolkit\
-F:\[VIDEOS]\Retro TV Builds\<CartID>\<final revision>\
-```
-
-The most critical one is `STATE`.
-
-## 22. Quick command sheet
+Then:
 
 ```powershell
-Set-Location -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit'
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
 
-# Refresh assets
-.\Initialize-RetroCartLibrary.ps1
+& "$root\TOOLKIT\Initialize-RetroCartLibrary.ps1" `
+    -SystemRoot $root
 
-# New cart only
-.\New-RetroCartPlan.ps1 -CartID NICK01
+& "$root\TOOLKIT\New-RetroCartPlan.ps1" `
+    -CartID <CARTID> `
+    -SystemRoot $root
 
-# Build/open review
-.\Build-RetroCartReview.ps1 -CartID NICK01
-.\Open-RetroCart.ps1 -CartID NICK01
-
-# After exporting review CSV
-$review = Get-ChildItem "$HOME\Downloads\NICK01-r*-review-state*.csv" |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
-
-.\Apply-RetroCartReview.ps1 `
-    -CartID NICK01 `
-    -ReviewCsv $review.FullName `
-    -AutoReplace
-
-# Audio audit when relevant
-.\Test-RetroCartAudioRepairs.ps1 -CartID NICK01
-
-# Rebuild/open
-.\Build-RetroCartReview.ps1 -CartID NICK01
-.\Open-RetroCart.ps1 -CartID NICK01
-
-# Final
-.\Build-RetroCartFinal.ps1 -CartID NICK01
-
-# Or physical USB
-.\Build-RetroCartFinal.ps1 -CartID NICK01 -TargetDrive 'E:\'
+& "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+    -CartID <CARTID>
 ```
+
+Do not skip the library refresh after adding a config. Episodes declared by the
+config are registered during library initialization.
+
+## 12. Multi-part episode blocks
+
+Some shows are stored as separate shorts but should behave as one show block.
+
+Use:
+
+```text
+TOOLKIT\Build-RetroCartComposite.ps1
+```
+
+Recipe mode example:
+
+```powershell
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
+
+& "$root\TOOLKIT\Build-RetroCartComposite.ps1" `
+    -RecipePath "$root\TOOLKIT\config\composites\SNICK1-composites.json"
+```
+
+Auto mode:
+
+- uses stream-copy/remux when the selected primary streams match
+- ignores extra secondary streams by explicitly choosing primary video/audio
+- uses a high-quality normalized intermediate when primary geometry/codecs do
+  not safely match
+- validates output duration
+- never modifies the originals
+
+Do not delete a composite while an unfinished cart still depends on its
+`SourcePath` unless you are prepared to regenerate it before another render.
+
+## 13. Adding handpicked content
+
+Current helpers still exist:
+
+```text
+Add-HandpickedBranding.ps1
+Add-HandpickedEpisode.ps1
+Add-RetroCartSignOff.ps1
+```
+
+After adding durable content, refresh the library before expecting Studio or the
+planner to see it.
+
+## 14. Durable state
+
+Important:
+
+```text
+STATE\
+```
+
+Back it up.
+
+The most important files are:
+
+```text
+asset-registry.csv
+assignments.csv
+cart-registry.csv
+handpicked-branding.csv
+handpicked-episodes.csv
+settings.json
+studio-drafts\
+```
+
+Cache output is regenerable.
+
+## 15. Source media rule
+
+Source media remains user-owned and referenced in place.
+
+The builder does not need to duplicate the user's TV/commercial archive.
+
+If a source path is moved, that broken reference is currently the user's
+responsibility. A future product UI should provide missing-source detection and
+relinking.
+
+## 16. Current checkpoint note
+
+At the 2026-10-11 checkpoint:
+
+```text
+NICK01 r009 BUILT
+NICK02 r010 BUILT
+NICK03 r002 BUILT
+NICK04 r002 BUILT
+SNICK1 r002 in progress
+```
+
+An abandoned `SNICK r001` pre-rename record exists with released assignments.
+Use `SNICK1`.

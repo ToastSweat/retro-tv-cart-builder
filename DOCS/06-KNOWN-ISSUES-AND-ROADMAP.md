@@ -1,278 +1,277 @@
 # Retro TV Cart Builder — Known Issues, Limits, and Roadmap
 
-This checkpoint is intentionally honest about what is finished and what is not.
+**Current Studio:** v1.8.2  
+**Checkpoint:** 2026-10-11
 
-The system is **usable**, but not yet polished enough for a public GitHub release without cleanup.
+The project is now a working internal tool, not yet a polished application for
+a non-power-user.
 
-## Stable enough to build on
+The 20-cart build plan should continue serving as the primary torture test.
 
-The following concepts have been proven through NICK01 and should be treated as mature baseline behavior:
+## Proven baseline
 
-- durable asset/cart/slot identities
-- immutable revisions
-- unique/reusable asset tracking
-- continuous exact-broadcast review movie
+The following concepts have survived real use and should be preserved:
+
+- stable AssetID / CartID / SlotID identities
+- immutable cart revisions
+- mutable revision-specific Studio drafts
+- UNIQUE episode/commercial assignment behavior
+- REUSABLE branding
+- source-health state separate from per-cart review state
+- non-destructive trim/crop/audio repair
+- GOOD carry-forward when effective output is unchanged
+- same-network replacement filtering
+- show-aware branding matching
+- lean breaks
 - cached normalized proxies
-- trim repair
-- crop repair
-- audio restoration
-- contextual replacement
-- GOOD carry-forward
-- final exact-proxy output
-- physical USB copy
-- automatic volume label
-- handpicked branding/sign-off support
+- Full Review continuous QA
+- final output from reviewed normalized proxies
+- direct USB copy
+- source media remains untouched
 
-## Current limitations
+Do not discard these merely to simplify the UI.
 
-### 1. Finalizer does not enforce "all green"
+## Current known issues
 
-The finalizer validates manifest/review/proxy consistency, but it does not ingest the exported browser review CSV and assert every action is `GOOD`.
+### 1. Full Review has no overall progress display
 
-The operator must currently perform that gate.
+BUILD FULL REVIEW can take a long time.
 
-Before public release, final build should probably require an explicit approved review-state artifact.
-
-### 2. Content ingestion is inconsistent by asset type
-
-Episodes come from config JSON.
-
-Bulk branding/commercials come from curation CSVs.
-
-One-off branding has a helper.
-
-There is no equivalent polished one-off commercial/episode helper.
-
-This should be unified.
-
-### 3. Paths are still developer-machine defaults
-
-Scripts default to paths such as:
+The UI should show at minimum:
 
 ```text
-F:\[VIDEOS]\Commercials
+current clip / total clips
+current clip title
+phase: encode / validate / concatenate
+overall %
+```
+
+### 2. Long-running jobs need a single-job lock
+
+A double-click can currently start duplicate Full Review or Final requests.
+
+Needed:
+
+- disable the triggering button immediately
+- visible running state
+- server-side job lock
+- reject a duplicate request even if the browser sends one
+
+### 3. Full Review is not yet the complete finish line
+
+The natural workflow is:
+
+```text
+Build Full Review
+→ watch/approve
+→ deploy to USB
+```
+
+USB deployment controls currently live back on the main Studio page.
+
+A future Full Review/QC screen should include the final approval/export handoff.
+
+### 4. Full Review still carries legacy reviewer ancestry
+
+Studio should be the repair/workbench UI.
+
+Full Review should become a simpler final-QC surface focused on:
+
+- continuous playback
+- pacing
+- transitions
+- order
+- volume consistency
+- final approval
+
+Editing controls should not make the two interfaces feel like duplicates.
+
+### 5. New-cart creation is still config/command driven
+
+Today the operator still creates JSON and runs initialization/planning commands.
+
+This is acceptable for development but not for the final product.
+
+### 6. Standalone scripts still contain old machine-specific defaults
+
+Studio's launcher derives the repository root correctly.
+
+Several engine scripts still contain historical defaults such as:
+
+```text
 F:\[VIDEOS]\Retro TV Cart Builder
-F:\[VIDEOS]\Retro TV Builds
 ```
 
-Many scripts accept root parameters, but the public release should centralize all paths in one setup/config file rather than expecting users to understand every parameter.
+Current operator docs deliberately pass `-SystemRoot` explicitly.
 
-### 4. Windows/PowerShell-oriented
+Long term, all engine entry points should get configuration from one bootstrap
+location instead of embedding development-machine assumptions.
 
-The project has been developed and tested around Windows PowerShell.
+### 7. Media import/catalog management is not a UI
 
-There are explicit Windows assumptions:
-- drive letters
-- `Set-Volume`
-- `label.exe`
-- FAT/FAT32 cartridge naming
-- `Invoke-Item`
-- PowerShell progress behavior
+The long-term product needs a real library screen.
 
-Cross-platform support is not a current requirement, but it should be stated clearly on GitHub.
+Important rule:
 
-### 5. FFmpeg filter availability
+**Adding media means indexing/referencing its existing location, not copying the
+library into the program.**
 
-v1.4.0+ restoration uses filters including:
+The application should store paths and metadata.
+
+If the user moves a source file later:
 
 ```text
-adeclip
-adeclick
-afftdn
-anlmdn
-dynaudnorm
-loudnorm
+MISSING SOURCE
+→ Relink
 ```
 
-A public release should:
-- verify FFmpeg at startup
-- verify required filters exist
-- display a clear error if the installed FFmpeg build lacks one
+### 8. Source and derived media need explicit lifecycle ownership
 
-### 6. No automatic byte-budget transcoding
-
-The finalizer intentionally refuses an oversized cart.
-
-It does not silently reduce bitrate/quality to force a fit.
-
-That is the correct safety choice for now.
-
-A future size-budget system could calculate target bitrates while preserving reviewed trims/crops/audio repair, but it should be explicit and reviewable.
-
-### 7. No mid-episode commercial insertion
-
-Current carts place ads between episodes/program blocks.
-
-The builder does not cut commercial breaks into the middle of an episode.
-
-This was explicitly deferred.
-
-### 8. Review is local HTML, not a packaged application
-
-This works well, but setup still feels developer-oriented.
-
-The major stretch goal is a desktop wrapper/GUI.
-
-## GUI stretch goal
-
-The UI should initially wrap the existing scripts rather than replace their logic.
-
-Possible buttons:
+Source media:
 
 ```text
-Refresh Library
-Create Cart
-Build Review
-Open Review
-Apply Review
-Audit Audio
-Append Sign-Off
-Build Final
-Copy to USB
+user-owned
+never modified
+never moved
+never silently duplicated
 ```
 
-Useful fields:
+Derived media:
 
 ```text
-Cart selector
-Current revision
-Cart status
-Current manifest path
-Review status summary
-Final size
-Target drive
-Volume label
-Progress/log output
+previews
+crop stills
+review proxies
+review movies
+composites
+FINAL output
 ```
 
-The GUI should execute the same durable state/revision pipeline.
+The app may manage/regenerate derived media.
 
-That minimizes risk.
+### 9. Current durable state is CSV/JSON
 
-## GitHub release goal
+CSV/JSON has been valuable because it is inspectable and easy to debug.
 
-The end goal is to make the project available to other owners of the Mini Retro TV or anyone interested in similar pseudo-broadcast cartridges.
+For a larger end-to-end product, SQLite is a strong future candidate for:
 
-Before release:
+- shows
+- episodes
+- media locations
+- aliases
+- tags
+- networks/blocks
+- commercial pools
+- branding roles
+- source health
+- assignments
+- build jobs
 
-- create a clean repository
-- remove generated caches/builds/state from source control
-- add `.gitignore`
-- centralize path configuration
-- document FFmpeg dependency
-- add setup/bootstrap script
-- add generic example cart
-- avoid shipping copyrighted source media
-- clearly separate software from user-provided TV/media archives
-- make the curation/import process understandable
-- add explicit license
-- add screenshots of the reviewer
-- add a small sample/demo using user-owned or freely distributable media if possible
-- add troubleshooting section
-- add state backup/restore section
-- add migration/version notes
-- validate scripts from a fresh Windows machine/profile
+Human-readable exports/manifests should remain available even if SQLite becomes
+the internal source of truth.
 
-## Clean Git commit plan
+### 10. Windows orientation
 
-A sensible first public-history commit should contain only software/docs, not the accumulated local runtime state.
+Current implementation assumes Windows/PowerShell and local Node/FFmpeg.
 
-Potential repo shape:
+Cross-platform support is not a current requirement, but the architecture
+should avoid unnecessary Windows-specific coupling when practical.
+
+## Near-term development
+
+Continue building the planned carts.
+
+Next after the Nickelodeon/SNICK phase:
 
 ```text
-retro-tv-cart-builder/
-├── README.md
-├── LICENSE
-├── .gitignore
-├── docs/
-├── toolkit/
-│   ├── *.ps1
-│   └── config/
-│       └── EXAMPLE.json
-├── examples/
-├── gui/              # future
-└── tests/            # future
+CN01
+CN02
+CN03
+CN04
+CN05
 ```
 
-Exclude:
+Cart building should expose:
+
+- new source codec/path edge cases
+- new branding taxonomies
+- multi-part episode needs
+- commercial-pool problems
+- transition matching failures
+- size-budget problems
+- real-device playback quirks
+
+Fix what real carts prove is necessary.
+
+## Near-term Studio improvements
+
+High-value improvements already identified:
+
+- Full Review progress
+- build job lock
+- final-copy progress visible in Studio, not only PowerShell
+- deploy from Full Review finish line
+- better long-job cancellation/status
+- cleaner QC-only Full Review
+- stronger environment diagnostics
+- clearer stale/missing source reporting
+
+## Productization direction
+
+The desired non-power-user workflow is:
 
 ```text
-STATE/
-CACHE/
-INPUT_SNAPSHOTS/
-Retro TV Builds/
-copyrighted episodes
-commercial archive
-branding archive
-personal curation backups unless explicitly intended as example metadata
+INSTALL
+↓
+ADD/REGISTER MEDIA LOCATIONS
+↓
+CLASSIFY/TAG MEDIA
+↓
+DEFINE SHOWS
+↓
+DEFINE CHANNELS / BLOCKS
+↓
+ASSIGN SHOW + COMMERCIAL + BRANDING POOLS
+↓
+GENERATE A BROADCAST
+↓
+REVIEW / REPAIR
+↓
+FULL QC
+↓
+EXPORT TO USB
 ```
 
-## High-value next engineering tasks
+See `09-END-TO-END-PRODUCT-VISION.md`.
 
-### A. Approval gate
+## Things not to do
 
-Make final build require a current approved review CSV or a durable approved flag.
+Avoid:
 
-### B. Configuration bootstrap
+- importing/copying an entire media archive into an app-controlled duplicate
+  library
+- silently modifying source media
+- throwing away durable revision history for convenience
+- merging NICK/SNICK/etc. into one vague network tag
+- making a normal user understand `BUMPER_IN`/`IDENT`/`SIGN_OFF` just to create
+  a channel
+- rewriting the proven engine before the 20-cart plan has finished exposing its
+  real requirements
+- lowering output quality blindly just to hit a byte target
 
-A setup script that asks once for:
-- Commercial root
-- TV root
-- Builder state root
-- Build root
-- FFmpeg location
+## Public-release blockers
 
-and writes one config file.
+Before calling this a friendly public release:
 
-### C. Generic asset add/import
-
-Replace special-case content ingestion with a coherent asset manager.
-
-### D. GUI wrapper
-
-Button-driven operation for routine tasks.
-
-### E. Diagnostics
-
-Add a command such as:
-
-```powershell
-.\Test-RetroCartEnvironment.ps1
-```
-
-to verify:
-- FFmpeg/ffprobe
-- filters
-- paths
-- state files
-- config JSON validity
-- current cart consistency
-- free space
-- missing source files
-
-### F. Automated sanity tests
-
-Tests around:
-- replacement action semantics
-- stale replacement handling
-- BAD_AUDIO escalation
-- cache key stability
-- GOOD carry-forward
-- finalizer manifest consistency
-- unique assignment lifecycle
-
-NICK01 exposed these through expensive manual iterations. Tests should prevent regressions.
-
-## Development rule from this point
-
-The project has reached the stage where a change that forces another full-cart re-review should be treated as expensive.
-
-Prefer:
-- small changes
-- targeted rebuilds
-- migration-safe state changes
-- explicit cache versioning
-- automated validation
-- clear UI state
-
-The goal is now refinement, not endless reinvention.
+- bootstrap/install dependencies
+- remove/centralize machine-specific defaults
+- add a media-location/library UI
+- add tag/classification UI
+- add show/channel/block editors
+- add New Cart flow
+- add relink/missing-source UX
+- add environment health check
+- add durable build-job locking
+- add tests around state/revision invariants
+- sanitize example paths/data
+- produce a clean distributable tree separate from live personal STATE

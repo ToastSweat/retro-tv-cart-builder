@@ -1,5 +1,12 @@
 # Retro TV Cart Builder — Project Handoff
 
+> **Current-state note (2026-10-11):** This document contains valuable deep
+> project history, but some paths/version labels describe the v1.4.x checkpoint.
+> For current v1.8.2 behavior and cart status, read
+> `00-CURRENT-CHECKPOINT.md` first. Where they conflict, the current checkpoint
+> and live scripts/state win.
+
+
 ## 1. What this project is
 
 The Retro TV Cart Builder creates physical USB "TV cartridges" for the **My Mini Retro Television**.

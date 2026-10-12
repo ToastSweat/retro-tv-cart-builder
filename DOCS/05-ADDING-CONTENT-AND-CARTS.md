@@ -1,5 +1,12 @@
 # Retro TV Cart Builder — Adding Content and New Carts
 
+> **Current-state note (2026-10-11):** Cart creation is still config-driven, but
+> review/finalization is now Studio-first. Current canonical root is
+> `F:\[VIDEOS]\retro-tv-cart-builder`. Multi-part show blocks can use
+> `TOOLKIT\Build-RetroCartComposite.ps1`. See `00-CURRENT-CHECKPOINT.md` and
+> `02-OPERATOR-GUIDE.md` before following older examples below.
+
+
 The current system has several different content-ingestion paths. They are not yet unified behind one friendly `Add-Asset` command.
 
 That is an important future cleanup target.

@@ -1,5 +1,11 @@
 # Retro TV Cart Builder — Architecture and State
 
+> **Current-state note (2026-10-11):** The architecture below remains useful,
+> but some cache names/version statements predate Studio v1.8.x. Current Full
+> Review uses `CACHE\review-v2`; Studio also uses dedicated preview/crop caches.
+> Read `00-CURRENT-CHECKPOINT.md` first for current overrides.
+
+
 ## Overview
 
 The builder is intentionally stateful.

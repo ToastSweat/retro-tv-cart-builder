@@ -1,23 +1,147 @@
-# Retro TV Cart Builder — Checkpoint / Start Here
-**Checkpoint date:** 2026-10-10  
-**Current toolkit:** v1.4.1  
-**Reference cart:** NICK01 → physical cartridge label `NICK1`  
-**Reference revision:** r009  
-**Reference review result:** 36 clips, 36 `GOOD`, 0 unresolved
+# Retro TV Cart Builder — Start Here
 
-This folder is a deliberate stopping-point snapshot of the Retro TV Cart Builder project.
+**Checkpoint date:** 2026-10-11  
+**Current Studio:** v1.8.2  
+**Canonical development root:** `F:\[VIDEOS]\retro-tv-cart-builder`
 
-It exists for three reasons:
-
-1. If the original development chat disappears or runs out of context, a new chat can pick up from here.
-2. If another developer takes over, they can understand the system without reconstructing months of experiments.
-3. Before future GUI/GitHub cleanup changes the project, this preserves the first version that proved the workflow is genuinely usable end-to-end.
+This repository is now past the original NICK1 proof-of-concept checkpoint.
 
 ## Current milestone
 
-The first physical "VHS" cartridge, **NICK1**, has been built.
+Built:
 
-NICK01 was reviewed through revision **r009**. The exported final review state in `EXAMPLES/NICK01-r009-review-state.csv` contains:
+```text
+NICK01  r009
+NICK02  r010
+NICK03  r002
+NICK04  r002
+```
+
+In progress at this snapshot:
+
+```text
+SNICK1  r002
+```
+
+After SNICK1, the current 20-cart plan moves to:
+
+```text
+CN01
+```
+
+The first four Nickelodeon carts proved that the workflow scales beyond one
+reference build. SNICK1 added a second real branding network (`SNICK`) and
+forced multi-part episode composites into a reusable utility.
+
+## What to read first
+
+Current source-of-truth order:
+
+1. `DOCS/00-CURRENT-CHECKPOINT.md`
+2. `DOCS/02-OPERATOR-GUIDE.md`
+3. `DOCS/06-KNOWN-ISSUES-AND-ROADMAP.md`
+4. `DOCS/09-END-TO-END-PRODUCT-VISION.md`
+5. actual current scripts and `STATE`
+6. older handoff/architecture docs for deeper historical detail
+
+If an old document calls v1.4.1 the "current baseline", that sentence is
+historical now.
+
+## Normal launch
+
+For day-to-day cart review, use Studio:
+
+```powershell
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
+
+& "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+    -CartID SNICK1
+```
+
+or double-click:
+
+```text
+TOOLKIT\Start-RetroCartStudio.cmd
+```
+
+Leave the launcher console open while Studio runs.
+
+## Current durable state
+
+Back up:
+
+```text
+STATE\
+```
+
+Current important files include:
+
+```text
+asset-registry.csv
+assignments.csv
+cart-registry.csv
+handpicked-branding.csv
+handpicked-episodes.csv
+settings.json
+studio-drafts\
+```
+
+Do not treat `CACHE` as durable state.
+
+## Important current design rules
+
+- source media is referenced in place and never modified by the builder
+- derived/cache/final media may be regenerated
+- episodes and commercials are unique where configured that way
+- branding is reusable
+- cart revisions are immutable
+- Studio drafts are mutable until committed
+- network identity is functional (`NICK` and `SNICK` are different pools)
+- finalization is blocked when draft changes are uncommitted or clips are not GOOD
+- Full Review uses transactional `review-v2` cache output
+- final cartridge output reuses a matching existing FINAL instead of deleting it blindly
+- composite episode files can be regenerated from recipes
+
+## One harmless piece of old state
+
+The snapshot still contains an abandoned:
+
+```text
+SNICK r001
+```
+
+from before the permanent cart ID became `SNICK1`.
+
+Its assignments have been released. Do not use that cart as the active SNICK
+build. The active cart is `SNICK1`.
+
+## The next development direction
+
+Keep using the 20-cart plan to torture-test the engine.
+
+Do not rewrite working engine behavior merely for aesthetics.
+
+The eventual product should become an end-to-end app where a non-power-user can:
+
+```text
+register media locations
+→ tag/classify assets
+→ define shows
+→ define channels/blocks
+→ choose show/commercial/branding pools
+→ generate a broadcast
+→ review/repair it
+→ export to USB
+```
+
+Source media should remain where the user stores it. The app should index it,
+not ingest a duplicate library.
+
+See `DOCS/09-END-TO-END-PRODUCT-VISION.md`.
+
+## Historical reference
+
+NICK01 r009 remains the first completed reference build:
 
 ```text
 36 clips
@@ -25,50 +149,5 @@ NICK01 was reviewed through revision **r009**. The exported final review state i
 0 unresolved
 ```
 
-An earlier revision, around r003, was also rendered to a physical USB cartridge and watched on one of the Mini Retro TVs. That physical viewing pass exposed many of the problems that shaped the current toolkit: overstuffed breaks, wrong-show branding, bad borders, poor audio, awkward transitions, and review-state UX problems.
-
-The r009 / v1.4.1 milestone is therefore more than "one cart finished." It is proof that the builder architecture can survive real viewing, revision, repair, and final physical deployment.
-
-The next phase should be incremental:
-- QA NICK1 on the physical TVs.
-- Make small fixes only where the real cartridge exposes a problem.
-- Build more carts and expand content as needed.
-- Reduce command-line friction.
-- Eventually make a small desktop GUI that turns the common PowerShell commands into buttons.
-- Clean paths/configuration/documentation and publish the project on GitHub.
-
-## What is in this checkpoint
-
-- `CURRENT_TOOLKIT/` — exact extracted v1.4.1 toolkit.
-- `VERSIONS/` — every Cart Builder toolkit zip from the original v1 through v1.4.1.
-- `DOCS/` — current documentation that supersedes the old first-run text in the toolkit.
-- `EXAMPLES/` — NICK01 reference config and final all-green review CSV.
-- `PLANNING/` — the broader 20-cartridge plan.
-- `CURATION_TOOLS/` — source scanning/review tools used upstream of the Cart Builder.
-- `SHAGS_LAB/` — project-diary posts that preserve the development story.
-- `ARCHIVE-MANIFEST.csv` — hashes and sizes for all archived toolkit releases.
-
-## Important warning about the toolkit's old README
-
-`CURRENT_TOOLKIT/README-FIRST-RUN.txt` is historically useful, but it was written for the original v1 slice and is no longer authoritative.
-
-For current operation, use:
-
-1. `DOCS/02-OPERATOR-GUIDE.md`
-2. `DOCS/05-ADDING-CONTENT-AND-CARTS.md`
-3. `DOCS/06-KNOWN-ISSUES-AND-ROADMAP.md`
-
-## Fast handoff to another ChatGPT conversation
-
-Upload or provide:
-- this `START-HERE.md`
-- `DOCS/01-PROJECT-HANDOFF.md`
-- `DOCS/02-OPERATOR-GUIDE.md`
-- `DOCS/04-VERSION-HISTORY.md`
-- the current `RetroTV-CartBuilder-v1.4.1.zip`
-
-Then say:
-
-> Continue the Retro TV Cart Builder project from this checkpoint. Treat v1.4.1 and the checkpoint documentation as the source of truth. NICK1/r009 is the first completed proof-of-concept cart. Preserve revision/state compatibility unless there is a compelling reason not to.
-
-That should be enough to resume development without needing the original chat.
+Its historical details remain under `EXAMPLES` and
+`DOCS/07-NICK1-REFERENCE-BUILD.md`.

@@ -1,220 +1,208 @@
 # Retro TV Cart Builder
 
-Build nostalgic USB “TV cartridges” for **My Mini Retro Television** from episodes, commercials, bumpers, promos, and station IDs.
+Build nostalgic USB “TV cartridges” for **My Mini Retro Television** from your
+own episodes, commercials, bumpers, promos, station IDs, and sign-offs.
 
-Retro TV Cart Builder turns a folder full of old TV media into a revisioned, reviewable pseudo-broadcast that can be copied to a USB drive and played on the physical Mini Retro TV.
-
-The goal is not to perfectly recreate one exact historical schedule.
+The goal is not a forensic recreation of one exact historical broadcast.
 
 The goal is to make something that **feels like television again**.
 
----
+## Current checkpoint
 
-## What It Does
+Current Studio: **v1.8.2**
 
-A cart can contain:
-
-- TV episodes
-- period commercials
-- station IDs
-- bumpers
-- promos
-- transitions
-- sign-offs
-
-Instead of manually dragging files onto a flash drive, the toolkit can:
-
-1. Register and track source media
-2. Build a proposed cart automatically
-3. Normalize everything to a known-good Mini Retro TV format
-4. Generate one continuous review video
-5. Open a local HTML review interface
-6. Record trims, crops, replacements, and audio repairs
-7. Create immutable cart revisions
-8. Rebuild only the clips that changed
-9. Preserve approved clips between revisions
-10. Produce the final numbered MP4 files
-11. Copy the finished cart directly to USB
-12. Automatically label the drive
-
-The first completed reference cart is:
+Completed carts in the current working state:
 
 ```text
-NICK01
+NICK01  r009  BUILT
+NICK02  r010  BUILT
+NICK03  r002  BUILT
+NICK04  r002  BUILT
 ```
 
-which becomes the physical USB cartridge:
+`SNICK1 r002` is the current in-progress SNICK cartridge at this checkpoint.
+
+The next planned cart is `CN01`.
+
+For exact current-state notes, start with:
 
 ```text
-NICK1
+DOCS\00-CURRENT-CHECKPOINT.md
 ```
 
-The first full proof-of-concept finished at:
+## What it does
+
+Retro TV Cart Builder can:
+
+- catalog source episodes, commercials, and branding
+- assign stable asset IDs
+- keep episodes/commercials unique across carts where required
+- build period-plausible pseudo-broadcast lineups
+- prefer show-matched branding when the archive supports it
+- normalize clips for the Mini Retro TV
+- preview and repair clips without modifying original media
+- trim, crop, restore audio, and replace bad sources
+- maintain revision-specific Studio drafts
+- commit immutable cart revisions
+- build a continuous Full Review movie
+- require an all-GOOD committed state before finalization
+- build the final numbered MP4 cartridge
+- copy directly to a selected USB drive
+- label the cartridge volume automatically
+
+The current tested playback profile is:
 
 ```text
-r009
-36 clips
-36 GOOD
-0 unresolved
-```
-
----
-
-## Why This Exists
-
-I bought a tiny retro television that plays MP4 files from USB.
-
-Naturally, putting a folder of cartoons on it was not enough.
-
-I wanted little physical “TV cartridges” that felt like someone recorded a block of cable television in the late 90s or early 2000s.
-
-So a Nickelodeon cartridge might contain:
-
-```text
-Nickelodeon bumper
-Doug
-commercial
-Nick bumper
-Rugrats
-commercial
-Hey Arnold!
-commercial
-station ID
-...
-Nickelodeon sign-off
-```
-
-That idea eventually turned into a full cart-building and review system.
-
----
-
-## Current Status
-
-**Usable proof-of-concept.**
-
-The first physical cartridge has been built and tested through multiple real-device review passes.
-
-The architecture is stable enough that future work should mostly be:
-
-- small refinements
-- more carts
-- more content
-- better setup/configuration
-- a button-driven desktop GUI
-- cleanup for public release
-
-This repository is still evolving.
-
----
-
-## Known-Good Playback Profile
-
-The Mini Retro TV has been tested successfully with:
-
-```text
-Video: H.264
-Resolution: 618x480
-Frame rate: 30 fps
+Video:       H.264
+Resolution:  618x480
+Frame rate:  30 fps
 Pixel format: yuv420p
-Audio: AAC stereo
+Audio:       AAC stereo
 Sample rate: 44.1 kHz
 ```
 
-The builder normalizes review/final media to this target.
+## The important media rule
 
----
+### Source media stays where the user keeps it
 
-## Core Design
+The builder references source files **in place**.
 
-### Source files are never modified
+It should not silently move, rewrite, reorganize, or duplicate the user's media
+library.
 
-All repairs are non-destructive.
+If the user later moves a source file, the reference can break. A future UI
+should surface that as a missing source and support relinking.
 
-The builder stores instructions such as:
+### Derived media belongs to the builder
+
+The builder may generate disposable/regenerable artifacts:
 
 ```text
-TrimStartSeconds
-TrimEndSeconds
-CropLeft
-CropRight
-CropTop
-CropBottom
-AudioRepair
-ReplacementAssetID
+Studio previews
+crop reference stills
+Full Review proxies
+combined review movies
+composite episode sources
+FINAL cartridge files
 ```
 
 The original archive remains untouched.
 
----
+## Studio-first workflow
 
-### Carts are revisioned
+For an existing cart, launch Studio:
 
-Each cart has immutable revisions:
+```powershell
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
 
-```text
-NICK01
-├── r001
-├── r002
-├── r003
-├── ...
-└── r009
+& "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+    -CartID NICK04
 ```
 
-Each review pass creates a new revision instead of rewriting the previous one.
-
----
-
-### Assets have stable IDs
-
-The system tracks:
+or double-click:
 
 ```text
-AssetID
-CartID
-SlotID
-Revision
+TOOLKIT\Start-RetroCartStudio.cmd
 ```
 
-Examples:
+Studio supports:
+
+- clip-by-clip review
+- autosaved drafts
+- per-clip render progress
+- GOOD + NEXT
+- replacements
+- trim repair
+- audio repair
+- visual crop/reframe
+- exact final crop preview
+- commit to next revision
+- Full Review build/open
+- final cartridge build
+- USB selection and guarded deploy
+
+The old CSV/browser/PowerShell review loop still exists as engine/history, but
+Studio is the normal day-to-day interface.
+
+## Creating a cart today
+
+Cart creation is not fully productized yet. A new cart still starts from a JSON
+config.
+
+After adding/editing a config:
+
+```powershell
+$root = 'F:\[VIDEOS]\retro-tv-cart-builder'
+
+& "$root\TOOLKIT\Initialize-RetroCartLibrary.ps1" `
+    -SystemRoot $root
+
+& "$root\TOOLKIT\New-RetroCartPlan.ps1" `
+    -CartID NICK04 `
+    -SystemRoot $root
+
+& "$root\TOOLKIT\Start-RetroCartStudio.ps1" `
+    -CartID NICK04
+```
+
+The long-term goal is to replace this setup work with an end-to-end library and
+channel editor.
+
+## Current break recipe
+
+The current lean fake-broadcast rhythm is roughly:
 
 ```text
-EP-...
-AD-...
-BR-...
-HBR-...
-
-NICK01
-
-NICK01-SHOW-01
-NICK01-BREAK-03-AD-01
-NICK01-SIGN-OFF
+SHOW
+↓
+one unique commercial
+↓
+show-matched return bumper when available,
+otherwise genuinely generic network branding
+↓
+NEXT SHOW
 ```
 
-This keeps the cart history reproducible even when sources are replaced or repaired.
+The planner preserves literal archive taxonomy but uses branding functionally.
 
----
+## Network identity matters
 
-## Review Workflow
+`Network` is an exact functional selector, not just a label.
 
-The builder creates one continuous review movie plus a local HTML reviewer.
+For example:
 
-The reviewer includes:
+```text
+NICK != SNICK
+```
 
-- proportional full-cart timeline
-- equal-width clip strip
-- click-to-seek cart list
-- boundary controls
-- loop controls
-- elapsed / remaining clip time
-- trim controls
-- crop suggestions
-- replacement dropdown
-- notes
-- CSV import/export
-- visual GOOD state
-- audio-repair indicators
+SNICK branding is registered separately, so a SNICK cart needs
+`"Network": "SNICK"` to receive the correct openings, bumpers, sign-offs, and
+replacement candidates.
 
-Review actions currently include:
+## Multi-part episode composites
+
+Some planned show blocks are stored as multiple source shorts.
+
+The reusable utility:
+
+```text
+TOOLKIT\Build-RetroCartComposite.ps1
+```
+
+can combine 2+ parts into one episode source.
+
+A rebuild recipe for the current SNICK1 Ren & Stimpy composites lives at:
+
+```text
+TOOLKIT\config\composites\SNICK1-composites.json
+```
+
+This same mechanism is expected to be useful for later Powerpuff Girls,
+Dexter's Laboratory, and Looney Tunes blocks.
+
+## Review and repair model
+
+Current review states include:
 
 ```text
 GOOD
@@ -229,291 +217,128 @@ WRONG_NETWORK
 UNREVIEWED
 ```
 
----
-
-## Audio Repair
-
-`BAD_AUDIO` means:
+Repairs are stored as instructions, not destructive edits:
 
 ```text
-KEEP THE SOURCE
-+
-REPROCESS THE AUDIO
-```
-
-The first repair pass uses:
-
-```text
-RESTORE
-```
-
-which includes:
-
-- high-pass cleanup
-- low-pass cleanup
-- de-clipping
-- de-clicking
-- adaptive noise reduction
-- dynamic level correction
-- loudness normalization
-
-If the repaired clip is still bad and is marked `BAD_AUDIO` again, the next revision can escalate to:
-
-```text
-STRONG
-```
-
----
-
-## Crop Repair
-
-Old TV captures often contain baked-in black borders.
-
-The reviewer uses FFmpeg `cropdetect` to suggest:
-
-```text
+TrimStartSeconds
+TrimEndSeconds
 CropLeft
 CropRight
 CropTop
 CropBottom
+AudioRepair
 ```
 
-The suggestion is never applied blindly.
-
-A human approves the crop before it becomes part of the next revision.
-
----
-
-## Cache
-
-Normalized review proxies are cached.
-
-The cache key includes:
-
-- source path
-- source file metadata
-- trims
-- crop
-- audio repair
-- encode profile
-
-That means later revisions only rebuild the clips that actually changed.
-
-This is important when a cart contains hours of video.
-
----
-
-## Quick Start
-
-Current development environment is Windows + PowerShell + FFmpeg.
-
-### Requirements
-
-- Windows
-- PowerShell
-- FFmpeg
-- FFprobe
-- browser for the local review UI
-
-### Enter the toolkit folder
-
-```powershell
-Set-Location -LiteralPath 'F:\[VIDEOS]\Retro TV Cart Builder\Toolkit'
-```
-
-### Refresh the library
-
-```powershell
-.\Initialize-RetroCartLibrary.ps1
-```
-
-### Create a new cart plan
-
-```powershell
-.\New-RetroCartPlan.ps1 -CartID NICK01
-```
-
-### Build the review
-
-```powershell
-.\Build-RetroCartReview.ps1 -CartID NICK01
-```
-
-### Open the reviewer
-
-```powershell
-.\Open-RetroCart.ps1 -CartID NICK01
-```
-
-Review the cart, export the review CSV, then:
-
-```powershell
-$review = Get-ChildItem "$HOME\Downloads\NICK01-r*-review-state*.csv" |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
-```
-
-Apply the review:
-
-```powershell
-.\Apply-RetroCartReview.ps1 `
-    -CartID NICK01 `
-    -ReviewCsv $review.FullName `
-    -AutoReplace
-```
-
-Rebuild:
-
-```powershell
-.\Build-RetroCartReview.ps1 -CartID NICK01
-.\Open-RetroCart.ps1 -CartID NICK01
-```
-
-Repeat until the cart is approved.
-
----
-
-## Build The Final Cartridge
-
-Build locally:
-
-```powershell
-.\Build-RetroCartFinal.ps1 -CartID NICK01
-```
-
-Or build directly to a USB drive:
-
-```powershell
-.\Build-RetroCartFinal.ps1 `
-    -CartID NICK01 `
-    -TargetDrive 'E:\'
-```
-
-The USB is automatically labeled.
-
-Example:
+Audio repair ladder:
 
 ```text
-NICK01 -> NICK1
-CN01   -> CN1
-BOOM01 -> BOOM1
+NONE
+RESTORE
+STRONG
+AGGRESSIVE
+MAX
 ```
 
----
+Each level is rendered from the original source, not stacked on top of a
+previous repaired encode.
 
-## Adding Handpicked Branding
+## Crop model
 
-For a one-off bumper, ID, promo, or sign-off:
+The current Studio crop UI uses a real draggable/resizable crop box.
 
-```powershell
-.\Add-HandpickedBranding.ps1 `
-    -Path 'F:\[VIDEOS]\Commercials\Bumpers-Handpicked\Bumpers\Nickelodeon\Some Nick Bumper.mp4' `
-    -Network NICK `
-    -Type IDENT `
-    -Year 1998
+The render geometry is:
+
+```text
+crop original coded pixels
+→ correct source sample/pixel aspect ratio
+→ proportional fit to 618x480
+→ pad only if necessary
+→ setsar=1
 ```
 
-Then refresh:
+The crop box is locked to the physical TV display proportions so the source
+selection and final rendered framing agree.
 
-```powershell
-.\Initialize-RetroCartLibrary.ps1
+## Full Review and cache safety
+
+Full Review uses:
+
+```text
+CACHE\review-v2
 ```
 
-For a sign-off tied to a cart:
+Review proxies are transactionally rendered and validated before becoming
+reusable cache entries.
 
-```powershell
-.\Add-HandpickedBranding.ps1 `
-    -Path 'F:\[VIDEOS]\Commercials\Bumpers-Handpicked\Bumpers\Nickelodeon\Nickelodeon Good Night Sign Off 1996.mp4' `
-    -Network NICK `
-    -Type SIGN_OFF `
-    -CartID NICK01
-```
+This avoids treating interrupted/corrupt MP4s as valid cached output.
 
-If the cart already exists:
+## Final cartridge safety
 
-```powershell
-.\Add-RetroCartSignOff.ps1 -CartID NICK01
-```
+Studio blocks finalization when:
 
----
+- the current draft contains uncommitted changes
+- any clip is not marked `GOOD`
 
-## Project State
+The finalizer:
 
-Important durable state lives in:
+- reuses a matching existing `FINAL`
+- builds a replacement `FINAL` transactionally when necessary
+- delays USB relabeling until local final output is valid
+- copies MP4s with progress
+
+It does **not** wipe unrelated files from the target drive.
+
+## Durable state
+
+Back up:
 
 ```text
 STATE\
-├── asset-registry.csv
-├── assignments.csv
-├── cart-registry.csv
-├── settings.json
-└── handpicked-branding.csv
 ```
 
-This is the part of the project that should be backed up most carefully.
-
-Generated review videos can be rebuilt.
-
-Lost state is much more painful.
-
----
-
-## Current Limitations
-
-The current checkpoint still has some rough edges:
-
-- paths are still biased toward the original development machine
-- content ingestion differs by asset type
-- final build does not yet enforce an all-GOOD review CSV automatically
-- setup is PowerShell-heavy
-- no packaged GUI yet
-- no automatic bitrate reduction when a cart is too large
-- current workflow is Windows-oriented
-
-These are cleanup targets, not fundamental blockers.
-
----
-
-## Roadmap
-
-Near-term:
-
-- build more carts
-- continue real-device QA
-- expand the media library
-- improve diagnostics
-- add final approval enforcement
-- centralize configuration
-- clean up first-run setup
-
-Stretch goal:
-
-### GUI
-
-A small desktop app with buttons for:
+especially:
 
 ```text
-Refresh Library
-Create Cart
-Build Review
-Open Review
-Apply Review
-Audit Audio
-Build Final
-Copy To USB
+asset-registry.csv
+assignments.csv
+cart-registry.csv
+handpicked-branding.csv
+handpicked-episodes.csv
+settings.json
+studio-drafts\
 ```
 
-The plan is to keep the current scripts as the engine and put a friendlier interface on top.
+`CACHE` can be rebuilt. Durable state is much harder to reconstruct.
 
----
+## Current limitations
 
-## Planned Cart Library
+The engine works, but this is not yet a friendly public application.
 
-Current long-term concepts include:
+Known gaps include:
+
+- initial media/catalog setup is still command/config heavy
+- several standalone scripts still contain old development-machine defaults
+- Full Review does not yet show overall build progress
+- long-running build buttons do not yet have server-side concurrency locks
+- Full Review itself does not yet contain the final USB deploy controls
+- no visual media-library/tagging workflow yet
+- no New Channel / New Cart UI yet
+- no packaged installer yet
+- current implementation is Windows-oriented
+- live state is CSV/JSON rather than a dedicated local database
+
+See:
+
+```text
+DOCS\06-KNOWN-ISSUES-AND-ROADMAP.md
+DOCS\09-END-TO-END-PRODUCT-VISION.md
+```
+
+## Planned cart library
 
 ```text
 NICK01–NICK04
-SNICK
+SNICK1
 
 CN01–CN05
 
@@ -529,47 +354,44 @@ HBO
 AMC
 ```
 
----
+## Media is not included
 
-## Media Is Not Included
+This repository does **not** include copyrighted TV episodes, commercials,
+bumpers, promos, or other broadcast media.
 
-This project does **not** include copyrighted TV episodes, commercials, bumpers, promos, or other broadcast media.
-
-You provide your own source media.
-
-The repository is intended to contain the software, configuration examples, and documentation needed to build carts from your own collection.
-
----
+You supply your own media.
 
 ## Documentation
 
-More detailed documentation is planned / maintained separately for:
+Start here:
 
 ```text
-Operator Guide
-Architecture & State
-Version History
-Adding Content & New Carts
-Known Issues & Roadmap
-Reference Builds
+START-HERE.md
+DOCS\00-CURRENT-CHECKPOINT.md
+DOCS\02-OPERATOR-GUIDE.md
+DOCS\03-ARCHITECTURE-AND-STATE.md
+DOCS\04-VERSION-HISTORY.md
+DOCS\05-ADDING-CONTENT-AND-CARTS.md
+DOCS\06-KNOWN-ISSUES-AND-ROADMAP.md
+DOCS\09-END-TO-END-PRODUCT-VISION.md
 ```
 
----
-
-## Reference Milestone
-
-The first completed cart:
+Historical NICK1 details remain in:
 
 ```text
-NICK1
+DOCS\07-NICK1-REFERENCE-BUILD.md
 ```
 
-started as:
+## The project in one sentence
+
+This started as:
 
 > put some cartoons on a tiny TV
 
-and eventually became:
+and became:
 
-> maintain a revisioned media database that can automatically construct, normalize, review, repair, validate, and deploy synthetic period cable broadcasts onto physical USB cartridges
+> maintain a revisioned media catalog that can construct, normalize, review,
+> repair, validate, and deploy synthetic period television broadcasts onto
+> physical USB cartridges
 
 Which feels about right.
