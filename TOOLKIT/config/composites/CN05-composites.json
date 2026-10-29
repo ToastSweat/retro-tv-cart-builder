@@ -1,0 +1,35 @@
+﻿{
+  "Name": "CN05 classic cartoon composites",
+  "Jobs": [
+    {
+      "Name": "Duck Amuck + What's Opera, Doc + Rabbit of Seville",
+      "Mode": "Normalize",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1953\\022853DVD Duck Amuck MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1957\\070657DVD What's Opera, Doc MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1950\\121650DVD Rabbit of Seville LT.avi"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-01.mkv"
+    },
+    {
+      "Name": "One Froggy Evening + Feed the Kitty + Fast and Furry-ous",
+      "Mode": "Normalize",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1955\\123155DVD One Froggy Evening MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1952\\020252DVD Feed the Kitty MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1949\\091749DVD Fast and Furry-ous LT.avi"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-02.mkv"
+    },
+    {
+      "Name": "Rabbit Fire + Rabbit Seasoning + Duck! Rabbit! Duck!",
+      "Mode": "Normalize",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1951\\051951DVD Rabbit Fire LT.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1952\\092052DVD Rabbit Seasoning MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1953\\100353DVD Duck! Rabbit! Duck! MM.avi"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-03.mkv"
+    }
+  ]
+}

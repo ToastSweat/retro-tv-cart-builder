@@ -1,0 +1,149 @@
+﻿{
+    "CartID":  "CN05",
+    "DisplayName":  "Cartoon Network classics - Flintstones, Jetsons, Scooby and Looney Tunes",
+    "Network":  "CN",
+    "CommercialPool":  "KIDS_00S",
+    "CommercialPools":  [
+                            "KIDS_00S",
+                            "GENERAL_00S"
+                        ],
+    "AdYearMin":  2000,
+    "AdYearMax":  2002,
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones",
+                                                  "Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E01 The Flintstone Flyer",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E01 The Flintstone Flyer.mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons",
+                                                  "Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E02 (A Date with Jet Screamer)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E02 (A Date with Jet Screamer).mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby",
+                                                  "Scooby Doo",
+                                                  "Scooby-Doo"
+                                              ],
+                         "Title":  "Episode 1 What a Night for a Knight",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 1 (1969–70)\\Episode 1 What a Night for a Knight.mkv"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes",
+                                                  "Bugs Bunny",
+                                                  "Daffy Duck"
+                                              ],
+                         "Title":  "Looney Tunes - Duck Amuck + What\u0027s Opera, Doc + Rabbit of Seville",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-01.mkv"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones",
+                                                  "Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E02 Hot Lips Hannigan",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E02 Hot Lips Hannigan.mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons",
+                                                  "Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E05 (The Coming of Astro)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E05 (The Coming of Astro).mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby",
+                                                  "Scooby Doo",
+                                                  "Scooby-Doo"
+                                              ],
+                         "Title":  "Episode 14 Spooky Space Kook",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 1 (1969–70)\\Episode 14 Spooky Space Kook.mkv"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes",
+                                                  "Bugs Bunny",
+                                                  "Daffy Duck"
+                                              ],
+                         "Title":  "Looney Tunes - One Froggy Evening + Feed the Kitty + Fast and Furry-ous",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-02.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones",
+                                                  "Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E03 The Swimming Pool",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E03 The Swimming Pool.mp4"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons",
+                                                  "Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E06 (The Good Little Scouts)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E06 (The Good Little Scouts).mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby",
+                                                  "Scooby Doo",
+                                                  "Scooby-Doo"
+                                              ],
+                         "Title":  "Episode 3 Jeepers It\u0027s the Creeper",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 2 (1970)\\Episode 3 Jeepers It\u0027s the Creeper.mkv"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes",
+                                                  "Bugs Bunny",
+                                                  "Daffy Duck"
+                                              ],
+                         "Title":  "Looney Tunes - Rabbit Fire + Rabbit Seasoning + Duck! Rabbit! Duck!",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN05\\Looney-Tunes-block-03.mkv"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-3a57039b5289"
+}

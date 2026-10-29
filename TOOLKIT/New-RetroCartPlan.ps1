@@ -278,7 +278,10 @@ function Pick-Branding {
 
 function Pick-Ad {
     $candidates = @($registry | Where-Object {
-        $_.AssetType -eq 'COMMERCIAL' -and $_.Pool -eq $cfg.CommercialPool -and $_.SourceStatus -eq 'READY'
+        $_.AssetType -eq 'COMMERCIAL' -and $_.SourceStatus -eq 'READY' -and
+        ($(if($cfg.CommercialPools){@($cfg.CommercialPools) -contains $_.Pool}else{$_.Pool -eq $cfg.CommercialPool})) -and
+        ($(if($cfg.AdYearMin){[int]$_.Year -ge [int]$cfg.AdYearMin}else{$true})) -and
+        ($(if($cfg.AdYearMax){[int]$_.Year -le [int]$cfg.AdYearMax}else{$true}))
     })
     return Pick-One $candidates
 }

@@ -172,7 +172,7 @@ function compatible(roleRow, a) {
   if (sourceStatus(a) !== 'READY') return false;
   if (a.AssetID === roleRow.AssetID) return false;
   if (roleRow.Role === 'AD') {
-    const expanded = /^CN0[34]-/.test(String(roleRow.SlotID || ''));
+    const expanded = /^CN0[345]-/.test(String(roleRow.SlotID || ''));
     if (expanded) {
       const year = Number(a.Year);
       return a.AssetType === 'COMMERCIAL'
@@ -187,7 +187,7 @@ function compatible(roleRow, a) {
   if (roleRow.Role === 'ANCHOR_BRANDING') return ['IDENT','PROMO','INTRO'].includes(a.Subtype) && dur >= 20;
   if (roleRow.Role === 'STING') return ['IDENT','BUMPER_GENERIC','TRANSITION'].includes(a.Subtype) && dur <= 15;
   if (roleRow.Role === 'BUMPER_OUT') return ['BUMPER_OUT','BUMPER_GENERIC'].includes(a.Subtype);
-  if (roleRow.Role === 'BUMPER_IN') return ['BUMPER_IN','BUMPER_GENERIC'].includes(a.Subtype);
+  if (roleRow.Role === 'BUMPER_IN') return ['BUMPER_IN','BUMPER_GENERIC','IDENT'].includes(a.Subtype);
   if (roleRow.Role === 'NEXT') return a.Subtype === 'NEXT';
   if (roleRow.Role === 'SIGN_OFF') return a.Subtype === 'SIGN_OFF';
   return true;
@@ -372,7 +372,7 @@ async function renderPreview(cartId, slotId) {
     ];
     if (!audio) psArgs.push('-NoAudio');
 
-    console.log(`Studio render: ${cartId} ${slotId} · ${ar} · ${a.Title}`);
+    console.log(`Studio render: ${cartId} ${slotId} Ã‚Â· ${ar} Ã‚Â· ${a.Title}`);
     const r = await run('powershell.exe', psArgs, { stdio:['ignore','inherit','inherit'], windowsHide:false });
     let status = null;
     if (fs.existsSync(statusFile)) {
