@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retro TV · Workspace hub</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <header class="app-header">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">RT</span><div><h1>Retro TV</h1><span class="brand-sub">Workspace hub <span class="phase">Phase 2</span></span></div></div>
+    <p id="active-indicator" class="active-indicator">No project selected</p>
+  </header>
+  <main id="main" tabindex="-1">
+    <ol id="setup-steps" class="steps" aria-label="Setup steps">
+      <li id="step-choose" aria-current="step"><span>1</span> Choose project</li>
+      <li id="step-review"><span>2</span> Review locations</li>
+      <li id="step-ready"><span>3</span> Ready</li>
+    </ol>
+    <div id="notice" role="status" aria-live="polite" aria-atomic="true">Connecting to local setup…</div>
+    <div id="error" data-testid="error" role="alert" aria-atomic="true" hidden></div>
+    <div id="setup-content" aria-busy="true"></div>
+    <footer><strong>Your files stay yours.</strong> Original media and existing outputs are never moved or deleted by setup. Project data is separate from the application installation.</footer>
+  </main>
+</body>
+</html>
