@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 const http = require('http');
 const fs = require('fs');
@@ -171,7 +171,16 @@ function sourceStatus(a) { return String(a.SourceStatus || a.CuratedStatus || 'R
 function compatible(roleRow, a) {
   if (sourceStatus(a) !== 'READY') return false;
   if (a.AssetID === roleRow.AssetID) return false;
-  if (roleRow.Role === 'AD') return a.AssetType === 'COMMERCIAL' && a.Pool === roleRow.Pool;
+  if (roleRow.Role === 'AD') {
+    const expanded = /^CN0[34]-/.test(String(roleRow.SlotID || ''));
+    if (expanded) {
+      const year = Number(a.Year);
+      return a.AssetType === 'COMMERCIAL'
+        && ['KIDS_00S','GENERAL_00S'].includes(a.Pool)
+        && year >= 2000 && year <= 2002;
+    }
+    return a.AssetType === 'COMMERCIAL' && a.Pool === roleRow.Pool;
+  }
   if (roleRow.Role === 'SHOW') return a.AssetType === 'EPISODE' && a.Network === roleRow.Network;
   if (a.AssetType !== 'BRANDING' || a.Network !== roleRow.Network) return false;
   const dur = num(a.DurationSeconds, 0);
@@ -684,6 +693,28 @@ async function listDrives() {
     .sort((a,b)=>(a.type==='REMOVABLE'?0:1)-(b.type==='REMOVABLE'?0:1)||a.drive.localeCompare(b.drive));
 }
 
+// Studio guided-build patch v1
+let studioBuildRunning = false;
+async function withStudioBuild(work) {
+  if (studioBuildRunning) throw new Error('A build is already running. Wait for it to finish.');
+  studioBuildRunning = true;
+  try { return await work(); } finally { studioBuildRunning = false; }
+}
+function saveDraftIfNeeded(cartId) {
+  if (viewState(cartId).clips.some(c => c.changed)) return commitDraft(cartId);
+  return {revision:Number(getCart(cartId).CurrentRevision),changes:0};
+}
+async function prepareFullReview(cartId) {
+  const state=viewState(cartId);
+  const pending=state.clips.filter(c=>String(c.action||'').toUpperCase()!=='GOOD');
+  if(pending.length) throw new Error(`${pending.length} clip(s) still need review. Mark every clip GOOD, then click PREPARE FULL REVIEW.`);
+  const saved=saveDraftIfNeeded(cartId);
+  const ps=path.join(TOOLKIT_DIR,'Build-RetroCartReview.ps1');
+  const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',cartId,'-SystemRoot',SYSTEM_ROOT],{});
+  if(r.code!==0) throw new Error((r.out+'\n'+r.err).trim()||'Full Review build failed. Your saved review is preserved.');
+  return {code:0,revision:saved.revision,output:`Review saved. Full Review ready for r${String(saved.revision).padStart(3,'0')}. Preparation complete.\n`+r.out+'\n'+r.err};
+}
+
 function assertFinalReady(cartId) {
   const state=viewState(cartId);
   const changed=state.clips.filter(c=>c.changed);
@@ -699,6 +730,12 @@ function assertFinalReady(cartId) {
 }
 
 async function buildFinal(cartId,targetDrive='') {
+  const state=viewState(cartId);
+  const cart=getCart(cartId);
+  const reviewPath=path.join(path.dirname(cart.ManifestPath),'REVIEW','review-manifest.csv');
+  if(state.clips.some(c=>c.changed) || !fs.existsSync(reviewPath)) {
+    await prepareFullReview(cartId);
+  }
   assertFinalReady(cartId);
   const ps=path.join(TOOLKIT_DIR,'Build-RetroCartFinal.ps1');
   const args=['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',cartId,'-SystemRoot',SYSTEM_ROOT,'-Force'];
@@ -733,6 +770,7 @@ let cropFinalByToken=new Map();
 const server=http.createServer(async(req,res)=>{
   try{
     const u=new URL(req.url,`http://${req.headers.host}`);
+    if(req.method==='POST' && studioBuildRunning) throw new Error('A build is running. Wait before editing or starting another build.');
     if(req.method==='GET'&&u.pathname==='/'){return serveFile(res,path.join(__dirname,'index.html'),'text/html; charset=utf-8');}
     if(req.method==='GET'&&u.pathname==='/api/carts'){return json(res,200,{carts:getCarts().map(c=>({cartId:c.CartID,revision:Number(c.CurrentRevision),displayName:c.DisplayName,network:c.Network})),initialCart:INITIAL_CART});}
     if(req.method==='GET'&&u.pathname==='/api/state'){return json(res,200,viewState(u.searchParams.get('cart')||INITIAL_CART));}
@@ -746,11 +784,11 @@ const server=http.createServer(async(req,res)=>{
     if(req.method==='GET'&&u.pathname.startsWith('/crop-media/')){const token=u.pathname.slice('/crop-media/'.length),file=cropFrameByToken.get(token);if(!file){res.writeHead(404);return res.end();}return serveFile(res,file,'image/jpeg');}
     if(req.method==='POST'&&u.pathname==='/api/crop-final-reference'){const b=await body(req);const ref=await renderCropFinalReference(b.cartId,b.slotId,b.crop||{});const token=sha(ref.file+Date.now()+Math.random());cropFinalByToken.set(token,ref.file);return json(res,200,{url:`/crop-final-media/${token}`,width:ref.width,height:ref.height,title:ref.title});}
     if(req.method==='GET'&&u.pathname.startsWith('/crop-final-media/')){const token=u.pathname.slice('/crop-final-media/'.length),file=cropFinalByToken.get(token);if(!file){res.writeHead(404);return res.end();}return serveFile(res,file,'image/jpeg');}
-    if(req.method==='POST'&&u.pathname==='/api/commit'){const b=await body(req);return json(res,200,commitDraft(b.cartId));}
-    if(req.method==='POST'&&u.pathname==='/api/build-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Build-RetroCartReview.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId,'-SystemRoot',SYSTEM_ROOT],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
+    if(req.method==='POST'&&u.pathname==='/api/commit'){const b=await body(req);return json(res,200,saveDraftIfNeeded(b.cartId));}
+    if(req.method==='POST'&&u.pathname==='/api/build-review'){const b=await body(req);return json(res,200,await withStudioBuild(()=>prepareFullReview(b.cartId)));}
     if(req.method==='POST'&&u.pathname==='/api/open-review'){const b=await body(req);const ps=path.join(TOOLKIT_DIR,'Open-RetroCart.ps1');const r=await run('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',ps,'-CartID',b.cartId,'-SystemRoot',SYSTEM_ROOT],{});return json(res,r.code===0?200:500,{code:r.code,output:r.out+"\n"+r.err});}
     if(req.method==='GET'&&u.pathname==='/api/drives'){return json(res,200,{drives:await listDrives()});}
-    if(req.method==='POST'&&u.pathname==='/api/build-final'){const b=await body(req);return json(res,200,await buildFinal(b.cartId,b.targetDrive||''));}
+    if(req.method==='POST'&&u.pathname==='/api/build-final'){const b=await body(req);return json(res,200,await withStudioBuild(()=>buildFinal(b.cartId,b.targetDrive||'')));}
     res.writeHead(404);res.end('Not found');
   }catch(e){console.error(e);json(res,500,{error:e.message||String(e)});}
 });

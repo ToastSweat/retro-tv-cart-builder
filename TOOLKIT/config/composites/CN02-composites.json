@@ -1,0 +1,81 @@
+{
+  "Name": "CN02 Powerhouse composite episodes",
+  "Jobs": [
+    {
+      "Name": "Dexter - Dee Dee's Room + Game Over + The Big Cheese",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E06a Dee Dee's Room.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E07c Game Over.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E09c The Big Cheese.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Dee Dee's Room + Game Over + The Big Cheese.mkv"
+    },
+    {
+      "Name": "PPG - Speed Demon + Meet the Beat Alls",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 2\\The Powerpuff Girls (1998) S02E23 - Speed Demon.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 3\\The Powerpuff Girls (1998) S03E22 - Meet the Beat Alls.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Speed Demon + Meet the Beat Alls.mkv"
+    },
+    {
+      "Name": "Dexter - Mock 5 + Lab of the Lost + Photo Finish",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 2\\Dexter's Laboratory S02E09c Mock 5.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 2\\Dexter's Laboratory S02E06c Lab of the Lost.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 2\\Dexter's Laboratory S02E13b Photo Finish.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Mock 5 + Lab of the Lost + Photo Finish.mkv"
+    },
+    {
+      "Name": "PPG - Moral Decay + Power-Noia",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 3\\The Powerpuff Girls (1998) S03E21 - Moral Decay.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 5\\The Powerpuff Girls (1998) S05E03 - Power-Noia.1080p.H264.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Moral Decay + Power-Noia.mkv"
+    },
+    {
+      "Name": "Dexter - Mandarker + Last But Not Beast + Dexter's Debt",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E12c Mandarker.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 2\\Dexter's Laboratory S02E39a Last But Not Beast.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E11c Dexter's Debt.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Mandarker + Last But Not Beast + Dexter's Debt.mkv"
+    },
+    {
+      "Name": "PPG - Knock It Off + Him Diddle Riddle",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 4\\The Powerpuff Girls (1998) S04E09 - Knock It Off.1080p.H264.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 4\\The Powerpuff Girls (1998) S04E01 - Him Diddle Riddle.1080p.H264.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Knock It Off + Him Diddle Riddle.mkv"
+    },
+    {
+      "Name": "Dexter - The Parrot Trap + Deedeemensional + Maternal Combat",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 2\\Dexter's Laboratory S02E36c The Parrot Trap.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E01a Deedeemensional.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E01c Maternal Combat.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - The Parrot Trap + Deedeemensional + Maternal Combat.mkv"
+    },
+    {
+      "Name": "PPG - Members Only + Bought and Scold",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 4\\The Powerpuff Girls (1998) S04E05 - Members Only.1080p.H264.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 3\\The Powerpuff Girls (1998) S03E07 - Bought and Scold.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Members Only + Bought and Scold.mkv"
+    }
+  ]
+}

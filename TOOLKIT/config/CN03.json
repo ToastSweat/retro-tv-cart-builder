@@ -1,0 +1,101 @@
+﻿{
+    "CartID":  "CN03",
+    "DisplayName":  "Cartoon Network Cartoon Cartoons - CN03",
+    "Network":  "CN",
+    "CommercialPool":  "KIDS_00S",
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E01-E02 - A Night at the Katz Motel and Cajun Granny Stew (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E01-E02 - A Night at the Katz Motel and Cajun Granny Stew (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E07 The Sensitive Male! + Johnny Bravo S01E08 Bravo Dooby-Doo",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Johnny-Bravo-MP4-release-group-03.mkv"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E01 - Field Trip to Folsom Prison (480p - DVDRip) + COW and CHICKEN - S01 E02 - The Girl\u0027s Bathroom (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Cow-and-Chicken-block-01.mkv"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E07-E08 - The Demon in the Matress and Freaky Fred (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E07-E08 - The Demon in the Matress and Freaky Fred (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E09 Date With an Antelope + Johnny Bravo S01E10 Did You See A Bull Run By Here？ + Johnny Bravo S01E11 Cookie Crisis",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Johnny-Bravo-MP4-release-group-04.mkv"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E03 - Supermodel Cow (480p - DVDRip) + COW and CHICKEN - S01 E04 - Part-Time Job (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Cow-and-Chicken-block-02.mkv"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E13-E14 - King Ramses\u0027 Curse and The Clutching Foot (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E13-E14 - King Ramses\u0027 Curse and The Clutching Foot (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E01 Johnny Bravo + Johnny Bravo S01E02 Jungle Boy In Mr. Monkeyman + Johnny Bravo S01E03 Johnny Bravo And The Amazon Women",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Johnny-Bravo-MP4-release-group-01.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E09-E10 - The Ugliest Weenie and Epilogue (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E09-E10 - The Ugliest Weenie and Epilogue (480p - DVDRip).mp4"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-7cb660f60445"
+}

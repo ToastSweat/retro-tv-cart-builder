@@ -1,0 +1,143 @@
+{
+  "CartID": "CN02",
+  "DisplayName": "Cartoon Network Powerhouse alternate prime block",
+  "Network": "CN",
+  "CommercialPool": "KIDS_00S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S02 E03-E04 - Knock, Knock, Who's Ed and One plus One equals Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 2\\Ed, Edd n Eddy - S02 E03-E04 - Knock, Knock, Who's Ed and One plus One equals Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexter",
+        "Dexters Laboratory"
+      ],
+      "Title": "Dexter's Laboratory - Dee Dee's Room + Game Over + The Big Cheese",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Dee Dee's Room + Game Over + The Big Cheese.mkv"
+    },
+    {
+      "Order": 3,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Speed Demon + Meet the Beat Alls",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Speed Demon + Meet the Beat Alls.mkv"
+    },
+    {
+      "Order": 4,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S02 E11-E12 - Home Cooked Eds and Rambling Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 2\\Ed, Edd n Eddy - S02 E11-E12 - Home Cooked Eds and Rambling Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 5,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexter",
+        "Dexters Laboratory"
+      ],
+      "Title": "Dexter's Laboratory - Mock 5 + Lab of the Lost + Photo Finish",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Mock 5 + Lab of the Lost + Photo Finish.mkv"
+    },
+    {
+      "Order": 6,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Moral Decay + Power-Noia",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Moral Decay + Power-Noia.mkv"
+    },
+    {
+      "Order": 7,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S02 E13-E14 - To Sir with Ed and Key to My Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 2\\Ed, Edd n Eddy - S02 E13-E14 - To Sir with Ed and Key to My Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexter",
+        "Dexters Laboratory"
+      ],
+      "Title": "Dexter's Laboratory - Mandarker + Last But Not Beast + Dexter's Debt",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - Mandarker + Last But Not Beast + Dexter's Debt.mkv"
+    },
+    {
+      "Order": 9,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Knock It Off + Him Diddle Riddle",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Knock It Off + Him Diddle Riddle.mkv"
+    },
+    {
+      "Order": 10,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S02 E23-E24 - Hot Buttered Ed and High Heeled Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 2\\Ed, Edd n Eddy - S02 E23-E24 - Hot Buttered Ed and High Heeled Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 11,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexter",
+        "Dexters Laboratory"
+      ],
+      "Title": "Dexter's Laboratory - The Parrot Trap + Deedeemensional + Maternal Combat",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\Dexter's Laboratory - The Parrot Trap + Deedeemensional + Maternal Combat.mkv"
+    },
+    {
+      "Order": 12,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Members Only + Bought and Scold",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN02\\The Powerpuff Girls - Members Only + Bought and Scold.mkv"
+    }
+  ],
+  "SignOffAssetID": "HBR-7cb660f60445"
+}

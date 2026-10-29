@@ -1,0 +1,137 @@
+{
+  "CartID": "CN03",
+  "DisplayName": "Cartoon Network daytime into prime",
+  "Network": "CN",
+  "CommercialPool": "KIDS_00S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Freakazoid!",
+      "BrandingKeywords": [
+        "Freakazoid",
+        "Freakazoid!"
+      ],
+      "Title": "Freakazoid! - Candle Jack / Toby Danger In Doomsday Bet / Lobe",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\02. Candle Jack-Toby Danger In Doomsday Bet-Lobe.mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "The Flintstones",
+      "BrandingKeywords": [
+        "The Flintstones",
+        "Flintstones"
+      ],
+      "Title": "The Flintstones S01E01 The Flintstone Flyer",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E01 The Flintstone Flyer.mp4"
+    },
+    {
+      "Order": 3,
+      "Series": "The Jetsons",
+      "BrandingKeywords": [
+        "The Jetsons",
+        "Jetsons"
+      ],
+      "Title": "The Jetsons - S01E01 Rosey the Robot",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E01 (Rosey the Robot).mp4"
+    },
+    {
+      "Order": 4,
+      "Series": "Looney Tunes",
+      "BrandingKeywords": [
+        "Looney Tunes",
+        "Bugs Bunny",
+        "Daffy Duck"
+      ],
+      "Title": "Looney Tunes - Duck Amuck + What's Opera, Doc + Rabbit of Seville",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Looney Tunes - Duck Amuck + What's Opera Doc + Rabbit of Seville.mkv"
+    },
+    {
+      "Order": 5,
+      "Series": "Freakazoid!",
+      "BrandingKeywords": [
+        "Freakazoid",
+        "Freakazoid!"
+      ],
+      "Title": "Freakazoid! - The Chip Part 1",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\06. Chip, The (Part 1).mp4"
+    },
+    {
+      "Order": 6,
+      "Series": "The Flintstones",
+      "BrandingKeywords": [
+        "The Flintstones",
+        "Flintstones"
+      ],
+      "Title": "The Flintstones S01E02 Hot Lips Hannigan",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E02 Hot Lips Hannigan.mp4"
+    },
+    {
+      "Order": 7,
+      "Series": "The Jetsons",
+      "BrandingKeywords": [
+        "The Jetsons",
+        "Jetsons"
+      ],
+      "Title": "The Jetsons - S01E02 A Date with Jet Screamer",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E02 (A Date with Jet Screamer).mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "Looney Tunes",
+      "BrandingKeywords": [
+        "Looney Tunes",
+        "Bugs Bunny",
+        "Daffy Duck"
+      ],
+      "Title": "Looney Tunes - One Froggy Evening + Feed the Kitty + Fast and Furry-ous",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Looney Tunes - One Froggy Evening + Feed the Kitty + Fast and Furry-ous.mkv"
+    },
+    {
+      "Order": 9,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S04 E03-E04 - Is There an Ed in the House and An Ed is Born",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 4\\Ed, Edd n Eddy - S04 E03-E04 - Is There an Ed in the House and An Ed is Born (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 10,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexter",
+        "Dexters Laboratory"
+      ],
+      "Title": "Dexter's Laboratory - Magmanamus + Rasslor + Dimwit Dexter",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Dexter's Laboratory - Magmanamus + Rasslor + Dimwit Dexter.mkv"
+    },
+    {
+      "Order": 11,
+      "Series": "Freakazoid!",
+      "BrandingKeywords": [
+        "Freakazoid",
+        "Freakazoid!"
+      ],
+      "Title": "Freakazoid! - The Chip Part 2 / Freakazoid Is History",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\07. Chip, The (Part 2)-Freakazoid Is History.mp4"
+    },
+    {
+      "Order": 12,
+      "Series": "The Flintstones",
+      "BrandingKeywords": [
+        "The Flintstones",
+        "Flintstones"
+      ],
+      "Title": "The Flintstones S01E03 The Swimming Pool",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E03 The Swimming Pool.mp4"
+    }
+  ]
+}

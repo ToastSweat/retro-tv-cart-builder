@@ -1,0 +1,35 @@
+{
+  "Name": "CN03 daytime into prime composite episodes",
+  "Jobs": [
+    {
+      "Name": "Looney Tunes - Duck Amuck + What's Opera Doc + Rabbit of Seville",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1953\\022853DVD Duck Amuck MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1957\\070657DVD What's Opera, Doc MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1950\\121650DVD Rabbit of Seville LT.avi"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Looney Tunes - Duck Amuck + What's Opera Doc + Rabbit of Seville.mkv"
+    },
+    {
+      "Name": "Looney Tunes - One Froggy Evening + Feed the Kitty + Fast and Furry-ous",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1955\\123155DVD One Froggy Evening MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1952\\020252DVD Feed the Kitty MM.avi",
+        "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1949\\091749DVD Fast and Furry-ous LT.avi"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Looney Tunes - One Froggy Evening + Feed the Kitty + Fast and Furry-ous.mkv"
+    },
+    {
+      "Name": "Dexter - Magmanamus + Rasslor + Dimwit Dexter",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E01b Dial M for Monkey Magmanamus.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E02b Dial M for Monkey Rasslor.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E05c Dimwit Dexter.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN03\\Dexter's Laboratory - Magmanamus + Rasslor + Dimwit Dexter.mkv"
+    }
+  ]
+}

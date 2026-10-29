@@ -1,0 +1,70 @@
+{
+  "Name": "CN01 multi-part episode composites",
+  "Jobs": [
+    {
+      "Name": "PPG Monkey See Doggie Do + Mommy Fearest",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E01 - Monkey See, Doggie Do.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E02 - Mommy Fearest.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E01 Monkey See Doggie Do + S01E02 Mommy Fearest.mkv"
+    },
+    {
+      "Name": "Dexter Dodgeball + Dexter's Assistant + Dexter's Rival",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E02a Dexter Dodgeball.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E02c Dexter's Assistant.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E03a Dexter's Rival.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\Dexters Laboratory - Dexter Dodgeball + Dexters Assistant + Dexters Rival.mkv"
+    },
+    {
+      "Name": "PPG Buttercrush + Boogie Frights",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E07 - Buttercrush.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E09 - Boogie Frights.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E07 Buttercrush + S01E09 Boogie Frights.mkv"
+    },
+    {
+      "Name": "Dexter Old Man Dexter + Double Trouble + Jurassic Pooch",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E03c Old Man Dexter.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E04a Double Trouble.mp4",
+        "F:\\[VIDEOS]\\TV\\Dexter's Laboratory\\Season 1\\Dexter's Laboratory S01E05a Jurassic Pooch.mp4"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\Dexters Laboratory - Old Man Dexter + Double Trouble + Jurassic Pooch.mkv"
+    },
+    {
+      "Name": "PPG Bubblevicious + The Rowdyruff Boys",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E17 - Bubblevicious.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 1\\The Powerpuff Girls (1998) S01E23 - The Rowdyruff Boys.1080p.H264.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E17 Bubblevicious + S01E23 The Rowdyruff Boys.mkv"
+    },
+    {
+      "Name": "PPG Stuck Up Up and Away + Beat Your Greens",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 2\\The Powerpuff Girls (1998) S02E01 - Stuck Up, Up and Away.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 2\\The Powerpuff Girls (1998) S02E07 - Beat Your Greens.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S02E01 Stuck Up Up and Away + S02E07 Beat Your Greens.mkv"
+    },
+    {
+      "Name": "PPG A Very Special Blossom + Mo Job",
+      "Mode": "Auto",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 2\\The Powerpuff Girls (1998) S02E13 - A Very Special Blossom.1080p.H265.AAC.2CH-MNKYDDL.mkv",
+        "F:\\[VIDEOS]\\TV\\The Powerpuff Girls (1998)\\Season 2\\The Powerpuff Girls (1998) S02E15 - Mo Job.1080p.H265.AAC.2CH-MNKYDDL.mkv"
+      ],
+      "Output": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S02E13 A Very Special Blossom + S02E15 Mo Job.mkv"
+    }
+  ]
+}

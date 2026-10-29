@@ -1,0 +1,101 @@
+﻿{
+    "CartID":  "CN04",
+    "DisplayName":  "Cartoon Network Cartoon Cartoons - CN04",
+    "Network":  "CN",
+    "CommercialPool":  "KIDS_00S",
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E03-E04 - The Shadow of Courage and Dr. Le Quack, Amnesia Specialist (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E03-E04 - The Shadow of Courage and Dr. Le Quack, Amnesia Specialist (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E04 Super Duped + Johnny Bravo S01E05 Bungled In The Jungle + Johnny Bravo S01E06 Bearly Enough Time",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-02.mkv"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E05 - Alive (480p - DVDRip) + COW and CHICKEN - S01 E06 - Who is Super Cow (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-01.mkv"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E05-E06 - Courage Meets Bigfoot and Hothead (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E05-E06 - Courage Meets Bigfoot and Hothead (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E12 I Used To Be Funny + Johnny Bravo S01E13 My Fair Dork + Johnny Bravo S01E14 Twas The Night",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-05.mkv"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E07 - Confused (480p - DVDRip) + COW and CHICKEN - S01 E08 - The Molting Fairy (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-02.mkv"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Courage the Cowardly Dog",
+                         "BrandingKeywords":  [
+                                                  "Courage"
+                                              ],
+                         "Title":  "Courage the Cowardly Dog - S01 E15-E16 - The Hunchback of Nowhere and The Gods Must Be Goosey (1080p - AMZN Web-DL)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\COURAGE the COWARDLY DOG (1999-2002) - Complete Animated TV Series - 1080p AMZN Web-DL x264\\Season 1 (1999-2000)\\Courage the Cowardly Dog - S01 E15-E16 - The Hunchback of Nowhere and The Gods Must Be Goosey (1080p - AMZN Web-DL).mp4"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Johnny Bravo",
+                         "BrandingKeywords":  [
+                                                  "Johnny Bravo",
+                                                  "Bravo"
+                                              ],
+                         "Title":  "Johnny Bravo S01E15 Blarney Buddies + Johnny Bravo S01E16 Over The Hump! + Johnny Bravo S01E17 Johnny Meets Farrah Fawcett",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-06.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Cow and Chicken",
+                         "BrandingKeywords":  [
+                                                  "Cow and Chicken"
+                                              ],
+                         "Title":  "COW and CHICKEN - S01 E11 - Crash Dive (480p - DVDRip) + COW and CHICKEN - S01 E12 - Happy Meat (480p - DVDRip)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-03.mkv"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-7cb660f60445"
+}

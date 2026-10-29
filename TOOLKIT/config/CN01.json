@@ -1,0 +1,147 @@
+{
+  "CartID": "CN01",
+  "DisplayName": "Cartoon Network Powerhouse prime-time core",
+  "Network": "CN",
+  "CommercialPool": "KIDS_00S",
+  "AdsPerBreak": 1,
+  "AnchorMinSeconds": 20,
+  "StingMaxSeconds": 12,
+  "InsertStingAfterShowNumbers": [],
+  "UseMatchedNext": false,
+  "BreakStyle": "LEAN",
+  "Episodes": [
+    {
+      "Order": 1,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Eds",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S01 E01-E02 - The Ed-Touchables and Nagged to Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 1\\Ed, Edd n Eddy - S01 E01-E02 - The Ed-Touchables and Nagged to Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 2,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Monkey See, Doggie Do + Mommy Fearest",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E01 Monkey See Doggie Do + S01E02 Mommy Fearest.mkv"
+    },
+    {
+      "Order": 3,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexters Laboratory",
+        "Dexter"
+      ],
+      "Title": "Dexter's Laboratory - Dexter Dodgeball + Dexter's Assistant + Dexter's Rival",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\Dexters Laboratory - Dexter Dodgeball + Dexters Assistant + Dexters Rival.mkv"
+    },
+    {
+      "Order": 4,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Eds",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S01 E03-E04 - Pop Goes the Ed and Over Your Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 1\\Ed, Edd n Eddy - S01 E03-E04 - Pop Goes the Ed and Over Your Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 5,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Buttercrush + Boogie Frights",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E07 Buttercrush + S01E09 Boogie Frights.mkv"
+    },
+    {
+      "Order": 6,
+      "Series": "Dexter's Laboratory",
+      "BrandingKeywords": [
+        "Dexter's Laboratory",
+        "Dexters Laboratory",
+        "Dexter"
+      ],
+      "Title": "Dexter's Laboratory - Old Man Dexter + Double Trouble + Jurassic Pooch",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\Dexters Laboratory - Old Man Dexter + Double Trouble + Jurassic Pooch.mkv"
+    },
+    {
+      "Order": 7,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Eds",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S01 E07-E08 - Dawn of the Eds and Virt-Ed-Go",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 1\\Ed, Edd n Eddy - S01 E07-E08 - Dawn of the Eds and Virt-Ed-Go (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 8,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Bubblevicious + The Rowdyruff Boys",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S01E17 Bubblevicious + S01E23 The Rowdyruff Boys.mkv"
+    },
+    {
+      "Order": 9,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Eds",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S01 E11-E12 - An Ed Too Many and Ed-n-Seek",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 1\\Ed, Edd n Eddy - S01 E11-E12 - An Ed Too Many and Ed-n-Seek (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 10,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - Stuck Up, Up and Away + Beat Your Greens",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S02E01 Stuck Up Up and Away + S02E07 Beat Your Greens.mkv"
+    },
+    {
+      "Order": 11,
+      "Series": "Ed, Edd n Eddy",
+      "BrandingKeywords": [
+        "Ed, Edd n Eddy",
+        "Eds",
+        "Ed Edd n Eddy"
+      ],
+      "Title": "Ed, Edd n Eddy - S01 E19-E20 - A Glass of Warm Ed and Flea-Bitten Ed",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\Ed, Edd n Eddy\\Season 1\\Ed, Edd n Eddy - S01 E19-E20 - A Glass of Warm Ed and Flea-Bitten Ed (720p - HMax Web-DL).mp4"
+    },
+    {
+      "Order": 12,
+      "Series": "The Powerpuff Girls",
+      "BrandingKeywords": [
+        "Powerpuff Girls",
+        "The Powerpuff Girls",
+        "PPG"
+      ],
+      "Title": "The Powerpuff Girls - A Very Special Blossom + Mo Job",
+      "SourcePath": "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN01\\The Powerpuff Girls - S02E13 A Very Special Blossom + S02E15 Mo Job.mkv"
+    }
+  ],
+  "SignOffAssetID": "BR-9c9e58a0a75c"
+}

@@ -1,0 +1,62 @@
+﻿{
+    "Name":  "CN04 Cartoon Cartoons composites",
+    "Jobs":  [
+                 {
+                     "Name":  "Johnny Bravo S01E04 Super Duped + Johnny Bravo S01E05 Bungled In The Jungle + Johnny Bravo S01E06 Bearly Enough Time",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E04 Super Duped.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E05 Bungled In The Jungle.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E06 Bearly Enough Time.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-02.mkv"
+                 },
+                 {
+                     "Name":  "COW and CHICKEN - S01 E05 - Alive (480p - DVDRip) + COW and CHICKEN - S01 E06 - Who is Super Cow (480p - DVDRip)",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E05 - Alive (480p - DVDRip).mp4",
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E06 - Who is Super Cow (480p - DVDRip).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-01.mkv"
+                 },
+                 {
+                     "Name":  "Johnny Bravo S01E12 I Used To Be Funny + Johnny Bravo S01E13 My Fair Dork + Johnny Bravo S01E14 Twas The Night",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E12 I Used To Be Funny.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E13 My Fair Dork.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E14 Twas The Night.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-05.mkv"
+                 },
+                 {
+                     "Name":  "COW and CHICKEN - S01 E07 - Confused (480p - DVDRip) + COW and CHICKEN - S01 E08 - The Molting Fairy (480p - DVDRip)",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E07 - Confused (480p - DVDRip).mp4",
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E08 - The Molting Fairy (480p - DVDRip).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-02.mkv"
+                 },
+                 {
+                     "Name":  "Johnny Bravo S01E15 Blarney Buddies + Johnny Bravo S01E16 Over The Hump! + Johnny Bravo S01E17 Johnny Meets Farrah Fawcett",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E15 Blarney Buddies.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E16 Over The Hump!.mp4",
+                                   "F:\\[VIDEOS]\\TV\\Johnny Bravo S01-S04 (1997-)\\Johnny Bravo S01 (360p re-dvdrip)\\Johnny Bravo S01E17 Johnny Meets Farrah Fawcett.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Johnny-Bravo-MP4-release-group-06.mkv"
+                 },
+                 {
+                     "Name":  "COW and CHICKEN - S01 E11 - Crash Dive (480p - DVDRip) + COW and CHICKEN - S01 E12 - Happy Meat (480p - DVDRip)",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E11 - Crash Dive (480p - DVDRip).mp4",
+                                   "F:\\[VIDEOS]\\TV\\COW and CHICKEN (1997-1999) - Complete Animated TV Series, S01-S04 - 480p DVDRip x264\\Season 1 (1997)\\COW and CHICKEN - S01 E12 - Happy Meat (480p - DVDRip).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\CN04\\Cow-and-Chicken-block-03.mkv"
+                 }
+             ]
+}
