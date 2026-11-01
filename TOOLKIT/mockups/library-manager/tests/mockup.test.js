@@ -4,13 +4,16 @@ const assert = require('node:assert/strict');
 const demo = require('../app.js');
 
 class DemoNode {
-  constructor(tag, doc) { this.tagName = tag; this.doc = doc; this.children = []; this.attributes = {}; this.listeners = {}; this.value = ''; this.hidden = false; this.textContent = ''; }
+  constructor(tag, doc) { this.tagName = tag; this.doc = doc; this.children = []; this.attributes = {}; this.listeners = {}; this.value = ''; this.hidden = false; this.textContent = ''; this.style = {setProperty:(key,value)=>{this.attributes[key]=value;}}; }
   setAttribute(k,v) {this.attributes[k] = String(v); if (k === 'id') this.id = v;}
   getAttribute(k) {return this.attributes[k];}
   append(...nodes) {this.children.push(...nodes);}
   replaceChildren(...nodes) {this.children = nodes;}
   addEventListener(k,fn) {this.listeners[k] ||= []; this.listeners[k].push(fn);}
-  emit(k) {(this.listeners[k] || []).forEach(fn => fn({target:this, preventDefault(){}, key:''}));}
+  emit(k, extra = {}) {(this.listeners[k] || []).forEach(fn => fn({target:this, preventDefault(){}, key:'', ...extra}));}
+  getBoundingClientRect() {return {width:1000, left:0};}
+  setPointerCapture() {}
+  releasePointerCapture() {}
   focus() {this.doc.activeElement = this;}
   showModal() {this.open = true;}
   close() {this.open = false; this.emit('close');}
@@ -24,6 +27,186 @@ function documentFixture() {
   };
   return doc;
 }
+
+test('combined workspace has bounded real resize, keyboard separators, expand/restore and independent asset drafts', () => {
+  const doc=documentFixture(), {model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  const get=id=>{const n=doc.getElementById(id);assert.ok(n,'missing hook '+id);return n;};
+  const names=['library','cart-builder','tv-studio'];
+  for(const key of names) assert.equal(get('workspace-'+key).hidden,false);
+  m.draft('demo-ad','metadata',{notes:'keep layout-independent note'});
+  m.draft('demo-audio','recipe',{trimStart:2});
+  const drafts=structuredClone(m.drafts), start=[...m.layout.weights];
+  const handle=get('resize-library-cart');
+  assert.equal(handle.getAttribute('role'),'separator');assert.equal(handle.getAttribute('tabindex'),'0');
+  assert.equal(handle.getAttribute('aria-orientation'),'vertical');
+  handle.emit('keydown',{key:'ArrowRight'});assert.ok(m.layout.weights[0]>start[0]);
+  handle.emit('pointerdown',{clientX:100,pointerId:1});handle.emit('pointermove',{clientX:180,pointerId:1});handle.emit('pointerup',{pointerId:1});
+  assert.ok(m.layout.weights[0]>start[0]+2);
+  for(const [boundary,delta] of [[0,999],[0,-999],[1,999],[1,-999]]) {
+    m.resizeWorkspace(boundary,delta);
+    assert.ok(m.layout.weights.every(w=>w>=15&&w<=70));assert.equal(m.layout.weights.reduce((a,b)=>a+b,0),100);
+  }
+  const saved=[...m.layout.weights];
+  for(const key of names) {
+    get('expand-'+key).emit('click');assert.equal(m.layout.expanded,key);
+    for(const other of names) assert.equal(get('workspace-'+other).hidden,other!==key);
+    assert.equal(handle.hidden,true);
+    get('restore-workspaces').emit('click');assert.equal(m.layout.expanded,null);assert.deepEqual(m.layout.weights,saved);
+    assert.ok(doc.activeElement===get('expand-'+key),'restore returns focus to expanded area trigger');
+    for(const other of names) assert.equal(get('workspace-'+other).hidden,false);
+  }
+  assert.deepEqual(m.drafts,drafts);
+  get('library-browse').emit('click');assert.equal(get('library-content').getAttribute('data-view'),'browse');
+  get('inspect-demo-ad').emit('click');assert.equal(get('library-content').getAttribute('data-view'),'inspect');
+  assert.equal(get('notes').value,'keep layout-independent note');
+  const css=require('node:fs').readFileSync(require('node:path').join(__dirname,'../style.css'),'utf8');
+  assert.match(css,/@container library/);assert.match(css,/--rl-library-weight/);
+  assert.doesNotMatch(css,/calc\([^;{}]*\b1fr\b/,'CSS calc cannot multiply fr units');
+  assert.match(css,/@media \(max-width:800px\)/);
+  assert.doesNotMatch(css,/minmax\((?:300|390|400|470)px/);
+  assert.equal(get('workbench').attributes['--rl-library-weight'],String(m.layout.weights[0]));
+});
+
+test('category-specific explicit flags keep Normal empty and retain separate category proposals and legacy provenance', () => {
+  const doc=documentFixture(),{model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  const get=id=>{const n=doc.getElementById(id);assert.ok(n,'missing hook '+id);return n;};
+  const click=id=>get(id).emit('click');
+  const change=(id,v)=>{get(id).value=v;get(id).emit('change');};
+  const check=(id,v)=>{get(id).checked=v;get(id).emit('change');};
+  assert.equal(doc.getElementById('asset-subtype'),null,'commercial must not offer branding roles');
+  check('classification-Food',true);check('classification-Restaurant',true);
+  assert.deepEqual(m.view('demo-ad','metadata').classificationByCategory.Commercial,['Food','Restaurant']);
+  change('asset-category','Episode/Show');
+  assert.equal(doc.getElementById('classification-Food'),null);
+  assert.equal(get('classification-normal').checked,true);
+  check('classification-Holiday',true);check('classification-Crossover',true);
+  assert.equal(get('classification-normal').checked,false);
+  assert.deepEqual(m.view('demo-ad','metadata').classificationByCategory['Episode/Show'],['Holiday','Crossover']);
+  check('classification-normal',true);assert.deepEqual(m.view('demo-ad','metadata').classificationByCategory['Episode/Show'],[]);
+  change('asset-category','Commercial');assert.equal(get('classification-Food').checked,true);
+  click('save-metadata');assert.deepEqual(m.asset('demo-ad').classificationByCategory.Commercial,['Food','Restaurant']);
+  assert.equal(m.asset('demo-ad').legacySubtype,'OTHER');
+  click('inspect-demo-part-1');assert.match(get('legacy-classification').textContent,/legacy series in Subtype/);
+  click('inspect-demo-ident');assert.equal(get('asset-subtype').value,'IDENT');
+  change('asset-subtype','NEXT');click('save-metadata');assert.equal(m.asset('demo-ident').subtype,'NEXT');assert.equal(m.asset('demo-ident').legacySubtype,'IDENT');
+  change('asset-category','Other');assert.equal(doc.getElementById('asset-subtype'),null);get('classification-Short');
+  change('asset-category','Branding');assert.equal(get('asset-subtype').value,'NEXT');
+  assert.throws(()=>m.setClassifications('demo-ident',['Holiday']),/classification/i);
+  assert.throws(()=>m.setClassifications('demo-ident',['IDENT','PROMO']),/primary|classification/i);
+  change('asset-category','Commercial');assert.equal(get('classification-Food').checked,false);
+  assert.equal(m.asset('demo-ident').subtype,'NEXT','category switching does not reinterpret branding roles');
+});
+
+test('multiple selection pools support explicit add/remove/replace without clobbering metadata or legacy Pool', () => {
+  const doc=documentFixture(),{model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  const get=id=>{const n=doc.getElementById(id);assert.ok(n,'missing hook '+id);return n;};
+  assert.ok(get('selection-pools-help').textContent.includes('not content types'));
+  m.draft('demo-ad','metadata',{notes:'unrelated unsaved note'});m.draft('demo-audio','recipe',{trimStart:2});
+  const legacy=m.asset('demo-ad').pool;
+  get('asset-pool-KIDS_00S').checked=true;get('asset-pool-KIDS_00S').emit('change');
+  get('asset-pool-GENERAL_00S').checked=true;get('asset-pool-GENERAL_00S').emit('change');
+  get('save-metadata').emit('click');
+  assert.deepEqual(m.asset('demo-ad').pools,['DemoGeneral','KIDS_00S','GENERAL_00S']);
+  assert.equal(m.asset('demo-ad').pool,legacy);assert.equal(m.asset('demo-ad').notes,'unrelated unsaved note');
+  m.setClassifications('demo-ad',['Food','Restaurant']);
+  const flags=structuredClone(m.view('demo-ad','metadata').classificationByCategory);
+  m.bulkPools(['demo-ad','demo-next'],'Add',['KIDS_00S']);
+  assert.deepEqual(m.asset('demo-next').pools,['DemoBranding','KIDS_00S']);
+  m.bulkPools(['demo-ad'],'Remove',['GENERAL_00S']);assert.deepEqual(m.asset('demo-ad').pools,['DemoGeneral','KIDS_00S']);
+  m.bulkPools(['demo-ad'],'Replace',['GENERAL_00S']);assert.deepEqual(m.view('demo-ad','metadata').pools,['GENERAL_00S']);
+  assert.deepEqual(m.view('demo-ad','metadata').classificationByCategory,flags);assert.equal(m.view('demo-audio','recipe').trimStart,2);
+  const before=structuredClone(m.assets);assert.throws(()=>m.bulkPools(['demo-ad'],'Add',['Unknown']),/pool/i);assert.deepEqual(m.assets,before);
+  assert.equal(m.asset('demo-ad').network,'Unassigned');assert.equal(m.asset('demo-ad').date.mode,'Unknown');
+  get('select-demo-ad').checked=true;get('select-demo-ad').emit('change');get('bulk-edit').emit('click');
+  get('bulk-pool-mode').value='Replace';get('bulk-pool-mode').emit('change');
+  get('bulk-pool-KIDS_00S').checked=true;get('bulk-pool-KIDS_00S').emit('change');get('apply-bulk').emit('click');
+  assert.deepEqual(m.asset('demo-ad').pools,['KIDS_00S']);assert.equal(m.asset('demo-ad').pool,legacy);
+  assert.match(get('legacy-pool').textContent,/Demo general pool/);
+});
+
+test('network definitions preserve stable identities, pins and archive visibility while deletion preflights dependencies', () => {
+  const m=demo.createModel();
+  assert.equal(typeof m.addNetwork,'function','project definition management is missing');
+  for(const code of ['nick',' BAD','BAD ','BAD-CODE','']) assert.throws(()=>m.addNetwork({code,name:'Invalid',kind:'Network'}),/code/i);
+  assert.throws(()=>m.addNetwork({code:'NICK',name:'Duplicate',kind:'Network'}),/unique|exists/i);
+  const added=m.addNetwork({code:'DEMO',name:'Demo Network',kind:'Network'});
+  const block=m.addNetwork({code:'DEMO_BLOCK',name:'Demo block',kind:'Block',parentNetwork:'DEMO'});
+  assert.equal(added.code,'DEMO');assert.equal(block.parentNetwork,'DEMO');
+  assert.throws(()=>m.addNetwork({code:'WRONG',name:'Wrong',kind:'Block',parentNetwork:'SNICK'}),/parent/i);
+  assert.ok(m.networkImpact('DEMO').blocks.some(n=>n.code==='DEMO_BLOCK'));
+  assert.throws(()=>m.deleteNetwork('DEMO'),/depend|referenc/i);
+  m.deleteNetwork('DEMO_BLOCK');
+  m.draft('demo-ad','metadata',{network:'DEMO',notes:'keep network draft'});
+  assert.throws(()=>m.deleteNetwork('DEMO'),/depend|referenc/i);
+  m.saveMetadata('demo-ad');m.renameNetwork('DEMO','Renamed demo');
+  assert.equal(m.asset('demo-ad').network,'DEMO');
+  assert.ok(m.networkChoices('DEMO').some(o=>o.value==='DEMO'&&o.label.includes('Renamed demo')));
+  m.archiveNetwork('DEMO',true);assert.ok(!m.networkChoices().some(o=>o.value==='DEMO'));
+  assert.ok(m.networkChoices('DEMO').some(o=>o.label.includes('archived')));
+  assert.throws(()=>m.saveMetadata('demo-next',{network:'DEMO'}),/archiv/i);
+  assert.equal(m.asset('demo-next').network,'CN');
+  m.saveMetadata('demo-ad',{notes:'save while assigned archived'});assert.equal(m.asset('demo-ad').network,'DEMO');
+  m.archiveNetwork('DEMO',false);assert.ok(m.networkChoices().some(o=>o.value==='DEMO'));
+  const pins=structuredClone(m.cartNetworkPins), legacyImpact=m.networkImpact('NICK');assert.ok(legacyImpact.carts.length);
+  m.assets.filter(a=>a.network==='NICK').forEach(a=>m.saveMetadata(a.id,{network:'Unassigned'}));
+  assert.throws(()=>m.deleteNetwork('NICK'),/depend|referenc/i);assert.deepEqual(m.cartNetworkPins,pins);
+  m.renameNetwork('NICK','Nick renamed');assert.deepEqual(m.cartNetworkPins,pins);
+  assert.equal(m.query({network:'NICK'}).some(a=>a.network==='SNICK'),false);
+  m.saveMetadata('demo-ad',{network:'Unassigned'});m.deleteNetwork('DEMO');assert.ok(!m.networks.some(n=>n.code==='DEMO'));
+});
+
+test('network/block manager UI adds definitions, edits names, shows impact and blocks referenced deletion', () => {
+  const doc=documentFixture(),{model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  const get=id=>{const n=doc.getElementById(id);assert.ok(n,'missing hook '+id);return n;};
+  const click=id=>get(id).emit('click'),input=(id,v)=>{get(id).value=v;get(id).emit('input');};
+  click('manage-networks');get('network-manager');input('network-code','DEMO');input('network-name','Demo network');click('add-network');
+  input('network-name-DEMO','Display name changed');click('save-network-DEMO');
+  assert.equal(m.networks.find(n=>n.code==='DEMO').name,'Display name changed');
+  assert.ok(get('network-impact-NICK').children.length);click('delete-network-NICK');assert.match(get('mock-status').textContent,/depend|referenc/i);
+  click('archive-network-NICK');assert.equal(m.networks.find(n=>n.code==='NICK').archived,true);
+  click('dialog-close');assert.ok(get('asset-network').children.some(o=>o.attributes.value==='DEMO'&&o.textContent.includes('Display name changed')));
+  click('inspect-demo-missing');assert.ok(get('asset-network').children.some(o=>o.attributes.value==='NICK'&&o.textContent.includes('archived')));
+  click('manage-networks');click('unarchive-network-NICK');click('delete-network-DEMO');assert.ok(!m.networks.some(n=>n.code==='DEMO'));
+});
+
+test('category changes require explicit Branding choice and failed proposals leave assets and drafts intact', () => {
+  const m=demo.createModel(),a=m.asset('demo-ad');
+  a.legacySubtype='UNRECOGNIZED_LEGACY';a.subtype='UNRECOGNIZED_LEGACY';
+  const before=structuredClone(a);
+  assert.throws(()=>m.saveMetadata(a.id,{category:'Branding'}),/explicit.*Branding|primary.*role/i);
+  assert.deepEqual(a,before);
+  m.draft(a.id,'metadata',{category:'Branding'});m.setClassifications(a.id,['PROMO']);m.saveMetadata(a.id);
+  assert.equal(a.subtype,'PROMO');assert.equal(a.legacySubtype,'UNRECOGNIZED_LEGACY');
+  m.draft(a.id,'recipe',{trimStart:2});const drafts=structuredClone(m.drafts),saved=structuredClone(a);
+  assert.throws(()=>m.saveMetadata(a.id,{classificationByCategory:{...a.classificationByCategory,Commercial:['Holiday']}}),/classification/i);
+  assert.deepEqual(a,saved);assert.deepEqual(m.drafts,drafts);
+  assert.throws(()=>m.saveMetadata(a.id,{pool:'rewrite legacy'}),/read only/i);
+});
+
+test('skip link restores a hidden Library inspector without discarding work-area sizes', () => {
+  const doc=documentFixture(),skip=doc.createElement('a'),original=doc.getElementById;
+  doc.getElementById=id=>id==='skip-inspector'?skip:original(id);
+  const {model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  doc.getElementById('library-browse').emit('click');
+  doc.getElementById('expand-cart-builder').emit('click');
+  const weights=[...m.layout.weights];skip.emit('click');
+  assert.equal(m.layout.expanded,null);assert.deepEqual(m.layout.weights,weights);
+  assert.equal(doc.getElementById('library-content').getAttribute('data-view'),'inspect');
+  assert.ok(doc.activeElement===doc.getElementById('inspector'));
+});
+
+test('review-state switching and composite saving reveal their Library surface from compact navigation', () => {
+  const doc=documentFixture(),{model:m}=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  const get=id=>{const n=doc.getElementById(id);assert.ok(n,id);return n;},click=id=>get(id).emit('click');
+  click('expand-cart-builder');get('scenario-select').value='Error';get('scenario-select').emit('change');
+  assert.equal(m.layout.expanded,null,'Library review state must not stay hidden behind another expanded workspace');
+  assert.equal(get('library-content').getAttribute('data-view'),'inspect');get('job-panel');
+  get('scenario-select').value='Populated';get('scenario-select').emit('change');click('library-browse');
+  for(const id of ['demo-part-1','demo-part-2']){get('select-'+id).checked=true;get('select-'+id).emit('change');}
+  click('create-composite');click('save-group');
+  assert.equal(get('library-content').getAttribute('data-view'),'inspect','saved definition is shown, not hidden behind Browse');
+  assert.equal(get('tab-relationships').getAttribute('aria-selected'),'true');assert.equal(m.groups.length,1);assert.equal(m.jobs.length,0);
+});
 
 test('navigable DOM keeps notes beside preview, drafts across selection, and exposes all five review states', () => {
   const doc = documentFixture();
@@ -43,8 +226,10 @@ test('navigable DOM keeps notes beside preview, drafts across selection, and exp
   get('tab-properties').emit('click'); get('save-metadata').emit('click');
   assert.equal(ui.model.asset('demo-ad').notes, 'draft moon');
   for (const scenario of ['Empty','Missing source','Busy','Error','Populated']) {
+    get('library-browse').emit('click');
     get('scenario-select').value = scenario; get('scenario-select').emit('change');
     assert.equal(ui.model.scenario, scenario);
+    assert.equal(get('library-content').getAttribute('data-view'),scenario==='Empty'?'browse':'inspect','review states expose the relevant Library surface immediately');
     if (scenario === 'Empty') get('empty-add-location');
     if (scenario === 'Missing source') get('relink');
     if (['Busy','Error'].includes(scenario)) get('job-panel');
@@ -84,9 +269,11 @@ test('individual reference registration is explicit, unreviewed and duplicate-sa
 
 test('individual media registration is reachable and leads to explicit classification in the inspector', () => {
   const doc=documentFixture(),ui=demo.mount(doc.root,{document:doc,protocol:'file:'});
+  doc.getElementById('library-browse').emit('click');
   const add=doc.getElementById('add-asset');assert.ok(add,'media-reference registration entry is missing');add.emit('click');
   const p=doc.getElementById('asset-reference-path');p.value='D:/Example media/new reference.mp4';p.emit('input');
   const title=doc.getElementById('asset-reference-title');title.value='Added reference';title.emit('input');doc.getElementById('register-asset').emit('click');
+  assert.equal(doc.getElementById('library-content').getAttribute('data-view'),'inspect','registration reveals the added reference');
   assert.equal(ui.model.assets.length,11);assert.equal(doc.getElementById('asset-name').value,'Added reference');assert.equal(doc.getElementById('source-health').value,'UNREVIEWED');
 });
 
@@ -108,11 +295,14 @@ test('classic browser entry boots with forbidden capabilities trapped and has no
   assert.deepEqual(Object.keys(win.RetroLibraryDemo).sort(),['createModel','data','mount']);
   for (const source of scripts) {
     assert.doesNotMatch(source,/\b(?:fetch|XMLHttpRequest|WebSocket|FileReader|localStorage|indexedDB|sessionStorage|serviceWorker|sendBeacon|clipboard|showOpenFilePicker|showDirectoryPicker)\b/);
-    assert.doesNotMatch(source,/innerHTML|outerHTML|insertAdjacentHTML|\.style\b|\b(?:setInterval|setTimeout)\s*\(/);
+    const nonLayoutSource=source.replace("workbench.style.setProperty('--rl-' + key + '-weight', String(m.layout.weights[i]));",'');
+    assert.doesNotMatch(nonLayoutSource,/innerHTML|outerHTML|insertAdjacentHTML|\.style\b|\b(?:setInterval|setTimeout)\s*\(/);
   }
   const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
   assert.match(html,/connect-src 'none'/);
   assert.match(html,/media-src 'none'/);
+  assert.match(html,/frame-src 'none'/);assert.match(html,/worker-src 'none'/);
+  assert.match(html,/<title>Combined workspace/);
   assert.doesNotMatch(html,/<style\b|\son\w+=|\sstyle=|<script\b[^>]*>\s*[^<\s]/i);
   assert.equal((html.match(/<script src="\.\//g)||[]).length,2);
 });
@@ -242,9 +432,9 @@ test('composite definitions preserve ordered constituents and pinned recipe revi
   assert.equal(g.pins['demo-part-1'], 1);
   assert.equal(m.removeReference('demo-part-2').blocked, true);
   assert.throws(() => m.saveGroup('Wrong', ['demo-ad','demo-ident']), /episode/i);
-  m.bulk(['demo-ad','demo-next'], {pool: 'Demo temporary pool'});
-  assert.equal(m.asset('demo-ad').pool, 'Demo temporary pool');
-  assert.equal(m.asset('demo-next').pool, 'Demo temporary pool');
+  m.bulkPools(['demo-ad','demo-next'], 'Add', ['KIDS_00S']);
+  assert.ok(m.asset('demo-ad').pools.includes('KIDS_00S'));
+  assert.ok(m.asset('demo-next').pools.includes('KIDS_00S'));
   assert.equal(m.asset('demo-ad').health, 'UNREVIEWED');
   assert.equal(demo.createModel('Busy').jobs[0].state, 'Running');
   assert.equal(demo.createModel('Busy').jobs[1].state, 'Queued');

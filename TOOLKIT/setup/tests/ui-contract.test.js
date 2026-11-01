@@ -252,13 +252,27 @@ function documentStub() {
   return doc;
 }
 
-test('only Library Manager exposes an explicitly labelled separate-tab design mockup link', async () => {
+test('saved projects mount a persistent live combined workspace directly and retain its root across setup emissions',async()=>{
+ const doc=documentStub(),mounted=[],suspended=[];const factory={mount:(root,options)=>{mounted.push({root,options});root.append(doc.createElement('span'));return {resume(){},suspend(){suspended.push(root);},destroy(){}};}};
+ const app=require('../app.js').mount(doc,{workspace:factory,schedule:()=>0,confirmDiscard:()=>true,request:async url=>url==='/api/bootstrap'?bootstrap(project):{tools:[]}});await app.ready;
+ const root=doc.getElementById('live-workspace-host');assert.ok(root,'normal launch must reach combined workspace');assert.equal(mounted.length,1);await app.checkTools();assert.equal(doc.getElementById('live-workspace-host'),root);assert.equal(mounted.length,1);
+ app.openSettings();assert.ok(suspended.length);app.showActive();assert.equal(doc.getElementById('live-workspace-host'),root);assert.equal(mounted.length,1);
+});
+
+test('the hub opens the workspace mockup directly without an intermediate Library entry page', async () => {
+  const doc=documentStub(),calls=[];const app=require('../app.js').mount(doc,{schedule:()=>0,request:async url=>{calls.push(url);return bootstrap(project);}});
+  await app.ready;const direct=doc.getElementById('open-library');assert.equal(direct.tagName,'A','Library design must open directly from the hub');
+  assert.equal(direct.attributes.href,'/mockups/library-manager/');assert.equal(direct.attributes.target,'_blank');assert.match(direct.attributes.rel,/noopener/);
+  assert.equal(app.state.view,'active');assert.deepEqual(calls,['/api/bootstrap']);
+});
+
+test('combined surface keeps its optional separate-tab approved design link', async () => {
   const doc=documentStub(),calls=[];
   const app=require('../app.js').mount(doc,{schedule:()=>0,request:async url=>{calls.push(url);return bootstrap(project);}});
   await app.ready;app.openWorkspace('library');
-  const link=doc.getElementById('library-design-link');assert.ok(link,'Library Manager design entry is missing');
-  assert.equal(link.tagName,'A');assert.equal(link.attributes.href,'/mockups/library-manager/');assert.equal(link.attributes.target,'_blank');assert.match(link.attributes.rel,/noopener/);assert.match(link.textContent,/mockup.*sample data/i);
-  app.openWorkspace('cart-builder');assert.equal(doc.getElementById('library-design-link'),null);app.openWorkspace('tv-studio');assert.equal(doc.getElementById('library-design-link'),null);
+  const link=doc.getElementById('open-library');assert.ok(link,'Library Manager design entry is missing');
+  assert.equal(link.tagName,'A');assert.equal(link.attributes.href,'/mockups/library-manager/');assert.equal(link.attributes.target,'_blank');assert.match(link.attributes.rel,/noopener/);assert.match(link.textContent,/sample design.*mockup/i);
+  app.openWorkspace('cart-builder');assert.ok(doc.getElementById('open-library'));app.openWorkspace('tv-studio');assert.ok(doc.getElementById('open-library'));
   assert.deepEqual(calls,['/api/bootstrap']);
 });
 
@@ -292,8 +306,8 @@ test('real DOM adapter wires semantic editable fields to locked review and expli
   assert.equal(doc.getElementById('confirm-button').disabled, false);
   assert.equal(calls.some(c => c.url === '/api/confirm'), false);
   await doc.getElementById('confirm-button').onclick();
-  assert.match(doc.getElementById('setup-content').textContent, /Main hub/);
-  assert.match(doc.getElementById('setup-content').textContent, /tools inside each workspace are not built yet/);
+  assert.match(doc.getElementById('setup-content').textContent, /Combined workspace/);
+  assert.match(doc.getElementById('setup-content').textContent, /Cart Builder placeholder.*TV Studio placeholder/);
   assert.equal(doc.getElementById('settings-button').disabled, false);
 });
 

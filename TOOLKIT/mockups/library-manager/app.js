@@ -9,17 +9,67 @@
   'use strict';
   const copy = value => JSON.parse(JSON.stringify(value));
   function createModel(scenario = 'Populated') {
-    const m = {scenario, assets: [], locations: [], drafts: {}, jobs: [], groups: [], selected: new Set()};
+    const m = {scenario, assets: [], locations: [], drafts: {}, jobs: [], groups: [], selected: new Set(), layout:{weights:[50,25,25], expanded:null}};
+    m.resizeWorkspace = (boundary, delta) => {
+      if (![0,1].includes(boundary) || !Number.isFinite(delta) || m.layout.expanded) return;
+      const w=m.layout.weights, total=w[boundary]+w[boundary+1];
+      w[boundary]=Math.max(15,Math.min(70,total-15,Math.max(total-70,w[boundary]+Math.round(delta))));
+      w[boundary+1]=total-w[boundary];
+    };
+    m.expandWorkspace = key => {if (['library','cart-builder','tv-studio'].includes(key)) m.layout.expanded=key;};
+    m.restoreWorkspaces = () => {m.layout.expanded=null;};
     m.asset = id => m.assets.find(a => a.id === id);
-    const metadata = a => Object.fromEntries(['name','category','subtype','network','notes','reason','health','show','pool','date','availableFrom','availableTo','family','sourceId','variantOf'].map(k => [k, copy(a[k])]));
+    const network = code => {
+      const definition=m.networks.find(n=>n.code===code);
+      if (!definition) throw Error('Unknown network/block definition.');
+      return definition;
+    };
+    m.networkLabel = code => {
+      const n=m.networks.find(n=>n.code===code);
+      return n?n.name+' ('+n.code+')'+(n.archived?' — archived':''):code==='Unassigned'?'Unassigned':'Unknown legacy identity: '+code;
+    };
+    m.networkChoices = (current='', includeArchived=false) => [{value:'Unassigned',label:'Unassigned'},...m.networks.filter(n=>includeArchived||!n.archived||n.code===current).map(n=>({value:n.code,label:m.networkLabel(n.code)})),...(current&&current!=='Unassigned'&&!m.networks.some(n=>n.code===current)?[{value:current,label:m.networkLabel(current)}]:[])];
+    m.addNetwork = ({code,name,kind,parentNetwork=''}) => {
+      if (typeof code!=='string'||!/^[A-Z][A-Z0-9_]{0,31}$/.test(code)) throw Error('Code must be typed exactly: 1–32 uppercase letters, digits or underscores, starting with a letter. No automatic repair.');
+      if(m.networks.some(n=>n.code===code))throw Error('Code must be unique; this identity already exists.');
+      if(!name?.trim()||!['Network','Block'].includes(kind))throw Error('Enter a display name and choose Network or Block.');
+      if(parentNetwork&&(kind!=='Block'||network(parentNetwork).kind!=='Network'||network(parentNetwork).archived))throw Error('Parent must be an active Network, and only a Block can have a parent.');
+      const n={code,name:name.trim(),kind,parentNetwork,archived:false};m.networks.push(n);return n;
+    };
+    m.renameNetwork = (code,name) => {if(!name.trim())throw Error('Enter a display name.');network(code).name=name.trim();};
+    m.networkImpact = code => ({
+      assets:m.assets.filter(a=>a.network===code).map(a=>({id:a.id,name:a.name})),
+      drafts:Object.entries(m.drafts).filter(([,d])=>d.metadata?.network===code).map(([id])=>({id,name:m.asset(id)?.name||id})),
+      carts:m.cartNetworkPins.filter(pin=>pin.network===code).map(pin=>({...pin})),
+      blocks:m.networks.filter(n=>n.parentNetwork===code).map(n=>({code:n.code,name:n.name}))
+    });
+    m.archiveNetwork = (code,archived) => {network(code).archived=!!archived;};
+    m.deleteNetwork = code => {
+      network(code);
+      if(Object.values(m.networkImpact(code)).some(items=>items.length))throw Error('Deletion refused: assets, drafts, saved cart pins or child block dependencies still reference this identity. Archive instead.');
+      m.networks=m.networks.filter(n=>n.code!==code);
+    };
+    const metadata = a => Object.fromEntries(['name','category','subtype','classificationByCategory','network','notes','reason','health','show','pools','date','availableFrom','availableTo','family','sourceId','variantOf'].map(k => [k, copy(a[k])]));
     m.draft = (id, kind, values) => {
       m.drafts[id] ||= {};
       m.drafts[id][kind] = Object.assign(m.drafts[id][kind] || (kind === 'metadata' ? metadata(m.asset(id)) : copy(m.asset(id).recipe)), copy(values));
       return m.drafts[id][kind];
     };
     m.view = (id, kind) => copy(m.drafts[id]?.[kind] || (kind === 'metadata' ? metadata(m.asset(id)) : m.asset(id).recipe));
+    function validateClassifications(category, values) {
+      if (!Array.isArray(values) || values.some(v=>!data.classificationChoices[category]?.includes(v)) || new Set(values).size!==values.length || (category==='Branding'&&values.length>1)) throw Error('Choose category-specific classifications; Branding has one primary role.');
+    }
+    m.setClassifications = (id, values) => {
+      const meta=m.view(id,'metadata'); validateClassifications(meta.category,values);
+      return m.draft(id,'metadata',{classificationByCategory:{...meta.classificationByCategory,[meta.category]:[...values]}});
+    };
     m.saveMetadata = (id, values) => {
-      const v = values || m.view(id, 'metadata');
+      const v = copy(values || m.view(id, 'metadata'));
+      if ('pool' in v && v.pool!==m.asset(id).pool) throw Error('Legacy Pool is read only. Use Selection pools.');
+      if (v.pools) validatePools(v.pools);
+      if (v.network && v.network!==m.asset(id).network && v.network!=='Unassigned') {
+        if (network(v.network).archived) throw Error('Archived network/block cannot be newly assigned. Existing references stay visible.');
+      }
       if (v.health && v.health !== m.asset(id).health && !v.reason?.trim()) throw Error('Give a reason for this source-health decision.');
       if (v.availableFrom && v.availableTo && v.availableFrom > v.availableTo) throw Error('Availability end must be on or after start.');
       if (v.date) {
@@ -28,6 +78,12 @@
         if (d.mode === 'Range' && (!/^\d{4}–\d{4}$/.test(d.value) || d.value.slice(0,4) > d.value.slice(5))) throw Error('Range requires YYYY–YYYY, start before end.');
         if (d.mode === 'Exact date' && (!/^\d{4}-\d{2}-\d{2}$/.test(d.value) || !Number.isFinite(Date.parse(d.value)) || new Date(d.value).toISOString().slice(0,10) !== d.value)) throw Error('Exact date requires a valid YYYY-MM-DD.');
         if (d.mode === 'Unknown') d.value = '';
+      }
+      const effective={...metadata(m.asset(id)),...v};
+      Object.entries(effective.classificationByCategory).forEach(([category,flags])=>validateClassifications(category,flags));
+      if (effective.category==='Branding') {
+        if (effective.classificationByCategory.Branding.length!==1) throw Error('Choose one explicit primary Branding role before saving. Other category proposals are retained separately.');
+        v.subtype=effective.classificationByCategory.Branding[0];
       }
       Object.assign(m.asset(id), copy(v));
       if (m.drafts[id]) delete m.drafts[id].metadata;
@@ -111,7 +167,7 @@
       if(!sourcePath.trim() || !title.trim())throw Error('Enter an illustrative source path and an explicit display name.');
       if(m.assets.some(a=>normalize(a.path)===normalize(sourcePath)))throw Error('Media reference already registered in this sample.');
       const id='demo-added-'+(++m.referenceSerial),a=copy(data.seed()[0]);
-      Object.assign(a,{id,name:title.trim(),path:sourcePath.trim(),locationId,missing:false,unverified:true,category:'Other',subtype:'OTHER',network:'Unassigned',health:'UNREVIEWED',reason:'New illustrative reference; no source inspection was performed',notes:'',show:'',pool:'',date:{mode:'Unknown',value:''},availableFrom:'',availableTo:'',family:'demo-family-'+id,sourceId:'',variantOf:'',uses:[],legacyType:'ARCHIVE_MISC',legacySubtype:'OTHER',technical:{duration:30,dimensions:'720 × 480',codec:'H.264',sar:'8:9'},recipe:{trimStart:0,trimEnd:0,crop:{left:0,right:0,top:0,bottom:0},audio:'NONE',revision:1}});
+      Object.assign(a,{id,name:title.trim(),path:sourcePath.trim(),locationId,missing:false,unverified:true,category:'Other',subtype:'OTHER',classificationByCategory:{'Episode/Show':[],Commercial:[],Other:[],Branding:[]},network:'Unassigned',health:'UNREVIEWED',reason:'New illustrative reference; no source inspection was performed',notes:'',show:'',pool:'',pools:[],date:{mode:'Unknown',value:''},availableFrom:'',availableTo:'',family:'demo-family-'+id,sourceId:'',variantOf:'',uses:[],legacyType:'ARCHIVE_MISC',legacySubtype:'OTHER',technical:{duration:30,dimensions:'720 × 480',codec:'H.264',sar:'8:9'},recipe:{trimStart:0,trimEnd:0,crop:{left:0,right:0,top:0,bottom:0},audio:'NONE',revision:1}});
       m.assets.push(a);return a;
     };
     m.addLocation = path => {
@@ -151,12 +207,23 @@
       if (i >= 0) m.groups[i] = g; else m.groups.push(g);
       return g;
     };
-    m.bulk = (ids, values) => ids.forEach(id => {Object.assign(m.asset(id), copy(values)); if (m.drafts[id]?.metadata) Object.assign(m.drafts[id].metadata, copy(values));});
+    function validatePools(pools) {
+      if (!Array.isArray(pools)||pools.some(value=>!data.selectionPools.some(p=>p.value===value))||new Set(pools).size!==pools.length) throw Error('Choose explicit selection pools from the sample definitions.');
+    }
+    m.bulkPools = (ids, mode, pools) => {
+      validatePools(pools);
+      if (!['Add','Remove','Replace'].includes(mode)||ids.some(id=>!m.asset(id))) throw Error('Choose Add, Remove or Replace pools for existing sample assets.');
+      const update=old=>mode==='Replace'?[...pools]:mode==='Remove'?old.filter(v=>!pools.includes(v)):[...new Set([...old,...pools])];
+      ids.forEach(id=>{m.asset(id).pools=update(m.asset(id).pools);if(m.drafts[id]?.metadata)m.drafts[id].metadata.pools=update(m.drafts[id].metadata.pools);});
+    };
     m.dirty = () => Object.values(m.drafts).some(d => Object.keys(d).length);
     m.reset = (name, discard = false) => {
       if (m.dirty() && !discard) return false;
       m.scenario = name;
       m.assets = name === 'Empty' ? [] : data.seed();
+      m.networks=copy(data.networkDefinitions);
+      // Illustrative immutable historical references, independent of current assignments.
+      m.cartNetworkPins=m.assets.flatMap(a=>a.uses.map(use=>({...copy(use),network:a.network,assetId:a.id})));
       m.locations = name === 'Empty' ? [] : [{id: 'demo-location-1', path: 'D:/Example media', scanning: false}];
       m.drafts = {}; m.jobs = []; m.groups = []; m.selected.clear(); m.locationSerial = 1; m.referenceSerial=0;
       if (name === 'Busy' || name === 'Error') {
@@ -210,7 +277,7 @@
     }
     const banner = el('div', 'PHASE 3.1 DESIGN MOCKUP — illustrative sample data — nothing is saved or processed', {class: 'rl-banner'});
     const header = el('header', null, {class: 'rl-header'});
-    const brand = el('div'); brand.append(p('RETRO TV / LIBRARY', 'rl-eyebrow'), el('h1', 'Library Manager'));
+    const brand = el('div'); brand.append(p('RETRO TV / OPERATE', 'rl-eyebrow'), el('h1', 'Combined workspace'));
     const back = el('a', 'Back to live hub', {id: 'back-to-hub', class: 'rl-link-button'});
     const standalone = !['http:','https:'].includes(options.protocol);
     if (standalone) back.hidden = true; else back.setAttribute('href', '/');
@@ -220,12 +287,70 @@
     const scenarioSelect = field(review, 'Design review state', 'scenario-select', 'Populated', scenarioChange, {choices: data.scenarios});
     review.append(p('Switching state resets this sample, including saved-in-memory edits and jobs. Reload also resets everything.'));
     const notice = el('p', 'Sample workspace only. No current project is connected.', {id: 'mock-status', role: 'status', 'aria-live': 'polite', class: 'rl-status'});
-    const workspace = el('div', null, {class: 'rl-workspace'});
-    const left = el('aside', null, {class: 'rl-locations', 'aria-label': 'Locations and filters'});
+    const workbench = el('div',null,{id:'workbench',class:'rl-workbench'});
+    const workAreas={}, separators=[];
+    const restore=button('Restore all workspaces',()=>{const key=m.layout.expanded;m.restoreWorkspaces();renderLayout();doc.getElementById('expand-'+key)?.focus();},'restore-workspaces');
+    const layoutTools=actions(review); layoutTools.append(restore);
+    for (const [key,title,phase] of [['library','Library Manager','Phase 3.1'],['cart-builder','Cart Builder','Phase 4'],['tv-studio','TV Studio','Phase 5']]) {
+      const area=el('section',null,{id:'workspace-'+key,class:'rl-work-area','aria-label':title});
+      const head=el('header',null,{class:'rl-area-head'});
+      head.append(el('h2',title),button('Expand '+title,()=>{m.expandWorkspace(key);renderLayout();restore.focus();},'expand-'+key));
+      area.append(head); workAreas[key]=area;
+      if (key!=='library') area.append(p(phase+' · placeholder only','rl-eyebrow'),p('Design and tools await their numbered approval gate. No '+title+' module is implemented here.'));
+    }
+    const workspace = el('div', null, {id:'library-content',class: 'rl-workspace','data-view':'browse'});
+    function libraryView(view) {
+      workspace.setAttribute('data-view',view);
+      for(const key of ['browse','inspect']) doc.getElementById('library-'+key)?.setAttribute('aria-pressed',String(view===key));
+    }
+    const libraryNav=el('nav',null,{class:'rl-library-nav','aria-label':'Explore or inspect library'});
+    libraryNav.append(button('Explore / browse',()=>libraryView('browse'),'library-browse'),button('Inspect selected',()=>libraryView('inspect'),'library-inspect'));
+    const projectTools=actions(workAreas.library);projectTools.append(button('Manage networks / blocks (mock)',manageNetworks,'manage-networks'));
+    workAreas.library.append(libraryNav,workspace);
+    function renderLayout() {
+      const expanded=m.layout.expanded;
+      workbench.setAttribute('data-expanded',expanded||'none');
+      // Fixed property names and bounded numeric weights only; no user-provided CSS.
+      ['library','cart','studio'].forEach((key,i)=>{workbench.style.setProperty('--rl-' + key + '-weight', String(m.layout.weights[i]));});
+      Object.entries(workAreas).forEach(([key,area])=>{area.hidden=!!expanded&&expanded!==key;doc.getElementById('expand-'+key).hidden=expanded===key;});
+      restore.hidden=!expanded;
+      separators.forEach((handle,i)=>{
+        handle.hidden=!!expanded;
+        const total=m.layout.weights[i]+m.layout.weights[i+1];
+        handle.setAttribute('aria-valuemin',String(Math.max(15,total-70)));
+        handle.setAttribute('aria-valuemax',String(Math.min(70,total-15)));
+        handle.setAttribute('aria-valuenow',String(m.layout.weights[i]));
+        handle.setAttribute('aria-valuetext',m.layout.weights[i]+' percent of workspace width');
+      });
+    }
+    ['resize-library-cart','resize-cart-studio'].forEach((id,i)=>{
+      const handle=el('div','⋮',{id,class:'rl-resizer',role:'separator',tabindex:'0','aria-orientation':'vertical','aria-label':i===0?'Resize Library Manager and Cart Builder':'Resize Cart Builder and TV Studio','aria-controls':i===0?'workspace-library workspace-cart-builder':'workspace-cart-builder workspace-tv-studio'});
+      let drag=null;
+      handle.addEventListener('keydown',e=>{
+        const delta={ArrowLeft:-2,ArrowRight:2,Home:-100,End:100}[e.key];
+        if(delta!==undefined){e.preventDefault();m.resizeWorkspace(i,delta);renderLayout();}
+      });
+      handle.addEventListener('pointerdown',e=>{
+        if(m.layout.expanded||e.button>0)return;
+        e.preventDefault(); handle.focus(); handle.setPointerCapture(e.pointerId);
+        drag={x:e.clientX,weight:m.layout.weights[i],width:Math.max(1,workbench.getBoundingClientRect().width-24),pointer:e.pointerId};
+      });
+      handle.addEventListener('pointermove',e=>{
+        if(!drag||e.pointerId!==drag.pointer)return;
+        const target=drag.weight+(e.clientX-drag.x)/drag.width*100;
+        m.resizeWorkspace(i,target-m.layout.weights[i]);renderLayout();
+      });
+      const stop=e=>{if(drag&&drag.pointer===e.pointerId){drag=null;handle.releasePointerCapture(e.pointerId);}};
+      handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',()=>{drag=null;});
+      separators.push(handle);
+    });
+    workbench.append(workAreas.library,separators[0],workAreas['cart-builder'],separators[1],workAreas['tv-studio']);
+    const left = el('details', null, {class: 'rl-locations', 'aria-label': 'Locations and filters'});
+    left.append(el('summary','Locations & filters'));
     const locations = el('section');
     const filtersPane = el('section'); filtersPane.append(el('h2', 'Refine sample'));
     field(filtersPane, 'Search names & notes', 'search', '', v => {filters.search = v; renderResults();});
-    for (const [key,label,values] of [['category','Category',data.categories],['health','Source health',data.health],['network','Network / block',data.networks]]) {
+    for (const [key,label,values] of [['category','Category',data.categories],['health','Source health',data.health],['network','Network / block',m.networkChoices('',true)]]) {
       refs[key] = field(filtersPane,label,key + '-filter','',v => {filters[key] = v; renderResults();},{choices:['',...values]});
     }
     field(filtersPane, 'Hard year filter', 'date-filter', '', v => {filters.year = v; renderResults();}, {type: 'number', min: 1, max: 9999, help: 'Structured dates only; notes never change eligibility.'});
@@ -249,7 +374,13 @@
     const dialog = el('dialog', null, {class:'rl-dialog', 'aria-labelledby':'dialog-title'});
     let dialogOrigin;
     dialog.addEventListener('close', () => {const current = dialogOrigin?.id ? doc.getElementById(dialogOrigin.id) : dialogOrigin; current?.focus();});
-    root.replaceChildren(banner,header,review,notice,workspace,dialog);
+    root.replaceChildren(banner,header,review,notice,workbench,dialog);
+    renderLayout(); libraryView('browse');
+    doc.getElementById('skip-inspector')?.addEventListener('click',e=>{
+      e.preventDefault();
+      if(m.layout.expanded&&m.layout.expanded!=='library')m.restoreWorkspaces();
+      renderLayout();libraryView('inspect');inspector.focus();
+    });
     function say(text, error = false) {
       notice.textContent = text;
       notice.setAttribute('class', error ? 'rl-status rl-error' : 'rl-status');
@@ -260,6 +391,9 @@
     }
     function refresh() {
       const focusId = doc.activeElement?.id;
+      const networkSelect=refs.network;
+      networkSelect.replaceChildren(el('option','All',{value:''}),...m.networkChoices('',true).map(o=>el('option',o.label,{value:o.value})));
+      networkSelect.value=filters.network||'';
       renderLocations(); renderResults(); renderInspector();
       if (focusId) doc.getElementById(focusId)?.focus();
     }
@@ -273,7 +407,7 @@
       else doc.getElementById('dialog-title')?.focus();
     }
     function scenarioChange(name) {
-      const reset = () => {m.reset(name,true); assetId = name === 'Missing source' ? 'demo-missing' : ['Busy','Error'].includes(name) ? 'demo-audio' : 'demo-ad'; tab = name === 'Error' ? 'jobs' : name === 'Busy' ? 'preview' : 'properties'; filters.locationId = ''; scenarioSelect.value = name; refresh(); say('Design review: ' + name + '. Sample reset; no project data was read.');};
+      const reset = () => {m.reset(name,true); assetId = name === 'Missing source' ? 'demo-missing' : ['Busy','Error'].includes(name) ? 'demo-audio' : 'demo-ad'; tab = name === 'Error' ? 'jobs' : name === 'Busy' ? 'preview' : 'properties'; filters.locationId = ''; scenarioSelect.value = name; if(m.layout.expanded&&m.layout.expanded!=='library'){m.restoreWorkspaces();renderLayout();} libraryView(name==='Empty'?'browse':'inspect'); refresh(); say('Design review: ' + name + '. Sample reset; no project data was read.');};
       if (m.dirty()) {
         scenarioSelect.value = m.scenario;
         modal('Reset sample and discard drafts?', 'Asset drafts are retained while navigating. This explicit state change would discard all sample work.', body => {
@@ -315,9 +449,9 @@
         check.addEventListener('change', () => {if (check.checked) m.selected.add(a.id); else m.selected.delete(a.id); selectedCount.textContent = m.selected.size + ' sample selected';});
         checkLabel.append(check); checkCell.append(checkLabel);
         const title = el('td');
-        const open = button(a.name, () => {assetId = a.id; renderResults(); renderInspector(); doc.getElementById('asset-title')?.focus();}, 'inspect-' + a.id, 'rl-asset-button');
+        const open = button(a.name, () => {assetId = a.id; libraryView('inspect'); renderResults(); renderInspector(); doc.getElementById('asset-title')?.focus();}, 'inspect-' + a.id, 'rl-asset-button');
         open.setAttribute('aria-pressed', String(a.id === assetId));
-        title.append(open,p(a.category + ' / ' + a.network + ' / ' + a.subtype,'rl-row-meta'),p(a.notes,'rl-row-notes'));
+        title.append(open,p(a.category + ' / ' + m.networkLabel(a.network) + ' / ' + classificationSummary(a),'rl-row-meta'),p(a.notes,'rl-row-notes'));
         const state = el('td'); state.append(el('span',a.health,{class:'rl-badge'}),p(a.missing ? 'Missing source' : a.unverified ? 'Unverified example path' : 'Sample available', a.missing ? 'rl-missing' : 'rl-help'));
         tr.append(checkCell,title,state); body.append(tr);
       });
@@ -358,16 +492,47 @@
       if (tab === 'used') usedIn(panel,a);
       if (tab === 'jobs') jobsPanel(panel);
     }
+    function classificationSummary(a) {
+      const values=a.classificationByCategory[a.category]||[];
+      return values.length ? values.map(v=>data.roleLabels[v]||v).join(', ') : a.category==='Episode/Show'?'Normal':a.category==='Branding'?'Primary role needs review':'Unclassified';
+    }
+    function checkChoices(parent,title,prefix,choices,selected,change) {
+      const group=el('fieldset',null,{class:'rl-choice-group'});group.append(el('legend',title));
+      choices.forEach(choice=>{
+        const value=typeof choice==='object'?choice.value:choice,label=typeof choice==='object'?choice.label:choice;
+        const wrap=el('label',null,{class:'rl-check'}),input=el('input',null,{id:prefix+value.replace(/ /g,'-'),type:'checkbox'});
+        input.checked=selected.includes(value);
+        input.addEventListener('change',()=>change(value,input.checked));wrap.append(input,el('span',label));group.append(wrap);
+      });parent.append(group);return group;
+    }
     function properties(panel,a,meta,draft) {
       panel.append(el('h3','Planning properties'),p('Every seeded editorial value is illustrative. Enter structured facts manually; filenames and notes are not parsed.'));
       const change = (key,value) => draft('metadata',{[key]:value});
       field(panel,'Display title','asset-name',meta.name,v => change('name',v));
       const grid = el('div',null,{class:'rl-field-grid'}); panel.append(grid);
       field(grid,'Category','asset-category',meta.category,v => {change('category',v);refresh();},{choices:data.categories});
-      field(grid,'Structured subtype','asset-subtype',meta.subtype,v => change('subtype',v),{choices:data.subtypes});
-      field(grid,'Network / block','asset-network',meta.network,v => change('network',v),{choices:data.networks,help:'NICK and SNICK are distinct.'});
+      const flags=meta.classificationByCategory[meta.category]||[];
+      if (meta.category==='Branding') field(grid,'Primary broadcast role','asset-subtype',flags[0]||'',v=>{m.setClassifications(a.id,v?[v]:[]);refresh();},{choices:[{value:'',label:'Choose an explicit role'},...data.subtypes.map(value=>({value,label:data.roleLabels[value]}))]});
+      else {
+        const choices=data.classificationChoices[meta.category];
+        const group=checkChoices(panel,meta.category==='Episode/Show'?'Episode special flags':'Content classifications','classification-',choices,flags,(value,checked)=>{
+          const current=m.view(a.id,'metadata').classificationByCategory[meta.category]||[];
+          m.setClassifications(a.id,checked?[...current,value]:current.filter(v=>v!==value));refresh();
+        });
+        const plain=el('label',null,{class:'rl-check'}),normal=el('input',null,{id:'classification-normal',type:'checkbox'});
+        normal.checked=!flags.length;normal.addEventListener('change',()=>{m.setClassifications(a.id,[]);refresh();});
+        plain.append(normal,el('span',meta.category==='Episode/Show'?'Normal — no special flags':'Unclassified — no classifications'));group.append(plain);
+      }
+      panel.append(p('Explicit choices only. Switching category retains each category’s separate proposal, never reinterprets it. Episode Normal means no special flags. Other classifications are provisional.','rl-help'));
+      details(panel,'Other category proposals retained (read only)',Object.entries(meta.classificationByCategory).filter(([key,values])=>key!==meta.category&&values.length).map(([key,values])=>key+': '+values.map(v=>data.roleLabels[v]||v).join(', ')).join(' · ')||'No other category proposals.');
+      field(grid,'Network / block','asset-network',meta.network,v => change('network',v),{choices:m.networkChoices(meta.network),help:'NICK and SNICK are distinct. Archived identities remain visible only when already referenced; display-name edits never change codes.'});
       field(grid,'Show / series','asset-show',meta.show,v => change('show',v));
-      field(panel,'Pool (single membership)','asset-pool',meta.pool,v => change('pool',v),{help:'One Pool value, matching the existing registry; no multi-pool migration proposed here.'});
+      panel.append(el('p','Groups Cart Builder may choose this clip from; not content types. Dates/network/repeat rules still apply.',{id:'selection-pools-help',class:'rl-help'}));
+      checkChoices(panel,'Selection pools','asset-pool-',data.selectionPools,meta.pools,(value,checked)=>{
+        const current=m.view(a.id,'metadata').pools;
+        change('pools',checked?[...current,value]:current.filter(v=>v!==value));
+      });
+      panel.append(el('p','Legacy Pool (read only): '+(a.pool||'empty')+'. Proposed multi-membership stays separate; no CSV migration.',{id:'legacy-pool',class:'rl-help'}));
       const dateGrid = el('div',null,{class:'rl-field-grid'}); panel.append(dateGrid);
       field(dateGrid,'Date precision','year-mode',meta.date.mode,v => {draft('metadata',{date:{mode:v,value:''}}); refresh();},{choices:['Unknown','Year','Range','Exact date']});
       const date = field(dateGrid,'Year / date value','year-value',meta.date.value,v => change('date',{mode:m.view(a.id,'metadata').date.mode,value:v}),{help:'Year: 1997 · Range: 1997–1999 · Exact date: 1997-05-12. No guessed dates.'});
@@ -392,8 +557,8 @@
           actions(body).append(button('Mark READY (mock)',() => {if (run(() => m.setHealth(a.id,'READY',reason.value),'Explicit READY decision applied to sample only; cart approvals unchanged.')) {dialog.close(); refresh();}},'confirm-review'));
         });
       },'re-review'));
-      details(panel,'Legacy mapping — proposal, not a schema migration','Episode/Show → EPISODE; Commercial → COMMERCIAL; Branding → BRANDING; Other → ARCHIVE_MISC. Existing EPISODE.Subtype often contains a series name: preserve it and propose Show / series explicitly. MAYBE source health is retained, not discarded. Raw registry AssetType/Subtype, CuratedStatus and SourceStatus require an explicit reviewed mapping, not silent rewrites. Human Notes / soft tags → UserNotes; imported Notes remains provenance; historical InferredTags is not authoritative. Single-valued Pool stays single-valued. Canonical date mode is a proposed UI, not an already-migrated Year schema.');
-      panel.append(p('Illustrative legacy values: ' + a.legacyType + ' / ' + a.legacySubtype));
+      details(panel,'Legacy mapping — proposal, not a schema migration','Episode/Show → EPISODE; Commercial → COMMERCIAL; Branding → BRANDING; Other → ARCHIVE_MISC. Existing EPISODE.Subtype often contains a series name: preserve it and propose Show / series explicitly. MAYBE source health is retained, not discarded. Raw registry AssetType/Subtype, CuratedStatus and SourceStatus require an explicit reviewed mapping, not silent rewrites. Human Notes / soft tags → UserNotes; imported Notes remains provenance; historical InferredTags is not authoritative. Original scalar Pool remains read-only provenance; Selection pools arrays are a proposed extension, not a CSV migration. Canonical date mode is a proposed UI, not an already-migrated Year schema.');
+      panel.append(el('p','Illustrative legacy values (read only): ' + a.legacyType + ' / ' + a.legacySubtype,{id:'legacy-classification',class:'rl-help'}));
     }
     function preview(panel,a,draft) {
       const r = m.view(a.id,'recipe');
@@ -504,7 +669,7 @@
         field(body,'Explicit display name','asset-reference-title',title,v=>{title=v;});
         field(body,'Library location reference','asset-reference-location',locationId,v=>{locationId=v;},{choices:[{value:'',label:'No registered location'},...m.locations.map(l=>({value:l.id,label:l.path}))]});
         actions(body).append(button('Browse media (mock)',()=>modal('Browse media (mock)','The implementation would use the approved Windows Explorer-style picker. This design opens no system dialog and reads no file.',inner=>actions(inner).append(button('Return to reference form',()=>addReferenceDialog({path:sourcePath,title,locationId}),'return-to-reference'))),'browse-asset'),button('Register reference in sample (mock)',()=>{
-          let added;if(run(()=>{added=m.addReference(sourcePath,title,locationId);},'Reference added to sample memory only. Path is unverified; editorial classification remains explicit.')){dialog.close();assetId=added.id;tab='properties';refresh();doc.getElementById('asset-title')?.focus();}
+          let added;if(run(()=>{added=m.addReference(sourcePath,title,locationId);},'Reference added to sample memory only. Path is unverified; editorial classification remains explicit.')){dialog.close();assetId=added.id;tab='properties';libraryView('inspect');refresh();doc.getElementById('asset-title')?.focus();}
         },'register-asset','rl-primary'));
       });
     }
@@ -534,13 +699,40 @@
         });
       });
     }
+    function manageNetworks() {
+      modal('Project networks / blocks (mock)','Definitions and dependency impact exist in this tab’s sample memory only. Codes are stable identities; renaming display names never rewrites references or saved cart pins. Archive hides new assignments but keeps history. Delete is refused while anything depends on the identity.',body=>{
+        const manager=el('section',null,{id:'network-manager'});body.append(manager);
+        let code='',name='',kind='Network',parentNetwork='';
+        field(manager,'Stable code — type exactly','network-code','',v=>{code=v;},{help:'1–32 uppercase letters, digits or underscores; start with a letter. No automatic spelling repair.'});
+        field(manager,'Display name','network-name','',v=>{name=v;});
+        field(manager,'Definition kind','network-kind',kind,v=>{kind=v;},{choices:['Network','Block']});
+        field(manager,'Optional parent network (Block only)','network-parent','',v=>{parentNetwork=v;},{choices:[{value:'',label:'No parent'},...m.networks.filter(n=>n.kind==='Network'&&!n.archived).map(n=>({value:n.code,label:m.networkLabel(n.code)}))]});
+        actions(manager).append(button('Add definition (mock)',()=>{if(run(()=>m.addNetwork({code,name,kind,parentNetwork}))){refresh();manageNetworks();say('Definition added to sample memory only. No project schema changed.');}},'add-network','rl-primary'));
+        m.networks.forEach(n=>{
+          const section=el('section',null,{class:'rl-location-row'});manager.append(section);
+          section.append(el('h3',m.networkLabel(n.code)),p(n.kind+' · stable code '+n.code+(n.parentNetwork?' · parent '+m.networkLabel(n.parentNetwork):'')+' · '+(n.archived?'Archived':'Active')));
+          let displayName=n.name;
+          field(section,'Edit display name','network-name-'+n.code,n.name,v=>{displayName=v;});
+          const impact=m.networkImpact(n.code),impactArea=el('div',null,{id:'network-impact-'+n.code,class:'rl-dependencies'});section.append(impactArea);
+          impactArea.append(p('Impact: '+impact.assets.length+' assets · '+impact.drafts.length+' metadata drafts · '+impact.carts.length+' saved cart pins · '+impact.blocks.length+' child blocks.'));
+          impact.assets.forEach(a=>impactArea.append(p('Asset: '+a.name+' / '+a.id)));
+          impact.drafts.forEach(a=>impactArea.append(p('Draft: '+a.name+' / '+a.id)));
+          impact.carts.forEach(pin=>impactArea.append(p('Saved cart: '+pin.cart+' · '+pin.state+' · pinned network '+pin.network+' · recipe r'+pin.recipe+' · '+pin.assetId)));
+          impact.blocks.forEach(block=>impactArea.append(p('Child block: '+block.name+' / '+block.code)));
+          impactArea.append(p('Archive preserves all listed references; changing or archiving an asset never updates a reviewed cart pin. Delete rechecks all dependencies before changing anything.'));
+          const apply=(fn,message)=>{if(run(fn)){refresh();manageNetworks();say(message);}};
+          actions(section).append(button('Save display name (mock)',()=>apply(()=>m.renameNetwork(n.code,displayName),'Display name changed only; stable code and pins retained.'),'save-network-'+n.code),button((n.archived?'Unarchive':'Archive')+' definition (mock)',()=>apply(()=>m.archiveNetwork(n.code,!n.archived),n.archived?'Definition unarchived.':'Definition archived; referenced identities and pins retained.'),(n.archived?'unarchive-network-':'archive-network-')+n.code),button('Delete unused definition (mock)',()=>apply(()=>m.deleteNetwork(n.code),'Unused definition removed from sample memory only.'),'delete-network-'+n.code));
+        });
+      });
+    }
     function bulkDialog() {
       const ids = [...m.selected];
       if (!ids.length) {say('Select sample rows with checkboxes before Bulk edit (mock).',true); return;}
-      let pool = '';
-      modal('Bulk edit ' + ids.length + ' sample references','Explicit single-valued pool assignment only; no notes, dates, source health or cart approvals are inferred or overwritten.',body => {
-        field(body,'Replace Pool value','bulk-pool','',v => {pool = v;});
-        actions(body).append(button('Apply pool to selected (mock)',() => {m.bulk(ids,{pool}); dialog.close(); refresh(); say('Sample pool assignment changed in memory only.');},'apply-bulk'));
+      let mode='Add',pools=[];
+      modal('Bulk edit ' + ids.length + ' sample references','Selection pools only. Notes, classifications, dates, network, source health and cart approvals are not overwritten. Legacy Pool is read only.',body => {
+        field(body,'Pool operation','bulk-pool-mode',mode,v=>{mode=v;},{choices:['Add','Remove','Replace'],help:'Add preserves other memberships. Remove removes only checked memberships. Replace discards all previous memberships; no checks means clear all.'});
+        checkChoices(body,'Selection pools','bulk-pool-',data.selectionPools,pools,(value,checked)=>{pools=checked?[...pools,value]:pools.filter(v=>v!==value);});
+        actions(body).append(button('Apply pool operation to selected (mock)',() => {if(run(()=>m.bulkPools(ids,mode,pools))){dialog.close();refresh();say('Selection pools updated in sample memory only: '+mode+'.');}},'apply-bulk'));
       });
     }
     function compositeDialog(existing, pending) {
@@ -556,7 +748,7 @@
           row.append(up,down); body.append(row);
         });
         actions(body).append(button('Save group definition (mock)',() => {
-          if (run(() => m.saveGroup(group.name,group.parts,group.id),'Ordered group definition stored in memory only. No preparation job started.')) {dialog.close(); tab = 'relationships'; refresh();}
+          if (run(() => m.saveGroup(group.name,group.parts,group.id),'Ordered group definition stored in memory only. No preparation job started.')) {dialog.close(); tab = 'relationships'; libraryView('inspect'); refresh();}
         },'save-group','rl-primary'));
       });
     }

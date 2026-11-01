@@ -16,6 +16,26 @@ const encode = x => JSON.stringify(x, null, 2) + '\n';
 const readJson = p => { try { return JSON.parse(metadataBytes(p).toString('utf8').replace(/^\uFEFF/,'')); } catch(e) { throw new Error('Cannot read JSON '+p+': '+e.message); } };
 const descriptorPath = root => path.join(root, 'retro-project.json');
 const settingsPath = root => path.join(root, 'STATE', 'settings.json');
+function libraryHeader(root) {
+  const file=path.join(root,'STATE','library-catalog.json');if(!fs.existsSync(file))return null;
+  const catalog=readJson(file);
+  if(catalog.schemaVersion!==1)throw new Error('Unsupported Library catalog version. Use a compatible app or restore its backup; do not initialize/reset.');
+  if(!Number.isSafeInteger(catalog.revision)||catalog.revision<0||['assets','locations','networks','selectionPools','groups','jobs'].some(key=>!Array.isArray(catalog[key])))throw new Error('Invalid Library catalog structure. Restore a verified backup; do not initialize/reset.');
+  return catalog;
+}
+function idleCatalogForCopy(root) {
+  const catalog=libraryHeader(root);
+  if(catalog?.jobs.some(job=>['queued','running','cancel-requested'].includes(job.state)))throw new Error('Source project has active Library jobs. Finish or safely cancel processing before copying its metadata.');
+}
+function guardProjectTransition(project) {
+  if(!project||project.readOnly)return;
+  const catalog=libraryHeader(project.projectFolder),replaceable=new Set(['preview','source-frame','final-frame','crop-detect']);
+  if(catalog?.jobs.some(job=>!replaceable.has(job.kind)&&(['queued','running','cancel-requested'].includes(job.state)||job.state==='interrupted'&&job.recoveryRequired)&&(!job.snapshot?.projectFolder||path.resolve(job.snapshot.projectFolder).toLowerCase()===project.projectFolder.toLowerCase())))throw Object.assign(new Error('Active processing or unresolved worker recovery prevents changing this project. Finish or safely recover/cancel its job first.'),{status:409});
+}
+function projectLocks(roots,action) {
+  const ordered=[...new Map(roots.map(root=>[root.toLowerCase(),root])).values()].sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase()));
+  const acquire=index=>index===ordered.length?action():withLock(ordered[index]+'.setup.lock',()=>acquire(index+1));return acquire(0);
+}
 function put(p, data) { fs.mkdirSync(path.dirname(p), {recursive:true}); fs.writeFileSync(p, data); }
 function atomic(p, data) {
   const temp=p+'.tmp-'+crypto.randomUUID();
@@ -224,6 +244,7 @@ function protectSource(value,source,appDataDir) {
 function verifySource(plan,appDataDir) {
   if(!plan.source) return;
   try {
+    if(plan.input.operation==='import')idleCatalogForCopy(plan.input.sourceFolder);
     const fresh=collectSource(plan.input.operation==='import'?plan.input.sourceFolder:plan.d.projectFolder);
     const fingerprints=x=>x.files.map(f=>[f.sourcePath,f.target,f.sha256]).sort((a,b)=>a[0].localeCompare(b[0]));
     if(JSON.stringify(fingerprints(fresh))!==JSON.stringify(fingerprints(plan.source))) throw new Error('Source files changed.');
@@ -247,16 +268,16 @@ class ProjectStore {
     return {projectFolder:root,buildsFolder:path.join(os.homedir(),'Videos','Retro TV Builds'),
       compositeFolder:path.join(os.homedir(),'Videos','Retro TV Composites'),cacheFolder:path.join(root,'CACHE'),libraryFolders:[]};
   }
-  status() {
+  status(inspectOptions) {
     const result={activeProject:null,recentProjects:[],defaults:this.defaults()};
     const p=path.join(this.appDataDir,'projects.json');
     if(fs.existsSync(p)) {
-      try { const state=readJson(p); result.recentProjects=state.recentProjects; if(state.activeProject) result.activeProject=this.inspect(state.activeProject); }
+      try { const state=readJson(p); result.recentProjects=state.recentProjects; if(state.activeProject) result.activeProject=this.inspect(state.activeProject,inspectOptions); }
       catch(e) { result.loadError='Cannot reload selected project: '+e.message; }
     }
     return result;
   }
-  inspect(root) {
+  inspect(root,{includeSummary=true,includeCatalog=true,includeDrafts=true}={}) {
     root=checkedPath(root,{directory:true,required:true});
     const d=fs.existsSync(descriptorPath(root))?readJson(descriptorPath(root)):null, s=readJson(settingsPath(root));
     if(d && d.schemaVersion!==1) throw new Error('Unsupported project schema version: '+d.schemaVersion+'. Use a compatible app; do not initialize/reset this project.');
@@ -280,18 +301,20 @@ class ProjectStore {
     for(const key of ['ConfigDir','CurationDir']) checkedPath(s[key],{directory:true,required:true});
     const libraryFolders=declaredLibraries(s);
     const paths=d?copy(d.paths):{dataFolder:root,buildsFolder:s.BuildRoot,compositeFolder:s.CompositeRoot || '',cacheFolder:s.CacheRoot || path.join(root,'CACHE'),libraryFolders};
-    const registry=readCsv(s.RegistryPath,'AssetID').rows, assets=registry.length, carts=readCsv(s.CartRegistryPath,'CartID').rows.length;
+    // Context-only callers still validate descriptor/settings/path identity above.
+    // Full public inspection remains the default and validates all record inputs.
+    const registry=includeSummary?readCsv(s.RegistryPath,'AssetID').rows:[], catalog=includeCatalog?libraryHeader(root):null, assets=includeSummary?(catalog?catalog.assets.filter(a=>!a.removed&&a.referenceState!=='removed').length:registry.length):null, carts=includeSummary?readCsv(s.CartRegistryPath,'CartID').rows.length:null;
     const warnings=d?copy(d.warnings || []):['Legacy project is read-only. Import a metadata copy to change settings. Composite outputs remain defined by existing recipes; no composite root was inferred.'];
     if(registry.some(row=>row.SourcePath && (!path.isAbsolute(row.SourcePath) || !paths.libraryFolders.some(lib=>within(lib,row.SourcePath))))) warnings.push('Existing source references outside registered library roots remain preserved. Add a TV/library root explicitly if desired; none was inferred and no media was scanned.');
-    readCsv(s.AssignmentPath,'AssignmentID');
+    if(includeSummary)readCsv(s.AssignmentPath,'AssignmentID');
     const drafts=path.join(root,'STATE','studio-drafts');
     if(fs.existsSync(drafts)) checkedPath(drafts,{directory:true,required:true});
-    const draftNames=fs.existsSync(drafts)?fs.readdirSync(drafts).filter(n=>n.endsWith('.json')):[];
+    const draftNames=includeDrafts&&fs.existsSync(drafts)?fs.readdirSync(drafts).filter(n=>n.endsWith('.json')):[];
     if(draftNames.length>MAX_FILES) throw new Error('Draft metadata exceeds 1000 file limit.');
     for(const name of draftNames) readJson(path.join(drafts,name));
     return {kind:d?'managed':'legacy',name:d?d.name:path.basename(root),projectFolder:root,readOnly:!d,paths,
       warnings:[...new Set(warnings)],
-      summary:{assets,carts,drafts:draftNames.length}};
+      summary:{assets,carts,drafts:includeDrafts?draftNames.length:null}};
   }
   remember(project) {
     fs.mkdirSync(this.appDataDir,{recursive:true});
@@ -315,7 +338,10 @@ class ProjectStore {
   open(root) {
     const project=this.inspect(root), s=readJson(settingsPath(project.projectFolder));
     appDataSeparation(this.appDataDir,[project.projectFolder,...Object.values(project.paths).filter(x=>typeof x==='string'),...declaredLibraries(s),s.ConfigDir,s.CurationDir,...['RegistryPath','AssignmentPath','CartRegistryPath'].map(k=>path.dirname(s[k]))]);
-    return this.withAppLock(()=>{const p=this.inspect(root); this.remember(p); return p;});
+    return this.withAppLock(()=>{
+      const current=this.status().activeProject,roots=[...(!project.readOnly?[project.projectFolder]:[]),...(current&&!current.readOnly?[current.projectFolder]:[])];
+      return projectLocks(roots,()=>{guardProjectTransition(this.status().activeProject);const p=this.inspect(root);this.remember(p);return p;});
+    });
   }
   preview(input) {
     for(const [token,plan] of this.plans) if(Date.parse(plan.expiresAt)<=Date.now()) this.plans.delete(token);
@@ -334,6 +360,7 @@ class ProjectStore {
     }
     if(value.operation==='import') {
       value.sourceFolder=checkedPath(value.sourceFolder,{directory:true,required:true});
+      idleCatalogForCopy(value.sourceFolder);
       summary=this.inspect(value.sourceFolder).summary;
       source=collectSource(value.sourceFolder);
       for(const lib of declaredLibraries(source.settings)) checkedPath(lib,{directory:true,required:true});
@@ -361,7 +388,11 @@ class ProjectStore {
     validateInput(plan.input,this.installRoot);
     return this.withAppLock(()=>{
       fs.mkdirSync(path.dirname(plan.d.projectFolder),{recursive:true});
-      return withLock(plan.d.projectFolder+'.setup.lock',()=>this.applyPlan(plan));
+      const current=this.status().activeProject,roots=[plan.d.projectFolder,...(current&&!current.readOnly?[current.projectFolder]:[])];
+      // Managed catalog writers cooperate on this same short-lived reservation.
+      // Legacy sources remain strictly read-only and are protected by fingerprints.
+      if(plan.input.operation==='import'&&!this.inspect(plan.input.sourceFolder).readOnly)roots.push(plan.input.sourceFolder);
+      return projectLocks(roots,()=>{guardProjectTransition(this.status().activeProject);return this.applyPlan(plan);});
     });
   }
   applyPlan(plan) {

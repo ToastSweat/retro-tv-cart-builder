@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   const WORKSPACES = {
-    library: {title:'Library Manager',description:'Organize and prepare registered media.',next:'Open the separate Phase 3.1 design mockup below. It uses illustrative sample data; real tools still require Phase 3.2 approval.'},
+    library: {title:'Library Manager',description:'Organize and prepare registered media.',next:'Live Library Manager · Phase 3.2 implementation.'},
     'cart-builder': {title:'Cart Builder',description:'Plan carts, templates and broadcast sequences.',next:'Cart Builder layout and implementation remain gated by Phases 4.1 and 4.2.'},
     'tv-studio': {title:'TV Studio',description:'Review clips, repair media and prepare exports.',next:'The new TV Studio layout and implementation remain gated by Phases 5.1 and 5.2. The original Studio is still launched separately and remains unchanged.'}
   };
@@ -10,11 +10,13 @@
     const state = { initialized: false, csrfToken: '', defaults: {}, capabilities: {}, recentProjects: [], activeProject: null,
       view: 'chooser', workspace: '', mode: 'open', busy: false, message: '', error: '', uncertain: false,
       openFolder: '', inspected: null, drafts: {}, preview: null, acknowledged: false, dirty: false, tools: null, pendingWrite: null };
-    const settingsDrafts=new Map();
+    const settingsDrafts=new Map(),workspaceStatuses=new Map();
+    function setWorkspaceStatus(folder,patch){const old=workspaceStatuses.get(folder)||{dirty:false,blocking:false};const next={...old,...patch};workspaceStatuses.set(folder,next);updateDirty();if(old.dirty!==next.dirty||old.blocking!==next.blocking)emit();}
+    const workspaceBlocking=()=>!!workspaceStatuses.get(state.activeProject?.projectFolder)?.blocking;
     // Create/import edits belong to their form; settings edits belong to a project baseline.
     const dirtyForms=new Set();
     const hasPendingSettings=()=>[...settingsDrafts.values()].some(entry=>JSON.stringify(entry.draft)!==entry.baseline);
-    const updateDirty=()=>{state.dirty=dirtyForms.size>0 || hasPendingSettings();};
+    const updateDirty=()=>{state.dirty=dirtyForms.size>0 || hasPendingSettings() || [...workspaceStatuses.values()].some(s=>s.dirty);};
     function markDirty() {
       if (state.mode === 'create' || state.mode === 'import') dirtyForms.add(state.mode);
       updateDirty();
@@ -49,6 +51,8 @@
       state.openFolder = value; state.error = ''; emit();
     }
     function canLeave() {
+      if(workspaceBlocking()){state.error='Processing is active or its outcome is unknown. Wait for completion or safely cancel/read back the Library job before changing projects or Settings.';emit();return false;}
+      if(['active','workspace'].includes(state.view)&&workspaceStatuses.get(state.activeProject?.projectFolder)?.dirty&&!confirmDiscard('Leave the Library workspace? Unsaved drafts stay in this tab for this project; nothing will be saved.'))return false;
       return !state.busy && (!(['editor', 'review'].includes(state.view) && state.dirty) || confirmDiscard('Leave this form? Unsaved values will stay in this tab, but this review will be discarded. Nothing will be saved.'));
     }
     function switchProject() {
@@ -271,9 +275,9 @@
     }
     function showActive() {
       if (!state.activeProject || !canLeave()) return;
-      invalidateReview(); state.workspace = ''; state.view = 'active'; state.message = 'Main hub. Unsaved form values remain in this tab.'; emit();
+      invalidateReview(); state.workspace = ''; state.view = 'active'; state.message = 'Workspace. Unsaved form values remain in this tab.'; emit();
     }
-    return { state, start, setOpenFolder, switchProject, inspect, openExisting, chooseMode, updateField, review, acknowledge, confirmReview, beginImport, copyProjectData, editSettings, openSettings, addLibrary, updateLibrary, removeLibrary, cancelReview, refreshStatus, recoverPendingResult, browse, checkTools, expireReview, openWorkspace, showActive };
+    return { state, setWorkspaceStatus, workspaceBlocking, start, setOpenFolder, switchProject, inspect, openExisting, chooseMode, updateField, review, acknowledge, confirmReview, beginImport, copyProjectData, editSettings, openSettings, addLibrary, updateLibrary, removeLibrary, cancelReview, refreshStatus, recoverPendingResult, browse, checkTools, expireReview, openWorkspace, showActive };
   }
   function mount(doc, options = {}) {
     const get = id => doc.getElementById(id);
@@ -283,6 +287,23 @@
       if (className) node.className = className;
       return node;
     };
+    const workspaceSessions=new Map();
+    const controlsHost=make('div',null,'setup-render-host'),workspaceHost=make('div');workspaceHost.id='live-workspace-container';get('setup-content').append(controlsHost,workspaceHost);
+    let shownSession=null;
+    function connectWorkspace(state){
+      const active=['active','workspace'].includes(state.view)&&state.activeProject&&!state.uncertain;
+      workspaceHost.hidden=!active;
+      if(!active){shownSession?.suspend();shownSession=null;return;}
+      const project=state.activeProject,folder=project.projectFolder;let entry=workspaceSessions.get(folder);
+      if(!entry){const root=make('div');root.id='live-workspace-host';root.setAttribute('data-testid','live-workspace-host');entry={root,session:null};workspaceSessions.set(folder,entry);workspaceHost.append(root);
+       const factory=options.workspace||globalThis.RetroLiveWorkspace;
+       if(factory)entry.session=factory.mount(root,{project,request:(url,body)=>{if(app.state.activeProject?.projectFolder!==folder)return Promise.reject(Object.assign(Error('Project context changed; response/request rejected.'),{httpStatus:409}));return options.request(url,body,app.state.csrfToken).then(value=>{if(app.state.activeProject?.projectFolder!==folder)throw Object.assign(Error('Project context changed; stale response ignored.'),{httpStatus:409});return value;});},confirmDiscard:options.confirmDiscard,onSettings:()=>app.openSettings(),onSwitchProject:()=>app.switchProject(),onDirtyChange:dirty=>app.setWorkspaceStatus(folder,{dirty}),onBlockingChange:blocking=>app.setWorkspaceStatus(folder,{blocking})});
+       else root.append(make('p','Live workspace module unavailable. Reload the application to reconnect.'));
+      }
+      for(const [key,cached]of workspaceSessions){cached.root.hidden=key!==folder;if(key!==folder){cached.session?.suspend();cached.root.remove?.();}}
+      if(entry.root.parentNode!==workspaceHost&&entry.root.parentElement!==workspaceHost){if(typeof entry.root.remove==='function')workspaceHost.append(entry.root);}
+      if(shownSession!==entry.session){shownSession?.suspend();shownSession=entry.session;shownSession?.resume({project});}
+    }
     let app, previousView = '', timer, requestFocus = null;
     const schedule = options.schedule || setTimeout;
     const locations = [
@@ -445,43 +466,18 @@
       panel.append(actions); root.append(panel);
     }
     function renderActive(root, state) {
-      root.append(heading('Main hub', 'Choose a workspace. This checkpoint adds navigation only; the tools inside each workspace are not built yet.'));
-      const destinations = make('section', null, 'hub-workspaces'); destinations.setAttribute('aria-label','Workspaces'); destinations.setAttribute('data-testid','main-hub');
-      const rows = make('ul', null, 'workspace-list');
-      for (const [id, workspace] of Object.entries(WORKSPACES)) {
-        const row = make('li', null, 'workspace-row'); const text = make('div');
-        text.append(make('h3',workspace.title), make('p',workspace.description,'muted'), make('span','Navigation available · tools pending approval','small'));
-        row.append(text, button(`Open ${workspace.title}`,()=>app.openWorkspace(id),`open-${id}`,true,false)); rows.append(row);
-      }
-      destinations.append(rows); root.append(destinations);
-      const panel = make('section', null, 'card active-project'); panel.id = 'active-project'; panel.setAttribute('data-testid', 'active-project');
-      panel.append(make('h3','Active project'),make('p',state.activeProject.name,'project-kind'),make('p',state.activeProject.projectFolder,'path-text'));
-      const details = make('details'); details.append(make('summary','Project locations and recorded counts'),projectSummary(state.activeProject,'Saved project locations')); panel.append(details);
-      if (state.activeProject.readOnly) {
-        panel.append(make('p', 'Read-only legacy project. Opening it changes only local preferences, not project files. Import a copy to edit settings.', 'notice-inline'));
-        panel.append(button('Import a copy', async () => {
-          app.setOpenFolder(state.activeProject.projectFolder);
-          if (await app.inspect()) app.beginImport();
-        }, 'active-import-button'));
-      }
-      const actions = make('div', null, 'actions'); actions.append(button('Switch project', () => app.switchProject(), 'switch-button'));
-      panel.append(actions); root.append(panel);
+      root.append(heading('Combined workspace', 'Library Manager · Cart Builder placeholder · TV Studio placeholder'));
+      const panel=make('section',null,'live-project-bar');panel.id='active-project';panel.setAttribute('data-testid','active-project');
+      panel.append(make('span',state.activeProject.name,'project-kind'),button('Switch project',()=>app.switchProject(),'switch-button',false,app.workspaceBlocking()));
+      const details=make('details');details.append(make('summary','Saved project details'),projectSummary(state.activeProject));panel.append(details);
+      const link=make('a','Approved sample design · optional mockup','mockup-link');link.id='open-library';link.setAttribute('data-testid','open-library');link.setAttribute('href','/mockups/library-manager/');link.setAttribute('target','_blank');link.setAttribute('rel','noopener noreferrer');panel.append(link);
+      if(state.activeProject.readOnly)panel.append(make('p','Read-only legacy project. Import a managed copy to edit.'),button('Import a copy',async()=>{app.setOpenFolder(state.activeProject.projectFolder);if(await app.inspect())app.beginImport();},'active-import-button'));
+      root.append(panel);
     }
     function renderReadOnlySettings(root,state) {
       root.append(heading('Project settings','Read-only project. Saved locations are shown here; import a copy to make editable settings.'));
       const panel=make('section',null,'card');panel.setAttribute('data-testid','readonly-settings');panel.append(projectSummary(state.activeProject,'Saved project locations'));
-      panel.append(button('Import a copy to edit settings',async()=>{app.setOpenFolder(state.activeProject.projectFolder);if(await app.inspect())app.beginImport();},'readonly-import-button',true),button('Back to hub',()=>app.showActive(),'back-to-hub'));
-      root.append(panel);
-    }
-    function renderWorkspace(root, state) {
-      const workspace = WORKSPACES[state.workspace];
-      root.append(heading(workspace.title,workspace.description));
-      const panel = make('section',null,'card workspace-entry'); panel.setAttribute('data-testid','workspace-entry');
-      panel.append(make('h3','Workspace entry only'),make('p','Tools are not implemented yet. This page verifies entry and return navigation; it does not scan, plan, review, render or export anything.','muted'),make('p',workspace.next,'notice-inline'));
-      if(state.workspace==='library') {
-        const link=make('a','Open Library Manager mockup · sample data only','mockup-link');link.id='library-design-link';link.setAttribute('data-testid','library-design-link');link.setAttribute('href','/mockups/library-manager/');link.setAttribute('target','_blank');link.setAttribute('rel','noopener noreferrer');panel.append(link);
-      }
-      panel.append(make('p',`Project: ${state.activeProject.name}`,'project-kind'),make('p',state.activeProject.projectFolder,'path-text'),button('Back to hub',()=>app.showActive(),'back-to-hub',true));
+      panel.append(button('Import a copy to edit settings',async()=>{app.setOpenFolder(state.activeProject.projectFolder);if(await app.inspect())app.beginImport();},'readonly-import-button',true),button('Back to workspace',()=>app.showActive(),'back-to-hub'));
       root.append(panel);
     }
     function render(state) {
@@ -505,7 +501,7 @@
         if (!state.busy) controls.append(button('Retry connection', () => app.start(), 'retry-button', true));
       } else {
         const nav = make('nav', null, 'mode-nav'); nav.setAttribute('aria-label', 'Application navigation');
-        if(state.activeProject) { const hub=button('Hub',()=>app.showActive(),'hub'); if(state.view==='active')hub.setAttribute('aria-current','page'); nav.append(hub); }
+        if(state.activeProject) { const hub=button('Workspace',()=>app.showActive(),'hub'); if(state.view==='active')hub.setAttribute('aria-current','page'); nav.append(hub); }
         const open = button('Open existing', () => app.chooseMode('open'), 'open-mode-button');
         const create = button('Create new', () => app.chooseMode('create'), 'create-button');
         const settingsDisabled = !state.activeProject;
@@ -528,7 +524,7 @@
         else if (state.view === 'editor') renderEditor(controls, state);
         else if (state.view === 'review' && state.preview) renderReview(controls, state);
         else if (state.view === 'active') renderActive(controls, state);
-        else if (state.view === 'workspace') renderWorkspace(controls, state);
+        else if (state.view === 'workspace') renderActive(controls, state);
         else if (state.view === 'settings-readonly') renderReadOnlySettings(controls,state);
         const tools = make('section', null, 'tools-section'); tools.append(make('h3', 'Local prerequisites'), make('p', 'Check installed tools without installing anything. This is not a media scan or a runtime packaging check.', 'muted'), button('Check prerequisites', () => app.checkTools(), 'check-tools-button'));
         if (state.tools) {
@@ -537,7 +533,9 @@
         }
         tools.append(button('Refresh saved status', () => app.refreshStatus(), 'read-status-button')); controls.append(tools);
       }
-      content.replaceChildren(controls);
+      controlsHost.replaceChildren(controls);
+      connectWorkspace(state);
+      doc.body?.classList.toggle('live-active',['active','workspace'].includes(state.view));
       if (sameView && focus && get(focus) && !get(focus).disabled) {
         get(focus).focus({ preventScroll: true });
         if (typeof selection[0] === 'number' && get(focus).type === 'text') get(focus).setSelectionRange(...selection);

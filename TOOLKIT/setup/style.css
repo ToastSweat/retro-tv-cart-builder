@@ -82,6 +82,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px 28px; }
 .workspace-entry .path-text { margin-bottom: 24px; }
 .mockup-link { display: inline-block; min-height: 44px; max-width: 100%; padding: 10px 14px; margin-bottom: 20px; border: 1px solid #398f86; border-radius: 6px; background: #173c39; color: #d9fff8; font-weight: 600; text-decoration: none; }
 .mockup-link:hover { background: #20514b; border-color: var(--accent); }
+.workspace-row > .rl-hub-design-link { flex-shrink: 0; margin: 0; max-width: 260px; text-align: center; }
 .chooser-split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; }
 .create-card { background: #141a1d; }
 .create-card .small { margin: 14px 0 0; }
@@ -133,6 +134,7 @@ footer strong { color: #c6d2d7; }
 @media (max-width: 740px) {
   .app-header { padding: 16px 20px; }
   .workspace-row { align-items: stretch; flex-direction: column; gap: 14px; }
+  .workspace-row > .rl-hub-design-link { max-width: 100%; }
   .chooser-split { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .card { padding: 20px; }
   .library-row { flex-wrap: wrap; gap: 0; padding-bottom: 16px; }

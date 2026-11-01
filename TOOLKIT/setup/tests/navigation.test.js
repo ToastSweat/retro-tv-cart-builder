@@ -207,3 +207,8 @@ test('refreshing an absent saved selection leaves workspace safely without disca
   await app.refreshStatus();assert.equal(app.state.activeProject,null);assert.equal(app.state.view,'chooser');
   assert.equal(app.state.drafts.settings.name,'Retained draft');assert.equal(app.state.dirty,true);
 });
+test('blocking processing fences Settings/project navigation while live drafts contribute to unload without being cleared',async()=>{
+ const app=createController({request:async()=>bootstrap(project),confirmDiscard:()=>false});await app.start();
+ app.setWorkspaceStatus(project.projectFolder,{dirty:true,blocking:true});app.openSettings();assert.equal(app.state.view,'active');app.switchProject();assert.equal(app.state.view,'active');app.chooseMode('create');assert.equal(app.state.view,'active');assert.equal(app.state.dirty,true);
+ app.setWorkspaceStatus(project.projectFolder,{dirty:true,blocking:false});app.openSettings();assert.equal(app.state.view,'active','dirty leave can cancel');
+});

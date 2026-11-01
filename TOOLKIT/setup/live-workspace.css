@@ -1,0 +1,75 @@
+/* Live combined workspace. Shares the approved mockup's palette and pane vocabulary,
+   never its sample records, state toggles or no-IO policy. */
+body.live-active {height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
+.live-active .app-header {padding:10px 20px;flex:0 0 auto;}
+.live-active main {max-width:none;width:100%;padding:0 16px 12px;display:flex;flex-direction:column;flex:1;min-height:0;}
+.live-active #setup-content {display:flex;flex-direction:column;flex:1;min-height:0;}
+.live-active #live-workspace-container,.live-active #live-workspace-host {display:flex;flex-direction:column;flex:1;min-height:0;}
+.live-active #notice {font-size:12px;padding:5px 0;margin:0;}
+.live-active .settings-help,.live-active .section-heading > p,.live-active .tools-section,.live-active footer {display:none;}
+.live-active .section-heading {margin:4px 0;}
+.live-active .section-heading h2 {font-size:17px;margin:0;}
+.live-project-bar {display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px;font-size:12px;}
+.live-project-bar > details {position:relative;}
+.live-project-bar > details[open] {position:fixed;inset:10vh 10vw;z-index:20;overflow:auto;background:var(--panel);padding:20px;border:1px solid var(--accent);}
+.live-project-bar .mockup-link {font-size:12px;margin:0;padding:8px;}
+.live-project-bar summary {cursor:pointer;min-height:44px;padding:10px;}
+.lw-shell {display:flex;flex-direction:column;min-height:0;flex:1;}
+.lw-shell h3 {font-size:17px;}.lw-shell h4 {font-size:14px;}
+.lw-shell p,.lw-shell pre,.lw-shell h3,.lw-shell h4 {overflow-wrap:anywhere;}
+.lw-shell pre {white-space:pre-wrap;font:12px/1.5 Consolas,monospace;max-width:100%;}
+.lw-status {font-size:12px;margin:0;padding:6px 0;min-height:30px;}
+.lw-toolbar,.lw-tabs {display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:6px 0;}
+.lw-toolbar button,.lw-tabs button,.lw-area button {font-size:12px;}
+.lw-workbench {display:grid;grid-template-columns:minmax(0,calc((100% - 24px) * var(--lw-weight-0,50) / 100)) 12px minmax(0,calc((100% - 24px) * var(--lw-weight-1,25) / 100)) 12px minmax(0,calc((100% - 24px) * var(--lw-weight-2,25) / 100));flex:1;min-height:0;overflow:hidden;}
+.lw-workbench[data-expanded]:not([data-expanded="none"]) {grid-template-columns:minmax(0,1fr);}
+.lw-area {min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;background:var(--panel);border:1px solid var(--border);}
+.lw-area-head {position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:var(--panel);padding:10px 12px;border-bottom:1px solid var(--border);}
+.lw-area-head h2 {font-size:17px;margin:0;}
+.lw-area > .lw-toolbar {padding:10px 12px;}
+.lw-placeholder {margin:20px;font-size:13px;color:var(--muted);}
+.lw-divider {cursor:col-resize;touch-action:none;user-select:none;background:#233337;color:var(--accent);text-align:center;padding-top:20px;}
+#live-area-library {container:live-library / inline-size;}
+.lw-browse,.lw-inspector {padding:14px;min-width:0;}
+.lw-library-body > [hidden] {display:none !important;}
+.lw-inspector {border-top:1px solid var(--border);}
+.lw-asset-row {padding:12px 0;border-top:1px solid var(--border);}
+.lw-asset-row > button {font-size:14px;max-width:100%;text-align:left;}
+.lw-asset-row p {font-size:12px;margin:6px 0;color:var(--muted);white-space:pre-wrap;}
+.lw-field {display:block;font-size:12px;color:#d6dfe2;margin-bottom:14px;}
+.lw-shell input:not([type="checkbox"]),.lw-shell select,.lw-shell textarea {display:block;width:100%;font:inherit;color:var(--text);background:#12171a;border:1px solid var(--border);border-radius:6px;padding:9px;min-height:44px;min-width:0;max-width:100%;margin-top:6px;}
+.lw-shell textarea {resize:vertical;}
+.lw-shell button {max-width:100%;margin:3px;overflow-wrap:anywhere;}
+.lw-shell summary {min-height:44px;padding:12px 0;cursor:pointer;color:var(--accent);font-size:13px;}
+.lw-check {display:flex;align-items:center;gap:10px;min-height:44px;font-size:12px;}
+.lw-choices {min-width:0;border:1px solid var(--border);margin:12px 0;padding:10px;}
+.lw-choices legend {font-size:12px;padding:0 6px;}
+.lw-help,.lw-path {font-size:12px;color:var(--muted);}.lw-path {font-family:Consolas,monospace;}
+.lw-warning,.lw-impact:not(:empty),#live-recovery:not(:empty) {padding:14px;background:#2b271c;border:1px solid #6e5b33;color:#eee0b9;}
+#live-recovery {max-height:35vh;overflow:auto;}
+.lw-location,.lw-job,.lw-group {padding:12px 0;border-top:1px solid var(--border);}
+.lw-tabs {border-bottom:1px solid var(--border);margin-bottom:14px;}
+.lw-tabs [aria-selected="true"] {color:var(--accent);border-color:var(--accent);}
+.lw-shell video,.lw-shell audio {display:block;width:100%;max-height:340px;background:#0e1318;margin:12px 0;}
+.lw-final-frame {display:block;width:100%;aspect-ratio:618/480;object-fit:contain;}
+.lw-crop-frame {width:100%;position:relative;background:#0e1318;touch-action:none;}
+.lw-crop-frame img {width:100%;height:100%;display:block;position:absolute;inset:0;object-fit:fill;pointer-events:none;}
+.lw-crop-rectangle {position:absolute;border:2px solid #70b8ff;background:#559fe512;pointer-events:none;}
+.lw-draft {font-size:12px;color:var(--warning);}
+@container live-library (min-width:900px) {
+ .lw-library-body {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start;}
+ .lw-library-body > [hidden] {display:block !important;}
+ .lw-inspector {border-top:0;border-left:1px solid var(--border);}
+}
+@media (max-width:800px) {
+ body.live-active {height:auto;overflow:auto;display:block;}
+ .live-active main,.live-active #setup-content,.live-active #live-workspace-container,.live-active #live-workspace-host,.lw-shell {display:block;}
+ .lw-workbench {display:block;overflow:visible;}
+ .lw-area {height:auto;overflow:visible;min-height:0;margin-bottom:12px;}
+ .lw-area-head {position:static;}
+ .lw-divider {display:none;}
+ .live-active .app-header {padding:14px 16px;}
+ .live-project-bar {align-items:flex-start;}
+ .lw-browse,.lw-inspector {padding:12px;}
+}
+@media (prefers-reduced-motion:reduce) {.lw-shell * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}}

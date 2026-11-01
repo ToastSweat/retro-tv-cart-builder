@@ -454,3 +454,31 @@ test('create preview is read-only and confirm creates empty compatible state rem
   assert.equal(f.store().status().recentProjects[0].projectFolder,f.projectFolder);
   assert.throws(()=>s.confirm(p.token),/token|used/i);
 });
+test('internal context inspection can omit record enrichment without bypassing descriptor/settings validation',t=>{
+ const f=fixture(t),s=f.store();s.confirm(s.preview(f.input).token);const settings=json(path.join(f.projectFolder,'STATE','settings.json')),forbidden=new Set([settings.RegistryPath,settings.AssignmentPath,settings.CartRegistryPath,path.join(f.projectFolder,'STATE','library-catalog.json')]);
+ const read=fs.readFileSync;fs.readFileSync=(file,...args)=>{if(typeof file==='string'&&forbidden.has(file))throw Error('Record enrichment must not run in a context-only inspection');return read(file,...args);};
+ try{const p=s.inspect(f.projectFolder,{includeSummary:false,includeCatalog:false,includeDrafts:false});assert.equal(p.kind,'managed');assert.equal(p.projectFolder,f.projectFolder);assert.deepEqual(p.summary,{assets:null,carts:null,drafts:null});assert.equal(s.status({includeSummary:false,includeCatalog:false,includeDrafts:false}).activeProject.projectFolder,f.projectFolder);}finally{fs.readFileSync=read;}
+ const descriptor=path.join(f.projectFolder,'retro-project.json'),d=json(descriptor);d.paths.buildsFolder=path.join(f.root,'wrong-output');fs.writeFileSync(descriptor,JSON.stringify(d));assert.throws(()=>s.inspect(f.projectFolder,{includeSummary:false,includeCatalog:false,includeDrafts:false}),/mismatch/i);
+});
+test('project changes recheck persisted processing reservations under the shared project lock',t=>{
+ const f=fixture(t),s=f.store();s.confirm(s.preview(f.input).token);const second=path.join(f.root,'second');s.confirm(s.preview({...f.input,name:'Second',projectFolder:second,paths:{...f.paths,buildsFolder:path.join(f.root,'second-builds'),compositeFolder:path.join(f.root,'second-composites'),cacheFolder:path.join(second,'CACHE')}}).token);s.open(f.projectFolder);
+ const file=path.join(f.projectFolder,'STATE','library-catalog.json');fs.writeFileSync(file,JSON.stringify({schemaVersion:1,revision:1,assets:[],locations:[],networks:[],selectionPools:[],groups:[],jobs:[{id:'foreign-process-reservation',kind:'variant',state:'queued',snapshot:{projectFolder:f.projectFolder}}]}));
+ const before=snapshot(f.root);assert.throws(()=>s.open(second),e=>e.status===409&&/processing|active|job/i.test(e.message));assert.deepEqual(snapshot(f.root),before);assert.equal(s.status().activeProject.projectFolder,f.projectFolder);
+});
+test('managed-copy publication coordinates the source project lock without requiring a legacy source write', t=>{
+ const f=fixture(t),s=f.store();s.confirm(s.preview(f.input).token);const destination=path.join(f.root,'copy');
+ const input={operation:'import',name:'Copy',sourceFolder:f.projectFolder,projectFolder:destination,paths:{buildsFolder:path.join(f.root,'copy-builds'),compositeFolder:path.join(f.root,'copy-composites'),cacheFolder:path.join(destination,'CACHE'),libraryFolders:[]}},preview=s.preview(input);
+ fs.writeFileSync(f.projectFolder+'.setup.lock',JSON.stringify({owner:'another-process'}));const before=snapshot(f.root);assert.throws(()=>s.confirm(preview.token),/lock/i);assert.deepEqual(snapshot(f.root),before);
+});
+test('managed catalog copy refuses active jobs and preserves completed Library state byte-for-byte', t=>{
+ const f=fixture(t),s=f.store();s.confirm(s.preview(f.input).token);const file=path.join(f.projectFolder,'STATE','library-catalog.json');
+ const catalog={schemaVersion:1,revision:1,assets:[],locations:[],networks:[],selectionPools:[],groups:[],jobs:[{id:'owned-job',kind:'variant',state:'running'}]};fs.writeFileSync(file,JSON.stringify(catalog));
+ const destination=path.join(f.root,'copy'),input={operation:'import',name:'Copy',sourceFolder:f.projectFolder,projectFolder:destination,paths:{buildsFolder:path.join(f.root,'copy-builds'),compositeFolder:path.join(f.root,'copy-composites'),cacheFolder:path.join(destination,'CACHE'),libraryFolders:[]}};
+ const before=snapshot(f.root);assert.throws(()=>s.preview(input),/active|processing|cancel|jobs/i);assert.deepEqual(snapshot(f.root),before);
+ catalog.jobs[0].state='succeeded';fs.writeFileSync(file,JSON.stringify(catalog));const bytes=fs.readFileSync(file);s.confirm(s.preview(input).token);assert.deepEqual(fs.readFileSync(path.join(destination,'STATE','library-catalog.json')),bytes);assert.deepEqual(fs.readFileSync(file),bytes);
+});
+test('optional versioned Library catalog fails closed when unsupported and informs managed summary without rewriting CSV', t=>{
+ const f=fixture(t),s=f.store();s.confirm(s.preview(f.input).token);const catalog=path.join(f.projectFolder,'STATE','library-catalog.json'),csv=path.join(f.projectFolder,'STATE','asset-registry.csv'),before=fs.readFileSync(csv);
+ fs.writeFileSync(catalog,JSON.stringify({schemaVersion:999,assets:[],jobs:[]}));const unsupported=fs.readFileSync(catalog);assert.throws(()=>s.inspect(f.projectFolder),/unsupported.*catalog|catalog.*version/i);assert.deepEqual(fs.readFileSync(catalog),unsupported);
+ fs.writeFileSync(catalog,JSON.stringify({schemaVersion:1,revision:1,assets:[{id:'new1',name:'registered'}],locations:[],networks:[],selectionPools:[],groups:[],jobs:[]}));assert.equal(s.inspect(f.projectFolder).summary.assets,1);assert.deepEqual(fs.readFileSync(csv),before);
+});

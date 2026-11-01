@@ -552,8 +552,10 @@ async function cropDetect(source) {
   return {left:x,right:Math.max(0,W-(x+w)),top:y,bottom:Math.max(0,H-(y+h)),message:`Detected ${w}x${h} inside ${W}x${H}`};
 }
 
+const {findRepeats}=require('./repeat-highlights.cjs');
 function viewState(cartId) {
   const cart=getCart(cartId), manifest=getManifest(cart), draft=loadDraft(cart,manifest), registry=getRegistry(), regMap=assetMap(registry), assignments=getAssignments();
+  const repeatAudit=findRepeats({cartId,manifest,draft,registry,carts:getCarts(),assignments,readCsv,configDir:settings.ConfigDir||path.join(TOOLKIT_DIR,'config')});
   const clips=manifest.map(m=>{
     const d=draft.slots[m.SlotID], a=regMap[d.assetId] || regMap[m.AssetID];
     const changed=d.assetId!==m.AssetID || num(d.trimStartSeconds)!==num(m.TrimStartSeconds) || num(d.trimEndSeconds)!==num(m.TrimEndSeconds) || int(d.cropLeft)!==int(m.CropLeft) || int(d.cropRight)!==int(m.CropRight) || int(d.cropTop)!==int(m.CropTop) || int(d.cropBottom)!==int(m.CropBottom) || normalizeAudio(d.audioRepair)!==normalizeAudio(m.AudioRepair) || d.action!==(m.ReviewStatus||'UNREVIEWED');
@@ -563,10 +565,10 @@ function viewState(cartId) {
       action:d.action||'UNREVIEWED',notes:d.notes||'',trimStartSeconds:num(d.trimStartSeconds),trimEndSeconds:num(d.trimEndSeconds),
       cropLeft:int(d.cropLeft),cropRight:int(d.cropRight),cropTop:int(d.cropTop),cropBottom:int(d.cropBottom),audioRepair:normalizeAudio(d.audioRepair),
       base:{trimStartSeconds:num(m.TrimStartSeconds),trimEndSeconds:num(m.TrimEndSeconds),cropLeft:int(m.CropLeft),cropRight:int(m.CropRight),cropTop:int(m.CropTop),cropBottom:int(m.CropBottom),audioRepair:normalizeAudio(m.AudioRepair)},
-      changed,candidates:availableCandidates(m,registry,assignments,manifest,draft).map(x=>({assetId:x.AssetID,title:x.Title,type:x.AssetType,subtype:x.Subtype,pool:x.Pool,network:x.Network,duration:num(x.DurationSeconds),series:x.CandidateSeries||'',group:x.CandidateGroup||'DEFAULT'}))
+      repeatUses:repeatAudit.bySlot[m.SlotID]||[],changed,candidates:availableCandidates(m,registry,assignments,manifest,draft).map(x=>({assetId:x.AssetID,title:x.Title,type:x.AssetType,subtype:x.Subtype,pool:x.Pool,network:x.Network,duration:num(x.DurationSeconds),series:x.CandidateSeries||'',group:x.CandidateGroup||'DEFAULT'}))
     };
   });
-  return {cart:{cartId:cart.CartID,revision:Number(cart.CurrentRevision),displayName:cart.DisplayName,network:cart.Network},audioLevels:AUDIO_LEVELS,clips};
+  return {cart:{cartId:cart.CartID,revision:Number(cart.CurrentRevision),displayName:cart.DisplayName,network:cart.Network},audioLevels:AUDIO_LEVELS,repeatWarnings:repeatAudit.warnings,clips};
 }
 
 function patchSlot(cartId, slotId, patch) {

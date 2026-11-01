@@ -37,5 +37,19 @@ test('actual PowerShell launcher starts its own loopback setup server from a bra
     try{const response=await fetch(`http://127.0.0.1:${port}/api/bootstrap`,{signal:AbortSignal.timeout(1000)});if(response.ok){boot=await response.json();break;}}catch(_){}
     await new Promise(resolve=>setTimeout(resolve,100));
   }
-  assert.equal(boot?.phase,'2',output);assert.equal(boot.status.activeProject,null);assert.equal(fs.existsSync(prefs),false);
+  assert.equal(boot?.phase,'3.2',output);assert.equal(boot.status.activeProject,null);assert.equal(fs.existsSync(prefs),false);
+  const readyDeadline=Date.now()+5000;while(Date.now()<readyDeadline&&!output.includes('Retro TV - Phase 3.2 Library Manager'))await new Promise(resolve=>setTimeout(resolve,50));
+  assert.match(output,/Retro TV - Phase 3\.2 Library Manager/,'launcher must recognize the current bootstrap and announce readiness, not merely spawn a server');
+});
+test('the exact launcher finally block terminates its entire owned process tree when graceful exit does not occur',async t=>{
+ const {spawn}=require('node:child_process');
+ const owned=spawn(process.execPath,['-e',"const c=require('node:child_process').spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'ignore'});console.log(JSON.stringify({child:c.pid}));setInterval(()=>{},1000)"],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+ let childPid;
+ t.after(()=>{if(owned.exitCode===null)spawnSync('taskkill.exe',['/PID',String(owned.pid),'/T','/F'],{windowsHide:true});if(childPid){try{process.kill(childPid,0);spawnSync('taskkill.exe',['/PID',String(childPid),'/T','/F'],{windowsHide:true});}catch(_){}}});
+ const tree=await new Promise((resolve,reject)=>{owned.stdout.once('data',b=>{try{resolve(JSON.parse(b.toString()));}catch(e){reject(e);}});owned.once('error',reject);});childPid=tree.child;
+ const script="$tokens=$null;$errors=$null;$ast=[System.Management.Automation.Language.Parser]::ParseFile($env:RETRO_TEST_LAUNCHER,[ref]$tokens,[ref]$errors);if($errors.Count){exit 2};$try=@($ast.EndBlock.Statements|Where-Object{$_ -is [System.Management.Automation.Language.TryStatementAst]})[-1];$body=($try.Finally.Statements|ForEach-Object{$_.Extent.Text}) -join [Environment]::NewLine;$proc=[Diagnostics.Process]::GetProcessById([int]$env:RETRO_OWNED_PID);& ([scriptblock]::Create($body))";
+ const result=spawnSync('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-Command',script],{encoding:'utf8',windowsHide:true,timeout:12000,env:{...process.env,RETRO_TEST_LAUNCHER:launcher,RETRO_OWNED_PID:String(owned.pid)}});
+ assert.equal(result.status,0,result.stderr);
+ const alive=pid=>{try{process.kill(pid,0);return true;}catch(_){return false;}};const deadline=Date.now()+3000;while(Date.now()<deadline&&(alive(owned.pid)||alive(tree.child)))await new Promise(r=>setTimeout(r,50));
+ assert.equal(alive(owned.pid),false,'owned launcher server must terminate');assert.equal(alive(tree.child),false,'owned render descendant must not be orphaned');
 });

@@ -1,2 +1,7 @@
 /CACHE/review-v1
 /CACHE
+
+# Verified app-local codec payloads are retained locally, not committed as source.
+/TOOLKIT/runtime/*
+!/TOOLKIT/runtime/media-backend.json
+!/TOOLKIT/runtime/README.md

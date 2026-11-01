@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const serverPath = path.join(__dirname, '..', 'server.js');
 
-test('Phase 2 shell exposes a separately startable loopback server factory', () => {
+test('Phase 3.2 shell exposes a separately startable loopback server factory', () => {
   assert.ok(fs.existsSync(serverPath), 'separate setup HTTP server has not been implemented');
   assert.equal(typeof require(serverPath).createSetupServer, 'function');
 });
@@ -22,7 +22,7 @@ test('bootstrap returns actual project status and a session CSRF token without o
   const response = await fetch(base + '/api/bootstrap');
   assert.equal(response.status, 200);
   const data = await response.json();
-  assert.equal(data.phase, '2');
+  assert.equal(data.phase, '3.2');
   assert.equal(data.status.activeProject, null);
   assert.match(data.csrfToken, /^[a-f0-9]{64}$/);
   assert.equal(response.headers.get('cache-control'), 'no-store');
@@ -177,7 +177,7 @@ test('unexpected storage write failure is not represented as a definite validati
 test('standalone setup documents its isolated launcher options without loading project state', () => {
   const result = require('node:child_process').spawnSync(process.execPath, [serverPath, '--help'], { encoding: 'utf8', timeout: 10000, windowsHide: true });
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /Phase 2/);
+  assert.match(result.stdout, /Phase 3\.2 Library Manager/);
   assert.match(result.stdout, /--app-data/);
   assert.match(result.stdout, /--port/);
 });

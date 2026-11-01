@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-Starts the Phase 2 workspace hub and project settings application.
+Starts the Phase 3.2 Library Manager and project settings application.
 .DESCRIPTION
-Does not replace or start the existing TV Studio. Keep this window open while using the hub.
+Does not replace or start the existing TV Studio. Keep this window open while using the workspace.
 .PARAMETER AppDataDir
 Optional application preferences folder, primarily for isolated testing. Project media stays elsewhere.
 .PARAMETER NoBrowser
@@ -37,12 +37,12 @@ try {
         try {
             $response = Invoke-WebRequest -UseBasicParsing -Uri ($url + 'api/bootstrap') -TimeoutSec 1
             $boot = $response.Content | ConvertFrom-Json
-            if ($boot.phase -eq '2' -and $boot.csrfToken) { $ready = $true; break }
+            if ($boot.phase -eq '3.2' -and $boot.csrfToken) { $ready = $true; break }
         } catch { Start-Sleep -Milliseconds 150 }
     }
     if (-not $ready) { throw 'Setup did not become ready within 20 seconds. No project was initialized.' }
     if ($proc.HasExited) { throw 'The setup process exited during startup. Do not use an unrelated server on this port.' }
-    Write-Host 'Retro TV - Phase 2 hub and project settings' -ForegroundColor Cyan
+    Write-Host 'Retro TV - Phase 3.2 Library Manager and project settings' -ForegroundColor Cyan
     Write-Host $url
     Write-Host 'Leave this window open. Ctrl+C stops this setup server. The original Studio launcher is unchanged.'
     if (-not $NoBrowser) { Start-Process -FilePath $url -WorkingDirectory $env:USERPROFILE }

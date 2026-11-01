@@ -1,6 +1,6 @@
 # Phase 3.1 — Library Manager design-review checkpoint
 
-**Status:** navigable mockup built, exercised and independently reviewed; Shawn's layout/workflow approval is pending. **Phase 3.2 is not implemented.**
+**Status:** first submission technically reviewed but **not approved by Shawn**. Revisions are requested in [15-USER-PHASE-3.1-LIBRARY-MOCKUP-FEEDBACK.md](15-USER-PHASE-3.1-LIBRARY-MOCKUP-FEEDBACK.md), with confirmed revision decisions in [16-HERMES-PHASE-3.1-REVISION-DECISIONS.md](16-HERMES-PHASE-3.1-REVISION-DECISIONS.md). **The current revised submission is [17-HERMES-PHASE-3.1-REVISED-MOCKUP-CHECKPOINT.md](17-HERMES-PHASE-3.1-REVISED-MOCKUP-CHECKPOINT.md).** This document retains the first submission's layout/test record; it is not the revised design approval. **Phase 3.2 is not implemented.**
 
 Shawn approved the working Phase 2 hub with **"approved. all is working. you may continue"**. This authorizes the Library Manager layout/workflow mockup in `Retro-TV-Hermes-Overhaul-Handoff.md:201–224`, not live catalog editing, processing, schema migration or later workspace implementation. See [approved Phase 2](13-HERMES-PHASE-2-HUB-CHECKPOINT.md) and [owner decisions](11-USER-PHASE-1-DECISIONS.md).
 
