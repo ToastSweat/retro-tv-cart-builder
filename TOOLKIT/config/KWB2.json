@@ -1,0 +1,136 @@
+﻿{
+    "CartID":  "KWB2",
+    "DisplayName":  "Kids WB - 1997-98 rerun lineup",
+    "Network":  "KWB",
+    "CommercialPool":  "KIDS_90S",
+    "CommercialPools":  [
+                            "KIDS_90S",
+                            "GENERAL_90S"
+                        ],
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S03E08 This Pun for Hire, Star Truck, Go Fish, Multiplication Song",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 3\\Animaniacs S03E08 This Pun for Hire, Star Truck, Go Fish, Multiplication Song.mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 09 Snowball [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 09 Snowball [Honeyko].avi"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Tiny Toon Adventures",
+                         "BrandingKeywords":  [
+                                                  "Tiny Toon Adventures",
+                                                  "Tiny Toons"
+                                              ],
+                         "Title":  "S01E51 - Tiny Toon Music Television",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tiny Toon Adventures (1990)\\Tiny Toon Adventures - Season 1 (1990 - 1991)\\S01E51 - Tiny Toon Music Television.avi"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Batman: The Animated Series",
+                         "BrandingKeywords":  [
+                                                  "Batman: The Animated Series",
+                                                  "Batman"
+                                              ],
+                         "Title":  "Batman.The.Animated.Series.S01E03.Heart.of.Ice.720p.BluRay.x265-HETeam",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Batman the Animated Series\\Season 1\\Batman.The.Animated.Series.S01E03.Heart.of.Ice.720p.BluRay.x265-HETeam.mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S04E01 One Flew Over the Cuckoo Clock",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 4\\Animaniacs S04E01 One Flew Over the Cuckoo Clock.mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 24 Brinky [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 24 Brinky [Honeyko].avi"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Tiny Toon Adventures",
+                         "BrandingKeywords":  [
+                                                  "Tiny Toon Adventures",
+                                                  "Tiny Toons"
+                                              ],
+                         "Title":  "S01E19 - Cinemaniacs!",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tiny Toon Adventures (1990)\\Tiny Toon Adventures - Season 1 (1990 - 1991)\\S01E19 - Cinemaniacs!.avi"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Batman: The Animated Series",
+                         "BrandingKeywords":  [
+                                                  "Batman: The Animated Series",
+                                                  "Batman"
+                                              ],
+                         "Title":  "Batman.The.Animated.Series.S01E35.Almost.Got.Im.720p.BluRay.x265-HETeam",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Batman the Animated Series\\Season 1\\Batman.The.Animated.Series.S01E35.Almost.Got.Im.720p.BluRay.x265-HETeam.mp4"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S05E02 It, Dot The Macadamia Nut, Bully for Skippy",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 5\\Animaniacs S05E02 It, Dot The Macadamia Nut, Bully for Skippy.mp4"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 27 Brain Noir [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 27 Brain Noir [Honeyko].avi"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Tiny Toon Adventures",
+                         "BrandingKeywords":  [
+                                                  "Tiny Toon Adventures",
+                                                  "Tiny Toons"
+                                              ],
+                         "Title":  "S02E07 - Acme Cable TV",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tiny Toon Adventures (1990)\\Tiny Toon Adventures - Season 2 (1991 - 1992)\\S02E07 - Acme Cable TV.avi"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Batman: The Animated Series",
+                         "BrandingKeywords":  [
+                                                  "Batman: The Animated Series",
+                                                  "Batman"
+                                              ],
+                         "Title":  "Batman.The.Animated.Series.S01E26.Perchance.to.Dream.720p.BluRay.x265-HETeam",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Batman the Animated Series\\Season 1\\Batman.The.Animated.Series.S01E26.Perchance.to.Dream.720p.BluRay.x265-HETeam.mp4"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "BR-e98574d171e1",
+    "Preparation":  "Fixed reviewed 1997 branding; Prepare-KWB2.ps1. Do not regenerate randomly."
+}

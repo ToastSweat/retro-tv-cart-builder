@@ -1,0 +1,130 @@
+﻿{
+    "CartID":  "KWB1",
+    "DisplayName":  "Kids WB - early 1995-96 lineup",
+    "Network":  "KWB",
+    "CommercialPool":  "KIDS_90S",
+    "CommercialPools":  [
+                            "KIDS_90S",
+                            "GENERAL_90S"
+                        ],
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S03E01 Super Strong Warner Siblings, Nutcracker Slappy, Wakko\u0027s New Gookie, A Quake, a Quake!",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 3\\Animaniacs S03E01 Super Strong Warner Siblings, Nutcracker Slappy, Wakko\u0027s New Gookie, A Quake, a Quake!.mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 02 Of Mouse and Man [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 02 Of Mouse and Man [Honeyko].avi"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Freakazoid!",
+                         "BrandingKeywords":  [
+                                                  "Freakazoid!"
+                                              ],
+                         "Title":  "01. Five Day Forecast-Dance of Doom-Handman",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\01. Five Day Forecast-Dance of Doom-Handman.mp4"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Earthworm Jim",
+                         "BrandingKeywords":  [
+                                                  "Earthworm Jim"
+                                              ],
+                         "Title":  "Earthworm.Jim.S01E01.Sidekicked.DVDRip.X265.Opus",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Earthworm.Jim.1995.Animated.Complete.DVDRip.X265.Opus\\Earthworm.Jim.S01E01.Sidekicked.DVDRip.X265.Opus.mkv"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S03E03 Deduces Wild, Rest in Pieces, U.N. Me",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 3\\Animaniacs S03E03 Deduces Wild, Rest in Pieces, U.N. Me.mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 03 Tokyo Grows, That Smarts, Brainstem [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 03 Tokyo Grows, That Smarts, Brainstem [Honeyko].avi"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Freakazoid!",
+                         "BrandingKeywords":  [
+                                                  "Freakazoid!"
+                                              ],
+                         "Title":  "02. Candle Jack-Toby Danger In Doomsday Bet-Lobe",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\02. Candle Jack-Toby Danger In Doomsday Bet-Lobe.mp4"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Earthworm Jim",
+                         "BrandingKeywords":  [
+                                                  "Earthworm Jim"
+                                              ],
+                         "Title":  "Earthworm.Jim.S01E02.The Book of Doom.DVDRip.X265.Opus",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Earthworm.Jim.1995.Animated.Complete.DVDRip.X265.Opus\\Earthworm.Jim.S01E02.The Book of Doom.DVDRip.X265.Opus.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Animaniacs",
+                         "BrandingKeywords":  [
+                                                  "Animaniacs"
+                                              ],
+                         "Title":  "Animaniacs S03E04 A Hard Day\u0027s Warner, Gimme a Break  Please Please Please, Get a Life Foundation",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Animaniacs\\Season 3\\Animaniacs S03E04 A Hard Day\u0027s Warner, Gimme a Break  Please Please Please, Get a Life Foundation.mp4"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Pinky and the Brain",
+                         "BrandingKeywords":  [
+                                                  "Pinky and the Brain"
+                                              ],
+                         "Title":  "Pinky and the Brain 05 Brainania [Honeyko]",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Pinky and the Brain\\Pinky and the Brain 05 Brainania [Honeyko].avi"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Freakazoid!",
+                         "BrandingKeywords":  [
+                                                  "Freakazoid!"
+                                              ],
+                         "Title":  "03. Mo-Ron-Sewer Rescue-Big Question-Legends Who Lunch",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Freakazoid!\\Season 1\\03. Mo-Ron-Sewer Rescue-Big Question-Legends Who Lunch.mp4"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Earthworm Jim",
+                         "BrandingKeywords":  [
+                                                  "Earthworm Jim"
+                                              ],
+                         "Title":  "Earthworm.Jim.S01E03.Assault And Battery.DVDRip.X265.Opus",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Earthworm.Jim.1995.Animated.Complete.DVDRip.X265.Opus\\Earthworm.Jim.S01E03.Assault And Battery.DVDRip.X265.Opus.mkv"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-e941483c2e62",
+    "Preparation":  "Fixed reviewed early branding; Prepare-KWB1.ps1. Do not regenerate randomly."
+}

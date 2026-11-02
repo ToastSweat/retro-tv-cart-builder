@@ -170,8 +170,23 @@ function Get-CropSuggestion([string]$source,[double]$duration) {
     }
 }
 function Has-Audio([string]$source) {
-    $s = & $FFprobe -v error -select_streams a:0 -show_entries stream=index -of csv=p=0 $source 2>$null
-    return -not [string]::IsNullOrWhiteSpace(($s -join ''))
+    $previousPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        $result = @(& $FFprobe -v error -select_streams a:0 -show_entries stream=index -of csv=p=0 $source 2>&1)
+        $probeExit = $LASTEXITCODE
+    }
+    finally {
+        $ErrorActionPreference = $previousPreference
+    }
+
+    if ($probeExit -ne 0) {
+        throw "Audio probe failed for $source (exit $probeExit): $($result -join ' ')"
+    }
+
+    return @($result | Where-Object {
+        ([string]$_).Trim() -match '^\d+$'
+    }).Count -gt 0
 }
 function Test-Duration([string]$source) {
     $oldEap=$ErrorActionPreference

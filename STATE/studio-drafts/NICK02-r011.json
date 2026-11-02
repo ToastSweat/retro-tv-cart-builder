@@ -4,7 +4,7 @@
   "baseRevision": 11,
   "baseManifestPath": "F:\\[VIDEOS]\\Retro TV Builds\\NICK02\\r011\\cart-manifest.csv",
   "createdUtc": "2026-10-31T06:57:52.637Z",
-  "updatedUtc": "2026-10-31T06:57:52.637Z",
+  "updatedUtc": "2026-11-01T05:32:07.568Z",
   "slots": {
     "NICK02-ANCHOR-01": {
       "slotId": "NICK02-ANCHOR-01",
@@ -534,13 +534,13 @@
     "NICK02-SIGN-OFF": {
       "slotId": "NICK02-SIGN-OFF",
       "baseAssetId": "BR-1f18c424675f",
-      "assetId": "BR-1f18c424675f",
+      "assetId": "HBR-0bbfc8ef1878",
       "action": "GOOD",
       "notes": "",
       "trimStartSeconds": 0,
       "trimEndSeconds": 0,
-      "cropLeft": 176,
-      "cropRight": 177,
+      "cropLeft": 8,
+      "cropRight": 8,
       "cropTop": 0,
       "cropBottom": 0,
       "audioRepair": "NONE",
