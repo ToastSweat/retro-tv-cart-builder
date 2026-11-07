@@ -1,0 +1,129 @@
+﻿{
+    "CartID":  "BOOM2",
+    "DisplayName":  "Boomerang - Cats, Dogs and Cartoon Chaos",
+    "Network":  "BOOM",
+    "CommercialPool":  "GENERAL_00S",
+    "CommercialPools":  [
+                            "GENERAL_00S"
+                        ],
+    "AdsPerBreak":  1,
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Tom and Jerry",
+                         "BrandingKeywords":  [
+                                                  "Tom and Jerry"
+                                              ],
+                         "Title":  "Tom and Jerry - The Cat Concerto + The Hollywood Bowl + Johann Mouse",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-01.mkv"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Tom and Jerry",
+                         "BrandingKeywords":  [
+                                                  "Tom and Jerry"
+                                              ],
+                         "Title":  "Tom and Jerry - Mouse Trouble + Quiet Please! + Jerry\u0027s Cousin",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-02.mkv"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Tom and Jerry",
+                         "BrandingKeywords":  [
+                                                  "Tom and Jerry"
+                                              ],
+                         "Title":  "Tom and Jerry - The Bowling Alley-Cat + Solid Serenade + Pecos Pest",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-03.mkv"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes"
+                                              ],
+                         "Title":  "Looney Tunes - Baseball Bugs + Hair-Raising Hare + The Great Piggy Bank Robbery",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-04.mkv"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes"
+                                              ],
+                         "Title":  "Looney Tunes - The Scarlet Pumpernickel + Duck Dodgers in the 24 + The Ducksters",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-05.mkv"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Looney Tunes",
+                         "BrandingKeywords":  [
+                                                  "Looney Tunes"
+                                              ],
+                         "Title":  "Looney Tunes - Bugs Bunny Rides Again + Bully for Bugs + High Diving Hare",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-06.mkv"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Huckleberry Hound",
+                         "BrandingKeywords":  [
+                                                  "Huckleberry Hound"
+                                              ],
+                         "Title":  "Huckleberry Hound - Huckleberry Hound Meets Wee Willie + Fireman Huck + Sheriff Huckleberry",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-07.mkv"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Huckleberry Hound",
+                         "BrandingKeywords":  [
+                                                  "Huckleberry Hound"
+                                              ],
+                         "Title":  "Huckleberry Hound - Freeway Patrol + Little Red Riding Huck + Huck\u0027s Hack",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-08.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Huckleberry Hound",
+                         "BrandingKeywords":  [
+                                                  "Huckleberry Hound"
+                                              ],
+                         "Title":  "Huckleberry Hound - Cop and Saucer + Fast Gun Huck + Two for Tee Vee",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-09.mkv"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby-Doo, Where Are You!"
+                                              ],
+                         "Title":  "Episode 8 Foul Play In Funland",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 1 (1969–70)\\Episode 8 Foul Play In Funland.mkv"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby-Doo, Where Are You!"
+                                              ],
+                         "Title":  "Episode 10 Bedlam In the Big Top",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 1 (1969–70)\\Episode 10 Bedlam In the Big Top.mkv"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Scooby-Doo, Where Are You!",
+                         "BrandingKeywords":  [
+                                                  "Scooby-Doo, Where Are You!"
+                                              ],
+                         "Title":  "Episode 16 A Night of Fright Is No Delight",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Scooby Doo, Where Are You! (TV Series 1969–1970)\\Season 1 (1969–70)\\Episode 16 A Night of Fright Is No Delight.mkv"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "HBR-176bed356798",
+    "Preparation":  "Fixed grouped lineup. Use Studio for revisions; do not regenerate randomly."
+}

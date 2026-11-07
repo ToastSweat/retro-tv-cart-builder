@@ -1,0 +1,18 @@
+General-audience correction validation
+- Read-only preview left all five target files unchanged.
+- Applied correction to a BOOM1 fixture containing crop/audio/GOOD/notes in Studio draft slots. All unchanged slot draft objects remained identical; replacement ad draft objects reset correctly; removed NEXT slots disappeared.
+- Corrected manifest contained 40 rows, 11 general-only ads, and matching 40 active/reserved assignments.
+- Updated BOOM2 preparation passed temporary-fixture creation: 40 rows, 11 different general-only ads, 17 approved branding clips, no paired NEXT/INTRO duplication.
+- Injected failure after all correction writes restored manifest, config, assignment registry, cart registry and Studio draft byte-for-byte.
+- Tests use PowerShell 7.4.6 on Linux and stub media probes, not real Windows media encoding. Windows PowerShell array handling fix retained.
+
+Earlier preparation validation (before audience/layout correction)
+Validation scope
+- PowerShell parser: passed under PowerShell 7.4.6 on Linux. Uses Windows PowerShell 5.1 syntax; native Windows execution is still required.
+- Temporary fixture using supplied registry/config schemas: BOOM1 and BOOM2 creation passed, 42 + 41 manifest rows, 12 show rows and 11 commercial rows each, all 37 branding rows GOOD, matching reservation counts, no shared selected AssetIDs.
+- Existing cart rerun refused before creating another revision.
+- Injected failure after state writes: original CSV bytes restored; new cart/config/recipe removed. Composite outputs remain reusable and were not deleted.
+- Final source-sum duration guard rejects composites outside +/-3 percent before cart publication.
+- Media existence/probe validation, expanded composite source audit and state-change checks are performed on the user's PC. Fixture media/probe/builder are stubs; this does NOT establish that the real files decode or encode successfully.
+- No modifications to Studio, its launcher, the composite builder or existing cart manifests are included.
+- Episode research documents examples of actual Boomerang airings, not a complete rerun-frequency count. See LINEUPS.md.

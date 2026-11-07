@@ -1,0 +1,130 @@
+﻿{
+    "CartID":  "DISNEY1",
+    "DisplayName":  "The Disney Afternoon - classic lineup",
+    "Network":  "DISNEY",
+    "CommercialPool":  "KIDS_90S",
+    "CommercialPools":  [
+                            "KIDS_90S",
+                            "GENERAL_90S"
+                        ],
+    "AdsPerBreak":  1,
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "DuckTales",
+                         "BrandingKeywords":  [
+                                                  "DuckTales"
+                                              ],
+                         "Title":  "Hotel Strangeduck",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DUCKTALES (1987-1990) - The Complete ORIGINAL TV Series, Season 1,2,3,4 and Movie - 480p Proper DVDRip x264\\Season 1 (1987-88)\\Ducktales - S01 E13 - Hotel Strangeduck (480p - Proper DVDRip).mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Chip \u0027n Dale Rescue Rangers",
+                         "BrandingKeywords":  [
+                                                  "Chip \u0027n Dale Rescue Rangers"
+                                              ],
+                         "Title":  "Catteries Not Included",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Chip \u0027n\u0027 Dale Rescue Rangers S01-S03 (1988-)\\Chip \u0027n Dale Rescue Rangers S01 (360p re-webrip)\\Chip \u0027n\u0027 Dale Rescue Rangers S01E02 Catteries Not Included.mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "TaleSpin",
+                         "BrandingKeywords":  [
+                                                  "TaleSpin"
+                                              ],
+                         "Title":  "From Here to Machinery",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\TALESPIN (1990-1991) - Complete ANIMATED TV Series, S01 - 480p DVDRip x264\\TaleSpin - Ep. 05 - From Here to Machinery (480p - DVDRip).mp4"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Darkwing Duck",
+                         "BrandingKeywords":  [
+                                                  "Darkwing Duck"
+                                              ],
+                         "Title":  "Water Way to Go",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DARKWING DUCK (1991-1992) - The Complete TV Series, ALL 91 Episodes - 480p DNSP Web-DL x264\\Season 1 (1991-92)\\Darkwing Duck - S01 E03 - Water Way to Go (480p - DNSP Web-DL).mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "DuckTales",
+                         "BrandingKeywords":  [
+                                                  "DuckTales"
+                                              ],
+                         "Title":  "The Money Vanishes",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DUCKTALES (1987-1990) - The Complete ORIGINAL TV Series, Season 1,2,3,4 and Movie - 480p Proper DVDRip x264\\Season 1 (1987-88)\\Ducktales - S01 E16 - The Money Vanishes (480p - Proper DVDRip).mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Chip \u0027n Dale Rescue Rangers",
+                         "BrandingKeywords":  [
+                                                  "Chip \u0027n Dale Rescue Rangers"
+                                              ],
+                         "Title":  "Dale Beside Himself",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Chip \u0027n\u0027 Dale Rescue Rangers S01-S03 (1988-)\\Chip \u0027n Dale Rescue Rangers S01 (360p re-webrip)\\Chip \u0027n\u0027 Dale Rescue Rangers S01E03 Dale Beside Himself.mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "TaleSpin",
+                         "BrandingKeywords":  [
+                                                  "TaleSpin"
+                                              ],
+                         "Title":  "Polly Wants a Treasure",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\TALESPIN (1990-1991) - Complete ANIMATED TV Series, S01 - 480p DVDRip x264\\TaleSpin - Ep. 11 - Polly Wants a Treasure (480p - DVDRip).mp4"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Darkwing Duck",
+                         "BrandingKeywords":  [
+                                                  "Darkwing Duck"
+                                              ],
+                         "Title":  "Dirty Money",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DARKWING DUCK (1991-1992) - The Complete TV Series, ALL 91 Episodes - 480p DNSP Web-DL x264\\Season 1 (1991-92)\\Darkwing Duck - S01 E05 - Dirty Money (480p - DNSP Web-DL).mp4"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "DuckTales",
+                         "BrandingKeywords":  [
+                                                  "DuckTales"
+                                              ],
+                         "Title":  "Dinosaur Ducks",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DUCKTALES (1987-1990) - The Complete ORIGINAL TV Series, Season 1,2,3,4 and Movie - 480p Proper DVDRip x264\\Season 1 (1987-88)\\Ducktales - S01 E18 - Dinosaur Ducks (480p - Proper DVDRip).mp4"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Chip \u0027n Dale Rescue Rangers",
+                         "BrandingKeywords":  [
+                                                  "Chip \u0027n Dale Rescue Rangers"
+                                              ],
+                         "Title":  "Pound of the Baskervilles",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Chip \u0027n\u0027 Dale Rescue Rangers S01-S03 (1988-)\\Chip \u0027n Dale Rescue Rangers S01 (360p re-webrip)\\Chip \u0027n\u0027 Dale Rescue Rangers S01E08 Pound of the Baskervilles.mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "TaleSpin",
+                         "BrandingKeywords":  [
+                                                  "TaleSpin"
+                                              ],
+                         "Title":  "Stormy Weather",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\TALESPIN (1990-1991) - Complete ANIMATED TV Series, S01 - 480p DVDRip x264\\TaleSpin - Ep. 14 - Stormy Weather (480p - DVDRip).mp4"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Darkwing Duck",
+                         "BrandingKeywords":  [
+                                                  "Darkwing Duck"
+                                              ],
+                         "Title":  "A Duck by Any Other Name",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\DARKWING DUCK (1991-1992) - The Complete TV Series, ALL 91 Episodes - 480p DNSP Web-DL x264\\Season 1 (1991-92)\\Darkwing Duck - S01 E06 - A Duck by Any Other Name (480p - DNSP Web-DL).mp4"
+                     }
+                 ],
+    "SignOffAssetID":  "HBR-ffb2fd2ac433",
+    "Preparation":  "Opening, approved OUT bumpers, closing credits; Prepare-DISNEY1.ps1. Do not regenerate randomly."
+}

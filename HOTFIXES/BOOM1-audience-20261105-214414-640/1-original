@@ -1,0 +1,130 @@
+﻿{
+    "CartID":  "BOOM1",
+    "DisplayName":  "Boomerang - Stone Age, Space Age and El Kabong",
+    "Network":  "BOOM",
+    "CommercialPool":  "KIDS_00S",
+    "CommercialPools":  [
+                            "GENERAL_00S",
+                            "KIDS_00S"
+                        ],
+    "AdsPerBreak":  1,
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E04 No Help Wanted",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E04 No Help Wanted.mp4"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E06 The Monster from the Tar Pits",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E06 The Monster from the Tar Pits.mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "The Flintstones",
+                         "BrandingKeywords":  [
+                                                  "The Flintstones"
+                                              ],
+                         "Title":  "The Flintstones S01E08 At the Races",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Flintstones S01-S06 (1960-)\\The Flintstones S01 (360p re-dvdrip)\\The Flintstones S01E08 At the Races.mp4"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E03 (Jetson\u0027s Nite Out)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E03 (Jetson\u0027s Nite Out).mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E04 (The Space Car)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E04 (The Space Car).mp4"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "The Jetsons",
+                         "BrandingKeywords":  [
+                                                  "The Jetsons"
+                                              ],
+                         "Title":  "The Jetsons - S01E10 (Uniblab)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Jetsons (Complete cartoon series in MP4 format)\\The Jetsons - Season 1\\The Jetsons - S01E10 (Uniblab).mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Yogi Bear",
+                         "BrandingKeywords":  [
+                                                  "Yogi Bear"
+                                              ],
+                         "Title":  "Yogi Bear - Yogi Bear\u0027s Big Break + Slumber Party Smarty + Pie-Pirates",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-07.mkv"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Yogi Bear",
+                         "BrandingKeywords":  [
+                                                  "Yogi Bear"
+                                              ],
+                         "Title":  "Yogi Bear - Bear on a Picnic + Robin Hood Yogi + Scooter Looter",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-08.mkv"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Yogi Bear",
+                         "BrandingKeywords":  [
+                                                  "Yogi Bear"
+                                              ],
+                         "Title":  "Yogi Bear - Stranger Ranger + Wound-up Bear + Droop-a-Long Yogi",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-09.mkv"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Quick Draw McGraw",
+                         "BrandingKeywords":  [
+                                                  "Quick Draw McGraw"
+                                              ],
+                         "Title":  "Quick Draw McGraw - E07 (Slippery Glass Slipper - Talk It Up, Pup - El Kabong)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Quick Draw McGraw (Remastered cartoon series in MP4 format)\\Quick Draw McGraw - E07 (Slippery Glass Slipper - Talk It Up, Pup - El Kabong).mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Quick Draw McGraw",
+                         "BrandingKeywords":  [
+                                                  "Quick Draw McGraw"
+                                              ],
+                         "Title":  "Quick Draw McGraw - E13 (Motor Knows Best - Whatever Goes Pup - El Kabong Strikes Again)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Quick Draw McGraw (Remastered cartoon series in MP4 format)\\Quick Draw McGraw - E13 (Motor Knows Best - Whatever Goes Pup - El Kabong Strikes Again).mp4"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Quick Draw McGraw",
+                         "BrandingKeywords":  [
+                                                  "Quick Draw McGraw"
+                                              ],
+                         "Title":  "Quick Draw McGraw - E34 (Big Cat Caper - Little Wonder - Who is El Kabong)",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Quick Draw McGraw (Remastered cartoon series in MP4 format)\\Quick Draw McGraw - E34 (Big Cat Caper - Little Wonder - Who is El Kabong).mp4"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "HBR-ad09c9db4ead",
+    "Preparation":  "Fixed grouped lineup. Use Studio for revisions; do not regenerate randomly."
+}

@@ -1,0 +1,35 @@
+﻿{
+    "Name":  "BOOM1 cartoon blocks",
+    "Jobs":  [
+                 {
+                     "Name":  "Yogi Bear - Yogi Bear\u0027s Big Break + Slumber Party Smarty + Pie-Pirates",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E01 Yogi Bear\u0027s Big Break.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E02 Slumber Party Smarty.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E03 Pie-Pirates.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-07.mkv"
+                 },
+                 {
+                     "Name":  "Yogi Bear - Bear on a Picnic + Robin Hood Yogi + Scooter Looter",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E16 Bear on a Picnic.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E19 Robin Hood Yogi.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E21 Scooter Looter.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-08.mkv"
+                 },
+                 {
+                     "Name":  "Yogi Bear - Stranger Ranger + Wound-up Bear + Droop-a-Long Yogi",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E27 Stranger Ranger.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S01 (360p re-webrip)\\The Yogi Bear Show S01E28 Wound-up Bear.mp4",
+                                   "F:\\[VIDEOS]\\TV\\The Yogi Bear Show S01-S03 (1958-)\\The Yogi Bear Show S03 (360p re-webrip)\\The Yogi Bear Show S03E13 Droop-a-Long Yogi.mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM1\\YogiBear-block-09.mkv"
+                 }
+             ]
+}

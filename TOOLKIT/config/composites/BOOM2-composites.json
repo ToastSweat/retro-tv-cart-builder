@@ -1,0 +1,95 @@
+﻿{
+    "Name":  "BOOM2 cartoon blocks",
+    "Jobs":  [
+                 {
+                     "Name":  "Tom and Jerry - The Cat Concerto + The Hollywood Bowl + Johann Mouse",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1940 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1940E29 - The Cat Concerto.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1950 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1950E06 - The Hollywood Bowl.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1950 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1950E29 - Johann Mouse.mkv"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-01.mkv"
+                 },
+                 {
+                     "Name":  "Tom and Jerry - Mouse Trouble + Quiet Please! + Jerry\u0027s Cousin",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1940 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1940E17 - Mouse Trouble.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1940 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1940E22 - Quiet Please!.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1950 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1950E11 - Jerry\u0027s Cousin.mkv"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-02.mkv"
+                 },
+                 {
+                     "Name":  "Tom and Jerry - The Bowling Alley-Cat + Solid Serenade + Pecos Pest",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1940 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1940E07 - The Bowling Alley-Cat.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1940 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1940E26 - Solid Serenade.mkv",
+                                   "F:\\[VIDEOS]\\TV\\Tom and Jerry - Season 1950 Complete 1080p WEB x264 [i_c]\\Tom and Jerry - S1950E50 - Pecos Pest.mkv"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\TomandJerry-block-03.mkv"
+                 },
+                 {
+                     "Name":  "Looney Tunes - Baseball Bugs + Hair-Raising Hare + The Great Piggy Bank Robbery",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1946\\020246DVD Baseball Bugs LT.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1946\\052546DVD Hair-Raising Hare MM.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1946\\072046DVD The Great Piggy Bank Robbery LT.avi"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-04.mkv"
+                 },
+                 {
+                     "Name":  "Looney Tunes - The Scarlet Pumpernickel + Duck Dodgers in the 24 + The Ducksters",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1950\\030450DVD The Scarlet Pumpernickel LT.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1953\\072553DVD Duck Dodgers in the 24.5 Century MM.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1950\\090250DVD The Ducksters LT.avi"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-05.mkv"
+                 },
+                 {
+                     "Name":  "Looney Tunes - Bugs Bunny Rides Again + Bully for Bugs + High Diving Hare",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1948\\061248DVD Bugs Bunny Rides Again MM.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1953\\080853DVD Bully for Bugs LT.avi",
+                                   "F:\\[VIDEOS]\\TV\\Looney Tunes Golden Collection\\1949\\043049DVD High Diving Hare LT.avi"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\LooneyTunes-block-06.mkv"
+                 },
+                 {
+                     "Name":  "Huckleberry Hound - Huckleberry Hound Meets Wee Willie + Fireman Huck + Sheriff Huckleberry",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E01 (Huckleberry Hound Meets Wee Willie).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E04 (Fireman Huck).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E05 (Sheriff Huckleberry).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-07.mkv"
+                 },
+                 {
+                     "Name":  "Huckleberry Hound - Freeway Patrol + Little Red Riding Huck + Huck\u0027s Hack",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E07 (Freeway Patrol).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E18 (Little Red Riding Huck).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E32 (Huck\u0027s Hack).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-08.mkv"
+                 },
+                 {
+                     "Name":  "Huckleberry Hound - Cop and Saucer + Fast Gun Huck + Two for Tee Vee",
+                     "Mode":  "Normalize",
+                     "Parts":  [
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E27 (Cop and Saucer).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E40 (Fast Gun Huck).mp4",
+                                   "F:\\[VIDEOS]\\TV\\Huckleberry Hound (Cartoon series in MP4 format)\\Huckleberry Hound - E52 (Two for Tee Vee).mp4"
+                               ],
+                     "Output":  "F:\\[VIDEOS]\\TV\\_RetroTV_Composites\\BOOM2\\HuckleberryHound-block-09.mkv"
+                 }
+             ]
+}
