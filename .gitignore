@@ -5,3 +5,12 @@
 /TOOLKIT/runtime/*
 !/TOOLKIT/runtime/media-backend.json
 !/TOOLKIT/runtime/README.md
+/legacy-v1/CACHE
+/legacy-v1/VERSIONS
+/STATE/backups
+/STATE/backups
+/VERSIONS
+
+/legacy-v1/TOOLKIT/runtime/*
+!/legacy-v1/TOOLKIT/runtime/README.md
+!/legacy-v1/TOOLKIT/runtime/media-backend.json
