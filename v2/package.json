@@ -1,0 +1,19 @@
+{
+  "name": "retro-tv-cart-builder",
+  "productName": "Retro TV Cart Builder",
+  "version": "2.0.0-alpha.4",
+  "private": true,
+  "description": "Carts and templates with ordered preferred clip choices",
+  "main": "src/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs"
+  },
+  "devDependencies": {
+    "electron": "45.2.3",
+    "jsdom": "26.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
