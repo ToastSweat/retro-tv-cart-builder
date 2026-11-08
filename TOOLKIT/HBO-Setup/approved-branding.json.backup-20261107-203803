@@ -1,0 +1,104 @@
+﻿[
+    {
+        "value":  [
+                      {
+                          "value":  [
+                                        {
+                                            "ID":  "HBO-BR-01",
+                                            "Cart":  "HBO1",
+                                            "FileName":  "HBO Feature Presentation - Intro⧸Opening (1983) [gNZ4MF-l4AI].mkv",
+                                            "Title":  "HBO Feature Presentation - Intro⧸Opening (1983) [gNZ4MF-l4AI].mkv",
+                                            "Subtype":  "IDENT",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-02",
+                                            "Cart":  "HBO1",
+                                            "FileName":  "Todd McFarlane\u0027s Spawn - Series Premiere HBO Promo (1997) [ZHcK8ZU1Jxk].mkv",
+                                            "Title":  "Todd McFarlane\u0027s Spawn - Series Premiere HBO Promo (1997) [ZHcK8ZU1Jxk].mkv",
+                                            "Subtype":  "PROMO",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-03",
+                                            "Cart":  "HBO1",
+                                            "FileName":  "＂TALES FROM THE CRYPT THIRD SEASON PROMO [ORIGINAL FULL VIDEO - 1991 HBO]＂ [0AJ7rQ1J2ss].mkv",
+                                            "Title":  "＂TALES FROM THE CRYPT THIRD SEASON PROMO [ORIGINAL FULL VIDEO - 1991 HBO]＂ [0AJ7rQ1J2ss].mkv",
+                                            "Subtype":  "PROMO",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-04",
+                                            "Cart":  "HBO1",
+                                            "FileName":  "Todd McFarlane\u0027s Spawn - Season 1 ＂One Warrior, One Love, One Deal＂ HBO Promo (1997) [gQ-PibF3UnY].mkv",
+                                            "Title":  "Todd McFarlane\u0027s Spawn - Season 1 ＂One Warrior, One Love, One Deal＂ HBO Promo (1997) [gQ-PibF3UnY].mkv",
+                                            "Subtype":  "PROMO",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-05",
+                                            "Cart":  "HBO2",
+                                            "FileName":  "HBO Feature Presentation ｜ Opening Intro (Long Version) (1999) [jB_mvBlYuQg].mkv",
+                                            "Title":  "HBO Feature Presentation ｜ Opening Intro (Long Version) (1999) [jB_mvBlYuQg].mkv",
+                                            "Subtype":  "IDENT",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-06",
+                                            "Cart":  "HBO2",
+                                            "FileName":  "Todd McFarlane\u0027s Spawn - Season 2 ＂Fan Mail＂ HBO Promo (1998) [gCz7Y9oe3Q4].mkv",
+                                            "Title":  "Todd McFarlane\u0027s Spawn - Season 2 ＂Fan Mail＂ HBO Promo (1998) [gCz7Y9oe3Q4].mkv",
+                                            "Subtype":  "PROMO",
+                                            "Decision":  "GOOD"
+                                        },
+                                        {
+                                            "ID":  "HBO-BR-07",
+                                            "Cart":  "HBO2",
+                                            "FileName":  "Tales From The Crypt season six promo (October 1994) [g42EC75cm2M].mkv",
+                                            "Title":  "Tales From The Crypt season six promo (October 1994) [g42EC75cm2M].mkv",
+                                            "Subtype":  "PROMO",
+                                            "Decision":  "GOOD"
+                                        }
+                                    ],
+                          "Count":  7
+                      },
+                      {
+                          "ID":  "HBO-BR-08",
+                          "Cart":  "HBO1",
+                          "FileName":  "HBO1-Test-Pattern.mp4",
+                          "Title":  "HBO1 - Custom test-pattern closing",
+                          "Subtype":  "IDENT",
+                          "Decision":  "GOOD",
+                          "SourceFolder":  "HBO-Closers"
+                      },
+                      {
+                          "ID":  "HBO-BR-09",
+                          "Cart":  "HBO2",
+                          "FileName":  "HBO2-Test-Pattern.mp4",
+                          "Title":  "HBO2 - Custom test-pattern closing",
+                          "Subtype":  "IDENT",
+                          "Decision":  "GOOD",
+                          "SourceFolder":  "HBO-Closers"
+                      }
+                  ],
+        "Count":  3
+    },
+    {
+        "ID":  "HBO-BR-08",
+        "Cart":  "HBO1",
+        "FileName":  "HBO1-Test-Pattern.mp4",
+        "Title":  "HBO1 - Custom test-pattern closing",
+        "Subtype":  "IDENT",
+        "Decision":  "GOOD",
+        "SourceFolder":  "HBO-Closers"
+    },
+    {
+        "ID":  "HBO-BR-09",
+        "Cart":  "HBO2",
+        "FileName":  "HBO2-Test-Pattern.mp4",
+        "Title":  "HBO2 - Custom test-pattern closing",
+        "Subtype":  "IDENT",
+        "Decision":  "GOOD",
+        "SourceFolder":  "HBO-Closers"
+    }
+]

@@ -1,0 +1,74 @@
+﻿[
+  {
+    "ID": "SCIFI-BR-01",
+    "Cart": "SCIFI1",
+    "FileName": "SciFi Channel Station ID： Clock [CBaaXRysv8k].mkv",
+    "Title": "SciFi Channel Station ID： Clock [CBaaXRysv8k].mkv",
+    "Subtype": "IDENT",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-02",
+    "Cart": "SCIFI1",
+    "FileName": "Star Trek Sci-Fi Channel Special Edition (1999) promo [TXUsgsimJfQ].mkv",
+    "Title": "Star Trek Sci-Fi Channel Special Edition (1999) promo [TXUsgsimJfQ].mkv",
+    "Subtype": "PROMO",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-03",
+    "Cart": "SCIFI1",
+    "FileName": "Sci-fi Channel Commercial Bumper - Network SciFi (1999) [19mrhI3tc3Y].mkv",
+    "Title": "Sci-fi Channel Commercial Bumper - Network SciFi (1999) [19mrhI3tc3Y].mkv",
+    "Subtype": "BUMPER_GENERIC",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-04",
+    "Cart": "SCIFI1",
+    "FileName": "Twilight Zone Chain Reaction Bumper 3 - 2002 Sci Fi Channel [m2pMiVt59Yg].mkv",
+    "Title": "Twilight Zone Chain Reaction Bumper 3 - 2002 Sci Fi Channel [m2pMiVt59Yg].mkv",
+    "Subtype": "BUMPER_GENERIC",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-05",
+    "Cart": "SCIFI1",
+    "FileName": "Sci-Fi Channel Original 30 Second ID [zJsooyLA1ak].mkv",
+    "Title": "Sci-Fi Channel Original 30 Second ID [zJsooyLA1ak].mkv",
+    "Subtype": "IDENT",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-06",
+    "Cart": "SCIFI2",
+    "FileName": "Sci Fi Channel long mysterious bumper [NQKKDZK1_vg].mkv",
+    "Title": "Sci Fi Channel long mysterious bumper [NQKKDZK1_vg].mkv",
+    "Subtype": "IDENT",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-07",
+    "Cart": "SCIFI2",
+    "FileName": "Sci Fi Channel ident bumper (2002) [x5zJY4jydcQ].mkv",
+    "Title": "Sci Fi Channel ident bumper (2002) [x5zJY4jydcQ].mkv",
+    "Subtype": "IDENT",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-08",
+    "Cart": "SCIFI2",
+    "FileName": "Twilight Zone Chain Reaction Bumper 4 - 2002 Sci Fi Channel [BbV5pTXpIzk].mkv",
+    "Title": "Twilight Zone Chain Reaction Bumper 4 - 2002 Sci Fi Channel [BbV5pTXpIzk].mkv",
+    "Subtype": "BUMPER_GENERIC",
+    "Decision": "GOOD"
+  },
+  {
+    "ID": "SCIFI-BR-09",
+    "Cart": "SCIFI2",
+    "FileName": "Sci Fi Channel bumper ident (2002) [Z_mWRkexV_E].mkv",
+    "Title": "Sci Fi Channel bumper ident (2002) [Z_mWRkexV_E].mkv",
+    "Subtype": "IDENT",
+    "Decision": "GOOD"
+  }
+]

@@ -1,0 +1,134 @@
+﻿{
+    "CartID":  "SCIFI1",
+    "DisplayName":  "Sci-Fi Channel - Strange New Worlds",
+    "Network":  "SCIFI",
+    "CommercialPool":  "GENERAL_00S,GENERAL_90S,KIDS_00S,KIDS_90S,LATE_NIGHT,PSA",
+    "CommercialPools":  [
+                            "GENERAL_00S",
+                            "GENERAL_90S",
+                            "KIDS_00S",
+                            "KIDS_90S",
+                            "LATE_NIGHT",
+                            "PSA"
+                        ],
+    "AdsPerBreak":  1,
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Balance of Terror",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x09 - Balance of Terror.avi"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - Time Enough at Last",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S01 (360p re-dvdrip)\\The Twilight Zone 1959 S01E08 Time Enough at Last.mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The Devil in the Dark",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x27 - The Devil in the Dark.avi"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Monsters Are Due on Maple Street",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S01 (360p re-dvdrip)\\The Twilight Zone 1959 S01E22 The Monsters Are Due on Maple Street.mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Space Seed",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x25 - Space Seed.avi"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Eye of the Beholder",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E06 The Eye of the Beholder.mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The City on the Edge of Forever",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x29 - The City on the Edge of Forever.avi"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - To Serve Man",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S03 (360p re-dvdrip)\\The Twilight Zone 1959 S03E24 To Serve Man.mp4"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Amok Time",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x05 - Amok Time.avi"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - Nightmare at 20,000 Feet",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E03 Nightmare at 20,000 Feet.mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The Trouble With Tribbles",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x13 - The Trouble With Tribbles.avi"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - It\u0027s a Good Life",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S03 (360p re-dvdrip)\\The Twilight Zone 1959 S03E08 It\u0027s a Good Life.mp4"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "HBR-081ab3fa2d49",
+    "Preparation":  "Alternating TOS and Twilight Zone. All commercial pools; READY unused assets only. Use Studio for revisions; do not regenerate randomly."
+}

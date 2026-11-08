@@ -1,0 +1,16 @@
+Validated 2026-11-07
+PowerShell 7.4.6 on Linux with synthetic files and fake ffprobe; NOT actual Windows media or Studio playback testing.
+
+PASS PowerShell syntax parse
+PASS read-only preflight leaves state hashes unchanged
+PASS injected write failure restores original state bytes and removes new revision
+PASS creates SCIFI1 and SCIFI2 as separate r001 drafts
+PASS 28 and 27 manifest clips, respectively
+PASS 12 shows and 11 commercials in each
+PASS no overlapping AssetIDs between the two fixture carts
+PASS excludes an ACTIVE commercial from another cart
+PASS all fixture commercial pools carried into both configs
+PASS show/ad UNREVIEWED and branding GOOD
+PASS rerunning existing cart refuses without state writes
+
+Actual source durations, codecs, media health, Windows paths and installed Studio behavior require live preflight/review.

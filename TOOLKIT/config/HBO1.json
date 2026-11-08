@@ -1,0 +1,134 @@
+﻿{
+    "CartID":  "HBO1",
+    "DisplayName":  "HBO - Cryptkeeper After Dark",
+    "Network":  "HBO",
+    "CommercialPool":  "GENERAL_00S,GENERAL_90S,KIDS_00S,KIDS_90S,LATE_NIGHT,PSA",
+    "CommercialPools":  [
+                            "GENERAL_00S",
+                            "GENERAL_90S",
+                            "KIDS_00S",
+                            "KIDS_90S",
+                            "LATE_NIGHT",
+                            "PSA"
+                        ],
+    "AdsPerBreak":  1,
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E01",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E01.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S01E01 - The Man Who Was Death",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S01.DVDRip.XviD-SAVANNAH\\Tales.From.The.Crypt.S01E01.DVDRip-XviD-SAVANNAH.avi"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E02",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E02.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S01E02 - And All Through the House",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S01.DVDRip.XviD-SAVANNAH\\Tales.From.The.Crypt.S01E02.DVDRip-XviD-SAVANNAH.avi"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E03",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E03.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S02E03 - Cutting Cards",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\\tales.from.the.crypt.s02e03.dvdrip.xvid-savannah.avi"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E04",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E04.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S02E10 - The Ventriloquist\u0027s Dummy",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\\tales.from.the.crypt.s02e10.dvdrip.xvid-savannah.avi"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E05",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E05.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S03E05 - Top Billing",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S03.DVDRip.XviD-SAVANNAH\\tales.from.the.crypt.s03e05.dvdrip.xvid.avi"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Spawn",
+                         "BrandingKeywords":  [
+                                                  "Spawn"
+                                              ],
+                         "Title":  "Todd McFarlane\u0027s Spawn S01E06",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Todd.McFarlanes.Spawn\\Todd.McFarlanes.Spawn.S01.COMPLETE.720p.HMAX.WEBRip.x264-GalaxyTV[TGx]\\Todd.McFarlanes.Spawn.S01E06.720p.HMAX.WEBRip.x264-GalaxyTV.mkv"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "Tales from the Crypt",
+                         "BrandingKeywords":  [
+                                                  "Tales from the Crypt"
+                                              ],
+                         "Title":  "Tales from the Crypt S02E16 - Television Terror",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Tales From the Crypt\\Tales.From.The.Crypt.S02.DVDRip.XviD-SAVANNAH\\tales.from.the.crypt.s02e16.dvdrip.xvid-savannah.avi"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "",
+    "Preparation":  "Alternating Spawn (in sequence) and Tales from the Crypt. All commercial pools; READY unused assets only. Use Studio for revisions; do not regenerate randomly."
+}

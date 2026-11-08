@@ -1,0 +1,220 @@
+{
+  "Blocks": [
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Balance of Terror",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x09 - Balance of Terror.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - Time Enough at Last",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S01 (360p re-dvdrip)\\The Twilight Zone 1959 S01E08 Time Enough at Last.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The Devil in the Dark",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x27 - The Devil in the Dark.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Monsters Are Due on Maple Street",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S01 (360p re-dvdrip)\\The Twilight Zone 1959 S01E22 The Monsters Are Due on Maple Street.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Space Seed",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x25 - Space Seed.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Eye of the Beholder",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E06 The Eye of the Beholder.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The City on the Edge of Forever",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x29 - The City on the Edge of Forever.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - To Serve Man",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S03 (360p re-dvdrip)\\The Twilight Zone 1959 S03E24 To Serve Man.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Amok Time",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x05 - Amok Time.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - Nightmare at 20,000 Feet",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E03 Nightmare at 20,000 Feet.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The Trouble With Tribbles",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x13 - The Trouble With Tribbles.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI1",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - It's a Good Life",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S03 (360p re-dvdrip)\\The Twilight Zone 1959 S03E08 It's a Good Life.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The Corbomite Maneuver",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x03 - The Corbomite Maneuver.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Invaders",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E15 The Invaders.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Arena",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x20 - Arena.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Howling Man",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E05 The Howling Man.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The Doomsday Machine",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x06 - The Doomsday Machine.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - Will the Real Martian Please Stand Up",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E28 Will the Real Martian Please Stand Up.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Mirror, Mirror",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x10 - Mirror, Mirror.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Obsolete Man",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E29 The Obsolete Man.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - Journey to Babel",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x15 - Journey to Babel.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - Living Doll",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E06 Living Doll.mp4"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "Star Trek",
+      "Title": "Star Trek - The Tholian Web",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\Star Trek\\Season 3\\Star Trek - 3x09 - The Tholian Web.avi"
+      ],
+      "Patterns": []
+    },
+    {
+      "Cart": "SCIFI2",
+      "Series": "The Twilight Zone",
+      "Title": "The Twilight Zone - The Masks",
+      "Parts": [
+        "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E25 The Masks.mp4"
+      ],
+      "Patterns": []
+    }
+  ]
+}

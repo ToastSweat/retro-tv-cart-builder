@@ -3,7 +3,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$CartID,
     [string]$SystemRoot = 'F:\[VIDEOS]\Retro TV Cart Builder',
-    [long]$TargetBytes = 3600000000,
+    [long]$TargetBytes = 3900000000,
     [string]$TargetDrive = '',
     [string]$VolumeLabel = '',
     [switch]$Force
@@ -239,9 +239,9 @@ if(-not [string]::IsNullOrWhiteSpace($TargetDrive)){
     if([string]::IsNullOrWhiteSpace($root)){ $root=$TargetDrive }
     $di=New-Object IO.DriveInfo($root)
     if(-not $di.IsReady){throw "Target drive is not ready: $TargetDrive"}
-    $limit=[long]($di.AvailableFreeSpace * 0.97)
+    $limit=[long]($di.AvailableFreeSpace * 0.98)
     Write-Host "Target drive free space: $($di.AvailableFreeSpace) bytes"
-    Write-Host "Using 97% safety limit:  $limit bytes"
+    Write-Host "Using 98% safety limit:  $limit bytes"
 
     $effectiveLabel = if([string]::IsNullOrWhiteSpace($VolumeLabel)){
         Get-DefaultVolumeLabel $CartID

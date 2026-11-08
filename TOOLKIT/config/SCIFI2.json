@@ -1,0 +1,134 @@
+﻿{
+    "CartID":  "SCIFI2",
+    "DisplayName":  "Sci-Fi Channel - Beyond the Familiar",
+    "Network":  "SCIFI",
+    "CommercialPool":  "GENERAL_00S,GENERAL_90S,KIDS_00S,KIDS_90S,LATE_NIGHT,PSA",
+    "CommercialPools":  [
+                            "GENERAL_00S",
+                            "GENERAL_90S",
+                            "KIDS_00S",
+                            "KIDS_90S",
+                            "LATE_NIGHT",
+                            "PSA"
+                        ],
+    "AdsPerBreak":  1,
+    "UseMatchedNext":  false,
+    "BreakStyle":  "LEAN",
+    "AnchorMinSeconds":  20,
+    "StingMaxSeconds":  12,
+    "InsertStingAfterShowNumbers":  [
+
+                                    ],
+    "Episodes":  [
+                     {
+                         "Order":  1,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The Corbomite Maneuver",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x03 - The Corbomite Maneuver.avi"
+                     },
+                     {
+                         "Order":  2,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Invaders",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E15 The Invaders.mp4"
+                     },
+                     {
+                         "Order":  3,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Arena",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 1\\Star Trek - 1x20 - Arena.avi"
+                     },
+                     {
+                         "Order":  4,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Howling Man",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E05 The Howling Man.mp4"
+                     },
+                     {
+                         "Order":  5,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The Doomsday Machine",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x06 - The Doomsday Machine.avi"
+                     },
+                     {
+                         "Order":  6,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - Will the Real Martian Please Stand Up",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E28 Will the Real Martian Please Stand Up.mp4"
+                     },
+                     {
+                         "Order":  7,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Mirror, Mirror",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x10 - Mirror, Mirror.avi"
+                     },
+                     {
+                         "Order":  8,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Obsolete Man",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S02 (360p re-dvdrip)\\The Twilight Zone 1959 S02E29 The Obsolete Man.mp4"
+                     },
+                     {
+                         "Order":  9,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - Journey to Babel",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 2\\Star Trek - 2x15 - Journey to Babel.avi"
+                     },
+                     {
+                         "Order":  10,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - Living Doll",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E06 Living Doll.mp4"
+                     },
+                     {
+                         "Order":  11,
+                         "Series":  "Star Trek",
+                         "BrandingKeywords":  [
+                                                  "Star Trek"
+                                              ],
+                         "Title":  "Star Trek - The Tholian Web",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\Star Trek\\Season 3\\Star Trek - 3x09 - The Tholian Web.avi"
+                     },
+                     {
+                         "Order":  12,
+                         "Series":  "The Twilight Zone",
+                         "BrandingKeywords":  [
+                                                  "The Twilight Zone"
+                                              ],
+                         "Title":  "The Twilight Zone - The Masks",
+                         "SourcePath":  "F:\\[VIDEOS]\\TV\\The Twilight Zone 1959 S01-S05 (1959-)\\The Twilight Zone 1959 S05 (360p re-dvdrip)\\The Twilight Zone 1959 S05E25 The Masks.mp4"
+                     }
+                 ],
+    "ClosingBrandingAssetID":  "HBR-b4032030b6d2",
+    "Preparation":  "Alternating TOS and Twilight Zone. All commercial pools; READY unused assets only. Use Studio for revisions; do not regenerate randomly."
+}

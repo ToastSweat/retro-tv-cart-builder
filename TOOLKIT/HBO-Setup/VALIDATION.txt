@@ -1,0 +1,17 @@
+Validated 2026-11-07 using PowerShell 7.4.6 on Linux with synthetic media files and mock ffprobe. Actual Windows media/Studio playback not tested here.
+
+PASS PowerShell parse
+PASS CheckOnly leaves state hashes unchanged
+PASS injected write failure restores original state and removes new cart folder
+PASS HBO1 and HBO2 creation, 27 and 26 clips respectively
+PASS 12 episodes and 11 unique ads per cart
+PASS no overlapping selections across fixture carts
+PASS occupied ACTIVE ad excluded
+PASS all commercial pools retained
+PASS shows/ads UNREVIEWED, approved branding GOOD
+PASS Spawn S01E01-E06 / S02E01-E06 in order
+PASS existing cart refusal without state changes
+
+Source files are probed only at live preflight: duration and audio/video presence. No full decode or encoding happens during setup.
+
+Hotline update: fixture rerun PASS read-only, rollback, both cart creation, three hotline ads in HBO1 only, durable curation registration, no-repeat, Spawn ordering, existing-cart refusal. Synthetic media, not Windows playback testing.
