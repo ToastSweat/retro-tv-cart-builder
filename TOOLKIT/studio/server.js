@@ -179,6 +179,9 @@ function compatible(roleRow, a) {
         && ['KIDS_00S','GENERAL_00S'].includes(a.Pool)
         && year >= 2000 && year <= 2002;
     }
+    if (/^HBO2-/.test(String(roleRow.SlotID || ''))) {
+      return a.AssetType === 'COMMERCIAL';
+    }
     return a.AssetType === 'COMMERCIAL' && a.Pool === roleRow.Pool;
   }
   if (roleRow.Role === 'SHOW') return a.AssetType === 'EPISODE' && a.Network === roleRow.Network;
