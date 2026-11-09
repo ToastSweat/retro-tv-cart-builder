@@ -1,6 +1,6 @@
 # Retro TV Cart Builder v2 — handoff
 
-## Current checkpoint — milestone 3 preferred-choice refinement
+## Current checkpoint — milestone 4A: Media Library organization
 2026-11-08. V1 completed the first twenty carts. User moved its existing tree to `legacy-v1/` in the SAME Windows Git repository, `F:\[WORKSPACE]\retro-tv-cart-builder`. The repository was moved from F:\[VIDEOS] to F:\[WORKSPACE] by the user. Archive checkpoint commit was instructed but its success has not been reported. Never claim that commit/push occurred. The archived v1 has absolute paths and is not validated runnable from its new location. Do not automatically migrate or edit it.
 
 The user accepted Project Setup: “no complaints, it seems to work just fine.” Networks & Shows was then explicitly authorized. This package supplies the complete updated `v2/` and this document for `docs/`. It does not contain or overwrite legacy-v1. User and ChatGPT will build incrementally together. No Hermes. Stop after each meaningful milestone for user review; don't implement the entire roadmap at once.
@@ -100,5 +100,27 @@ Policy helpers rankCandidates/choosePreferred in plans.cjs are implemented and u
 
 Acceptance: Templates → edit existing slot → choose Coming up next with show number, add Bumper in as fallback → reorder alternatives and restore order → save → open cart → verify grouped preferred/fallback sequence → close/reopen. Also test Promo → Commercial. Existing single-choice templates should remain usable.
 
+## Milestone 3 acceptance
+User accepted Preferred Choices: it works and makes sense, happy with it; also noted the template UI is just shy of clunky. Keep common workflows simple and hide extra detail rather than adding more permanent controls. Then explicitly authorized Media Library import/browse/classification/tags/exclusion, with playback/processing separate.
+
+## Milestone 4A: Media Library organization — alpha.5 (awaiting user review)
+Project overview has a neutral Media Library button. Scan configured source library folders (one or all), with progress and cancellation. Native source folders remain defined in Project settings. Scans register references only, not media copies; no FFmpeg, duration probing, thumbnails, playback, rendering, crop/trim or audio processing in this milestone.
+
+Scan supports mp4/mkv/avi/flv/webm/mov/m4v/mpg/mpeg/wmv/ts/m2ts/vob, ignores hidden/dot resource files, skips links/junctions, rejects project/source overlap. Reads path, file size and modification timestamp. New rows start Unclassified and included, not quality-approved. Same library UUID+relative path retains media UUID and metadata on rescan. Removed files retained as missing; restored same-path files regain availability. Library relink with preserved UUID retains classifications. No content hashing or cross-path/content duplicate detection yet; changed contents under same filename retain metadata. Multiple overlapping configured libraries may produce separate references to same physical media; content-identity/dedup must be settled before generation enforces no-repeat rules.
+
+Project data file: data/media-library.json schemaVersion 1. Assets store UUID, libraryId, slash-normalized relativePath, display title, category, networkIds/showIds arrays, optional year, matching tags, personal labels (softTags), notes, excluded/missing flags, size/mtime. Source absolute paths computed from library references at read time. Project/organization/planning schemas unchanged. Atomic metadata writes, rolling data/media-library-previous.json snapshot. Source libraries never receive sidecars or generated files.
+
+UI: 50 rows/page, search title/path/year/tags/notes, filters for library, category, network, show and inclusion/missing/unclassified status. Scan selector independently chooses one or all configured libraries. Each row opens details drawer with title/category/year/matching tags and collapsible networks/shows + personal notes/labels; exclusion flag. No source deletion action. Page selection permits bulk set category/include/exclude; bulk action only modifies that field. Changing pages/filters clears selection to avoid hidden bulk edits. Matching tags are metadata for future generation; personal labels/notes not machine sorting rules.
+
+Scan job runs asynchronously, no metadata commits until scan completes; canceled scans save nothing. Native app close aborts scan. Project mutations and other write operations blocked during scan; read-only views/progress/cancel remain available. Unavailable roots preserve records and produce warnings; permission errors skip missing detection for affected library to avoid false losses. Missing status displayed from scan flag or unavailable/unconfigured library. Source absence does not erase tags or review context.
+
+Network/show deletion now refused if referenced by media; remove corresponding associations in Media Library first. Existing cart relation guards retained. Metadata organization only; no actual repeat/quality/generation eligibility execution yet. UI says Included does not mean reviewed/approved.
+
+New source: media.cjs, media.test.cjs, media-ui.test.cjs. Main/preload/renderer/style extended. Dependencies unchanged, alpha.5.
+
+32 tests passed (25 prior + six media service scenarios + one media UI DOM scenario). Tests verify reference-only scan and source byte preservation, ignored resources, rescan IDs/metadata, bulk metadata, tag normalization, filtering, missing/restored/relinked libraries, cancellation without writes, invalid metadata/schema refusal, pagination, symlink skip, project isolation, and DOM scan/edit/search/exclude/reopen with real persistence and mocked desktop bridge. No Windows native presentation or large-library performance claim. Need user check with a small library first.
+
+Acceptance: open existing project → Media Library → select one configured library → Scan folders → use search/category filter → edit an entry, assign category/network/show/year/tags/notes → save → select a few rows and exclude → rescan → close/reopen and verify persistence. Originals unchanged. Start with a small test library if desired; don't move real media for testing.
+
 ## Next work
-User review this template refinement before expanding. Resolve feedback, record acceptance, then agree next milestone for Media Library organization. The accepted overall workflow places Media Library after structural cart setup; generation and Studio come later. Keep this handoff current at every delivered milestone and document what is only proposed versus implemented/tested. Confirm archive commit status separately. Do not implement Media Library until this milestone is accepted and its scope agreed.
+User review Media Library organization first. Resolve feedback, record acceptance, then agree next milestone for Media Library organization. The accepted overall workflow places Media Library after structural cart setup; generation and Studio come later. Keep this handoff current at every delivered milestone and document what is only proposed versus implemented/tested. Confirm archive commit status separately. Next increment after acceptance: agree media preview/playback and preprocessing scope. Preserve simple browse/list/detail layout.

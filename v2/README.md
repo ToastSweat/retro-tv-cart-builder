@@ -1,13 +1,13 @@
-# Retro TV Cart Builder v2 — Preferred Choices
+# Retro TV Cart Builder v2 — Media Library organization
 
-Close v2. Extract this package into F:\[WORKSPACE]\retro-tv-cart-builder, replacing matching v2/docs files, then launch v2/Start-RetroTV.cmd. Existing projects and legacy-v1 are not replaced by this package.
+Close v2. Extract this package into F:\[WORKSPACE]\retro-tv-cart-builder, replacing matching v2/docs files. Existing projects, source libraries and legacy-v1 are not replaced. Launch v2/Start-RetroTV.cmd and open your project.
 
-Open Carts & Templates → Templates → edit a template. Each slot has Preferred choices. First choice is preferred; Add alternative adds a fallback. Arrow controls reorder choices or whole slots. Every choice can have its own clip type and show number where relevant. One slot produces one selected clip in future generation, not all its alternatives.
+Choose Media Library. Select one configured library or all, then Scan folders. Add source folders in Project settings if needed. Scanning inventories references, file sizes and modification dates; no copying, source edits, playback or FFmpeg required.
 
-Examples: Coming up next (Show 2) → Bumper in; Promo → Commercial. The same allowed types will control future Studio replacements, with availability/repeat/quality checks retained.
+Search/filter and choose Edit for a details drawer. Set category, network/show associations, year, matching tags, personal labels/notes and exclusion. Select rows on a page for bulk category/include/exclude. Exclusion affects this project only. Included does not mean quality-approved. Missing files retain metadata. Rescan preserves your classifications.
 
-Open a cart to see Prefer/Fallback/Then in sequence preview. Existing single-type slots become one-choice slots automatically. No episode/commercial selection or rendering implemented yet.
+Scanning can be canceled; canceled scans save nothing. Wait for scan completion before editing metadata or changing projects. A metadata snapshot is kept in project data/media-library-previous.json. No source deletion feature.
 
-Planning schema upgrades from 1 to 2 in memory; first save writes new format and snapshots previous metadata inside project data. Old alpha.3 cannot read new planning files without restoring a previous matching snapshot. Source media untouched.
+Playback/trim/crop/audio processing, content duplicate detection, cart generation, repeat enforcement and Studio are future increments. See docs/V2-HANDOFF.md for current state and limitations.
 
-Node 22+ with npm. Same dependencies as previous package. npm ci then npm test runs all 25 tests. See docs/V2-HANDOFF.md for current implementation and next work.
+Node 22+ with npm; dependencies unchanged. npm ci then npm test repeats 32 tests. Windows layout and real library scans need your review.

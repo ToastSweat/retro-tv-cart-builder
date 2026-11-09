@@ -1,9 +1,9 @@
 {
   "name": "retro-tv-cart-builder",
   "productName": "Retro TV Cart Builder",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "private": true,
-  "description": "Carts and templates with ordered preferred clip choices",
+  "description": "Project-local media inventory, classification and exclusions",
   "main": "src/main.cjs",
   "scripts": {
     "start": "electron .",
