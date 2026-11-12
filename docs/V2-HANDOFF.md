@@ -1,6 +1,6 @@
 # Retro TV Cart Builder v2 — handoff
 
-## Current checkpoint — milestone 4A: Media Library organization
+## Current checkpoint — milestone 4A workflow refinements, alpha.6
 2026-11-08. V1 completed the first twenty carts. User moved its existing tree to `legacy-v1/` in the SAME Windows Git repository, `F:\[WORKSPACE]\retro-tv-cart-builder`. The repository was moved from F:\[VIDEOS] to F:\[WORKSPACE] by the user. Archive checkpoint commit was instructed but its success has not been reported. Never claim that commit/push occurred. The archived v1 has absolute paths and is not validated runnable from its new location. Do not automatically migrate or edit it.
 
 The user accepted Project Setup: “no complaints, it seems to work just fine.” Networks & Shows was then explicitly authorized. This package supplies the complete updated `v2/` and this document for `docs/`. It does not contain or overwrite legacy-v1. User and ChatGPT will build incrementally together. No Hermes. Stop after each meaningful milestone for user review; don't implement the entire roadmap at once.
@@ -110,7 +110,7 @@ Scan supports mp4/mkv/avi/flv/webm/mov/m4v/mpg/mpeg/wmv/ts/m2ts/vob, ignores hid
 
 Project data file: data/media-library.json schemaVersion 1. Assets store UUID, libraryId, slash-normalized relativePath, display title, category, networkIds/showIds arrays, optional year, matching tags, personal labels (softTags), notes, excluded/missing flags, size/mtime. Source absolute paths computed from library references at read time. Project/organization/planning schemas unchanged. Atomic metadata writes, rolling data/media-library-previous.json snapshot. Source libraries never receive sidecars or generated files.
 
-UI: 50 rows/page, search title/path/year/tags/notes, filters for library, category, network, show and inclusion/missing/unclassified status. Scan selector independently chooses one or all configured libraries. Each row opens details drawer with title/category/year/matching tags and collapsible networks/shows + personal notes/labels; exclusion flag. No source deletion action. Page selection permits bulk set category/include/exclude; bulk action only modifies that field. Changing pages/filters clears selection to avoid hidden bulk edits. Matching tags are metadata for future generation; personal labels/notes not machine sorting rules.
+UI: 50 rows/page, search title/path/year/tags/notes, filters for library, category, network, show and inclusion/missing/unclassified status. Scan selector independently chooses one or all configured libraries. Each row opens details drawer with title/category/year/matching tags and collapsible networks/shows + personal notes/labels; exclusion flag. No source deletion action. Page selection permits bulk set category/include/exclude, plus Edit selected for opted-in network/show/year/tags/labels changes. Page changes preserve selection; filter changes clear selection. Select all matching explicitly includes all filtered rows across pages (up to 50,000); counter displays total selected across pages. Quick bulk actions modify only the selected field. Matching tags are metadata for future generation; personal labels/notes not machine sorting rules.
 
 Scan job runs asynchronously, no metadata commits until scan completes; canceled scans save nothing. Native app close aborts scan. Project mutations and other write operations blocked during scan; read-only views/progress/cancel remain available. Unavailable roots preserve records and produce warnings; permission errors skip missing detection for affected library to avoid false losses. Missing status displayed from scan flag or unavailable/unconfigured library. Source absence does not erase tags or review context.
 
@@ -124,3 +124,36 @@ Acceptance: open existing project → Media Library → select one configured li
 
 ## Next work
 User review Media Library organization first. Resolve feedback, record acceptance, then agree next milestone for Media Library organization. The accepted overall workflow places Media Library after structural cart setup; generation and Studio come later. Keep this handoff current at every delivered milestone and document what is only proposed versus implemented/tested. Confirm archive commit status separately. Next increment after acceptance: agree media preview/playback and preprocessing scope. Preserve simple browse/list/detail layout.
+
+
+## WebP artwork fix — alpha.5.1
+User has populated their networks/shows and is testing Media Library. Many valid WebP images were rejected with “image could not be decoded.” Root cause: picker allowed PNG/JPEG/WebP by file signature, but main then validated all three using Electron nativeImage, whose cross-platform supported formats are PNG/JPEG. Shared artwork path affected networks, shows and carts.
+
+Fix: v2/src/artwork.cjs dispatches WebP to Chromium Image decoder in existing sandboxed local window via webContents.executeJavaScript using a validated, literal base64 WebP data URL. No source path or arbitrary script input exposed. Decoder returns dimensions, errors on corrupt file or 12-second timeout. Existing 10000px dimension cap and 15 MB input cap retained. PNG/JPEG continue nativeImage validation. Original WebP bytes retained and copied into project artwork folder on Save; no conversion or source writes. No new dependencies, no project metadata/schema change. All existing organization/cart/library records retained.
+
+37 tests passed (32 prior + five artwork routing/validation/script tests). Tests execute browser-decoder script with a simulated Image API; no native Chromium/Windows image decoding claim. User should retry affected files in network/show/cart artwork pickers. If any still fail, request one affected sample to reproduce rather than assume source corruption.
+
+Electron reference: https://www.electronjs.org/docs/latest/api/native-image
+
+
+## Workflow refinements — alpha.6 (awaiting user review)
+User confirmed WebP fix worked and all artwork is added. User has created their networks and shows and is now using real media organization. Library still in development, not yet accepted as complete. Requested list-position retention after image/save/return and bulk network/show/year/tags for whole series then seasons and individual edits.
+
+Organization editor previously focused Add entry after save, scrolling to top. It now captures list scroll before opening, restores it after save/cancel using animation frame, focuses original row with preventScroll, and preserves search. Per-project/per-tab view state retained in memory for navigation; not persisted over application restart. Applies to networks and shows. Artwork editor remains fixed overlay. No model/schema change.
+
+Media selection now survives page navigation, and page checkbox adds/removes only that page's IDs. Select all matching uses exact same backend filters as listing and explicitly selects every filtered result, not just visible 50. Changing search/filter clears selection immediately; completing bulk edit clears selection. Backend selection/update limit 50,000, with explicit narrow-filter error above limit. Pagination clamps when a bulk update changes result count.
+
+Edit selected opens opt-in fields: network associations, show associations, year, matching tags, personal labels. Unchecked fields untouched. For arrays, Add (default), Replace, Remove modes. Add preserves existing metadata; tag duplicates normalized case-insensitively. Replace blank clears that field. Year blank clears year only if Change year checked. Notes/titles/exclusion/category remain untouched by advanced bulk editor; existing quick category/include/exclude controls retained. To year-tag a season, search/filter season filenames (e.g. S01E) or manually select its rows before editing. No season inference/data field added. Whole-series tags can be added, then individual edits still supported.
+
+Service update validates entire patch/modes and applies in memory before one atomic write; invalid mode/value leaves file unchanged. Project-local metadata only, original media untouched. No database schema migration or new dependencies; existing WebP fix retained. New IPC mediaSelect/mediaBulkSave. Tests bulk-media.test.cjs and workflow-ui.test.cjs. 42 tests passed (37 previous + three service bulk cases + two DOM workflow scenarios). DOM scroll behavior simulated; actual Windows scroll/pagination/drawer check remains user acceptance.
+
+Install close app, extract full package over repo root F:\[WORKSPACE]\retro-tv-cart-builder, launch existing project. Do not recreate/reimport networks/shows or reset media metadata. Test show scroll position, then filter series → Select all matching → Edit selected networks/shows/tags → apply. Narrow to season → year only → verify other season unchanged.
+
+Next: collect further Media Library usability notes. Playback/preprocessing and composites still require design/increment work. User is not declaring Media Library complete. Do not jump ahead to generation/Studio/export.
+
+
+## Classification checkpoint — alpha.7
+Media Library has a separate Classification filter: All clips, Needs classification, Classified.
+New and legacy clips default to Needs classification; existing metadata is preserved. Legacy missing flags normalize in memory on read and are persisted on the next normal catalog save.
+Individual details include a Classified checkbox. Edit selected includes an opt-in Change classification status field, which can be saved together with network/show/year/tags. No fields are required to mark classification complete; commercials and generic branding may have no show. This is an organization checkpoint, not Studio quality approval or generation eligibility. Rescans preserve the flag. Use Needs classification plus search (for example S01) and Select all matching to finish a season and remove it from the queue. All clips remains the default filter.
+Validation: 43 automated service/DOM tests pass, including legacy default without read writes, classification persistence/rescan/reopening, bulk season updates dropping from the queue, and individual return to Needs classification. Windows desktop acceptance remains with the user.

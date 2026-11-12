@@ -1,9 +1,9 @@
 {
   "name": "retro-tv-cart-builder",
   "productName": "Retro TV Cart Builder",
-  "version": "2.0.0-alpha.5",
+  "version": "2.0.0-alpha.7",
   "private": true,
-  "description": "Project-local media inventory, classification and exclusions",
+  "description": "Media bulk metadata workflow and list-position preservation",
   "main": "src/main.cjs",
   "scripts": {
     "start": "electron .",

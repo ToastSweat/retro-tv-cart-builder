@@ -1,7 +1,7 @@
 const {test}=require('node:test');const {JSDOM}=require('jsdom');const fs=require('node:fs/promises');const os=require('node:os');const path=require('node:path');const assert=require('node:assert/strict');
 test('organization UI with real project persistence',async()=>{
 const base=path.resolve(__dirname,'..');const projects=require(base+'/src/projects.cjs'),catalog=require(base+'/src/catalog.cjs');const tmp=await fs.mkdtemp(path.join(os.tmpdir(),'retro-ui-'));const p=await projects.create({name:'Twenty Carts',parent:tmp,libraries:[]});
-const dom=new JSDOM(await fs.readFile(base+'/src/index.html','utf8'),{runScripts:'outside-only',url:'file://'+base+'/src/index.html',pretendToBeVisual:true});const w=dom.window;let choice=0;
+const dom=new JSDOM(await fs.readFile(base+'/src/index.html','utf8'),{runScripts:'outside-only',url:'file://'+base+'/src/index.html',pretendToBeVisual:true});const w=dom.window;w.scrollTo=()=>{};let choice=0;
 w.retro={recent:async()=>({value:[]}),open:async()=>({value:await projects.open(p.file)}),catalog:async()=>({value:await catalog.view(p.root)}),discard:async()=>({value:true}),saveEntry:async(kind,input)=>{try{await catalog.save(p.root,kind,input);return {value:await catalog.view(p.root)}}catch(e){return {error:e.message}}},removeEntry:async(kind,id)=>{await catalog.remove(p.root,kind,id);return {value:await catalog.view(p.root)}},close:async()=>({value:true})};
 const wait=async f=>{for(let i=0;i<100;i++){if(f())return;await new Promise(r=>setTimeout(r,5));}throw Error('UI timeout '+w.document.body.textContent);};
 const click=async id=>{const e=w.document.getElementById(id);assert.ok(e,id);e.click();await new Promise(r=>setTimeout(r,10));};const fill=(id,value)=>{w.document.getElementById(id).value=value;};
