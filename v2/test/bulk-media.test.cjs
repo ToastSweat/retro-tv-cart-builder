@@ -14,3 +14,14 @@ test('classification queue persists, rescans preserve it, and legacy records def
  await media.update(p.root,[ids[0]],{classified:false});assert.equal((await media.list(p,{classification:'needs'})).matched,11);
  const saved=await fs.readFile(file);await assert.rejects(()=>media.update(p.root,ids,{classified:'yes'}),/classification/);assert.deepEqual(await fs.readFile(file),saved);
 });
+test('folder browsing keeps siblings separate; direct-only, sorting and select-all share scope',async t=>{
+ const {p,lib}=await fixture(t);
+ for(const f of ['Show/Season 1/E02.mkv','Show/Season 1/E10.mkv','Show/Season 2/E01.mkv','Show Extra/Season 1/E01.mkv','root.mkv']){await fs.mkdir(path.dirname(path.join(lib,f)),{recursive:true});await fs.writeFile(path.join(lib,f),'source');}
+ await media.scan(p);const libraryId=p.project.libraries[0].id;
+ let d=await media.list(p,{libraryId,folderPath:'Show',sort:'path'});assert.equal(d.matched,3);assert.deepEqual(d.folders.map(f=>[f.name,f.count]),[['Season 1',2],['Season 2',1]]);
+ assert.equal((await media.list(p,{libraryId,folderPath:'Show',includeSubfolders:false})).matched,0);
+ const f={libraryId,folderPath:'Show/Season 1',sort:'filename',classification:'needs'};
+ const ids=await media.selectIds(p,f);assert.equal(ids.length,2);d=await media.list(p,f);assert.deepEqual(d.assets.map(a=>a.relativePath),['Show/Season 1/E02.mkv','Show/Season 1/E10.mkv']);
+ await media.update(p.root,ids,{classified:true});assert.equal((await media.list(p,f)).matched,0);assert.equal((await media.list(p,{libraryId,folderPath:'Show Extra'})).matched,1);
+ assert.equal((await media.list(p,{libraryId,includeSubfolders:false})).matched,66);
+});
