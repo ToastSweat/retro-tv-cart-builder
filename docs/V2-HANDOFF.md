@@ -1,6 +1,10 @@
 # Retro TV Cart Builder v2 — handoff
 
-## Latest checkpoint — alpha.14 Studio layout
+## Latest checkpoint — alpha.15 preserve original V1 Studio
+User rejected unrequested Studio redesigns. The uploaded studio.7z markup, CSS, layout and control placement are now the baseline. Timeline states/colors, audio/crop details, repeat/adjacency warnings, badges, jumps, inline replacement/reset, review-state selection, autosaved notes and log are restored. All ten review states persist; source-quality findings exclude media inside the project only. 71 tests pass. See STUDIO-V1-PRESERVATION.md for parity, required V2 adaptations and explicitly pending build/export controls. Do not redesign or simplify this workflow without an explicit request. Preserve existing project/lineup/reviews.
+
+
+## Superseded checkpoint — alpha.14 Studio layout
 User requested video to own the center, editing controls on the right. Studio uses three columns with separately scrolling controls and review actions beneath the central video. Controls/processing unchanged. 68 tests pass. See STUDIO-LAYOUT.md; alpha.13 restoration details remain authoritative for editing behavior. Final build/export remains next.
 
 

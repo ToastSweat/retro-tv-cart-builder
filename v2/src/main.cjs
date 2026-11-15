@@ -45,6 +45,7 @@ else app.whenReady().then(()=>{
  handle('studioMove',async(cartId,slotId)=>{requireProject();playback.reset();return studio.move(current,cartId,slotId);});
  handle('studioSave',async(cartId,slotId,input)=>{requireProject();return studio.save(current,cartId,slotId,input,playback.executable);});
  handle('studioCandidates',async(cartId,slotId,search,page)=>{requireProject();return studio.candidates(current,cartId,slotId,search,page);});
+ handle('studioResetReplacement',async(cartId,slotId,etag)=>{requireProject();playback.reset();return studio.resetReplacement(current,cartId,slotId,etag);});
  handle('studioReplace',async(cartId,slotId,assetId,etag)=>{requireProject();playback.reset();return studio.replace(current,cartId,slotId,assetId,etag);});
  handle('generationView',async(cartId)=>{requireProject();return generation.view(current,cartId);});
  handle('generationSetupPreview',async()=>{requireProject();return generation.setup(current);});

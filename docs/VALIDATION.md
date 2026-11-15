@@ -70,3 +70,10 @@ Actual Windows/Electron visual acceptance and the user's selected Windows FFmpeg
 ## Alpha.14 layout
 
 all 68 automated checks pass. The DOM workflow additionally verifies three distinct Studio columns, video/review placement in the center, and trim/crop/audio controls in the right panel. Actual Windows visual review remains with the user.
+
+
+## Alpha.15 V1 preservation
+
+71 tests pass with zero skips. The parity test checks that every original screen control ID has a corresponding element, verifies original right-hand card order, timeline state/color rules and audio/crop details, flags/repeat/back-to-back warnings, inline replacement location, jump controls, explicit disabled build controls, review-state saves and Good + next advancement. Service tests cover project-only quality findings, generation exclusion, original replacement reset, repeat-audit ownership and invalid-state rejection. Prior real FFmpeg tests still validate all five V1 presets, crop geometry, border detection, trim and unchanged originals.
+
+No actual Windows/Electron visual acceptance was performed here. The user must check the restored screen on their machine. No Windows Git commit or push has been performed. V1-CONTROL-INVENTORY.json and V1-CONTROL-ID-MAP.json record the source UI inventory used by the automated parity check; V1-REFERENCE.txt records original source hashes.

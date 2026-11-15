@@ -18,7 +18,7 @@ function matches(a,choice,slotIndex,cart,template,org,rule){if(a.category!==choi
  const ctx=context(template,slotIndex,cart,choice.type);if(['BUMPER_IN','BUMPER_OUT'].includes(choice.type)){if(specific&&!targets.length)return false;return !targets.length||!!ctx&&targets.includes(ctx);}
  if(specific&&!targets.length)return false;return !targets.length||targets.some(id=>cart.showIds.includes(id));
 }
-function eligible(a,rule){if(a.excluded||a.missing||!a.classified)return false;if(a.softTags.some(t=>/^V1_STATUS:(BAD_|NEEDS_|EXCLUDED|MAYBE)/.test(t)))return false;if(a.relativePath.split('/').some(p=>p==='_RetroTV_Composites'))return false;
+function eligible(a,rule){if(a.excluded||a.missing||!a.classified)return false;if(a.softTags.some(t=>/^(?:V1_STATUS|STUDIO_STATUS):(BAD_|NEEDS_|EXCLUDED|MAYBE|DUPLICATE)/.test(t)))return false;if(a.relativePath.split('/').some(p=>p==='_RetroTV_Composites'))return false;
  if(a.year===null)return rule.allowUnknownYear;return (rule.yearMin===null||a.year>=rule.yearMin)&&(rule.yearMax===null||a.year<=rule.yearMax);}
 async function state(project){const [plan,org,library,generated]=await Promise.all([plans.read(project.root),catalog.read(project.root),media.read(project.root),read(project.root)]);return {plan,org,library,generated};}
 const fingerprint=(s,project)=>hash([s,project.project.libraries]);
@@ -43,5 +43,5 @@ async function setup(project,apply=false,expected=null){const s=await state(proj
  const tv=new Set(project.project.libraries.filter(l=>l.name.toLowerCase()==='tv').map(l=>l.id));const cleanup=s.library.assets.filter(a=>tv.has(a.libraryId)&&a.category==='UNCLASSIFIED'&&a.classified&&a.showIds.length&&a.year!==null&&!a.relativePath.startsWith('_RetroTV_Composites/')&&!a.relativePath.split('/').slice(1).some(p=>/^(extras?|xtras?|specials?|sample|movies?)(?:\b|[ _-])/i.test(p))&&!/S00[ ._-]*E|S\d+M\d/i.test(path.posix.basename(a.relativePath)));
  const result={shows:names,categoryRepairs:cleanup.length,templateName:template.name,fingerprint:before,pools:['KIDS_90S','GENERAL_90S']};if(!apply)return result;if(expected!==before)throw Error('Project changed. Preview setup again.');plans.validate(s.plan,s.org);cleanup.forEach(a=>a.category='SHOW');s.library.updatedAt=new Date().toISOString();const backup=await batch(project.root,{'cart-plans.json':s.plan,'media-library.json':s.library},'generation-setup-backup');return {...result,backup};}
 async function release(project,cartId){const d=await read(project.root);d.carts=d.carts.filter(c=>c.cartId!==cartId);return batch(project.root,{'generated-carts.json':d},'generation-backup');}
-async function writeState(root,data,label){return batch(root,{'generated-carts.json':data},label);}
+async function writeState(root,data,label,extra={}){return batch(root,{...extra,'generated-carts.json':data},label);}
 module.exports={writeState,release,read,view,rules,keys,matches,eligible,allocate,preflight,save,setup};
