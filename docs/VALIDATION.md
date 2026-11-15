@@ -58,3 +58,10 @@ Validation: all 60 automated tests pass; the generation GUI test now opens and s
 66 automated tests pass with zero skips. Service tests cover persisted approvals/cursor, notes retention, affected-clip invalidation, stale-edit rejection, crop/trim bounds, replacement eligibility/reservations and changed-template protection. The DOM workflow checks entry from a saved lineup, Good + next, resumed position, controls enabled during rendering and a second Apply with changed crop. Real FFmpeg tests validate cropped dimensions, trimmed duration, encoded audio/video, unchanged source bytes and cache reuse. Existing library, planning and generation checks remain passing.
 
 Windows/Electron visual acceptance and the user's actual FFmpeg build remain to be checked on the user's machine. No Windows repository commit or push has been performed here.
+
+
+## Alpha.13 restoration
+
+68 automated tests pass, zero skips. New coverage compares the five audio chains against a checksum of the uploaded V1 filter definitions; real FFmpeg successfully renders every preset, source images, detected borders and exact 618x480 result. Tests check unchanged originals and cropped-picture dimensions. DOM checks cover removed normalization/gain controls, all restored action groups, playhead positions after an edited preview, repair failure rollback, preview restart inputs and preserved review/resume behavior. All existing project/library/planning/generation tests pass.
+
+Actual Windows/Electron visual acceptance and the user's selected Windows FFmpeg build require testing on that machine. V1 is reference code only; it is not modified by this package. Final build/export remains the next checkpoint. Composite support and content-hash duplicate detection remain future work. Do not claim the entire program is finished or any Windows repository commit was made.

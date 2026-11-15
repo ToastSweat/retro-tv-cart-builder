@@ -1,0 +1,5 @@
+Reference: user-uploaded studio.7z
+index.html SHA256 2c8ff15efe18a697f8ffa5d89218391559b0c979073f2e943e125fd5b729f4f5
+server.js SHA256 a6547262067cf6390297e5cb85f5f24baba5b9c7120e01aa762f9c218c109d94
+Render-StudioPreview.ps1 SHA256 66cbf4cdab3551a586aec068de4b8287cc20d007e1314ba2fdb84db38f28655c
+Audio filter chains ported exactly; filesystem/transport adapted for V2 project-local data and source library IDs.

@@ -8,10 +8,10 @@ async function source(project,id){
  if(!within(root,file)||file===root||!(await fsp.stat(file)).isFile())throw Error('Source is outside the configured library.');
  return {file,asset:a,stat:await fsp.stat(file)};
 }
-function cacheKey(s,edit={}){return createHash('sha256').update(JSON.stringify([3,s.asset.id,s.file,s.stat.size,s.stat.mtimeMs,processing.edits(edit)])).digest('hex').slice(0,32);}
+function cacheKey(s,edit={}){return createHash('sha256').update(JSON.stringify([4,s.asset.id,s.file,s.stat.size,s.stat.mtimeMs,processing.edits(edit)])).digest('hex').slice(0,32);}
 async function cacheFile(project,s,edit={}){const cache=await catalog.safeDir(project.root,'cache',true);const dir=path.join(cache,'library-playback');await fsp.mkdir(dir,{recursive:true});if((await fsp.lstat(dir)).isSymbolicLink()||!within(cache,await fsp.realpath(dir)))throw Error('Playback cache must not be a link.');return path.join(dir,cacheKey(s,edit)+'.mp4');}
 async function cached(file){try{const st=await fsp.lstat(file);return st.isFile()&&!st.isSymbolicLink()&&st.size>0;}catch(e){if(e.code==='ENOENT')return false;throw e;}}
-function args(input,output,edit={}){const f=processing.filters(edit);return ['-hide_banner','-nostdin','-n','-loglevel','warning','-threads','2','-filter_threads','1','-i',input,...(f.e.trimStart?['-ss',String(f.e.trimStart)]:[]),...(f.e.trimEnd!==null?['-t',String(f.e.trimEnd-f.e.trimStart)]:[]),'-map','0:v:0','-map','0:a:0?','-sn','-dn','-vf',f.video,...(f.audio?['-af',f.audio]:[]),'-c:v','libx264','-pix_fmt','yuv420p','-preset','veryfast','-crf','20','-threads','2','-c:a','aac','-b:a','128k','-ac','2','-ar','48000','-movflags','+faststart','-progress','pipe:1',output];}
+function args(input,output,edit={}){const f=processing.filters(edit);return ['-hide_banner','-nostdin','-n','-loglevel','warning','-threads','2','-filter_threads','1','-i',input,...(f.e.trimStart?['-ss',String(f.e.trimStart)]:[]),...(f.e.trimEnd!==null?['-t',String(f.e.trimEnd-f.e.trimStart)]:[]),'-map','0:v:0','-map','0:a:0?','-sn','-dn','-vf',f.video,...(f.audio?['-af',f.audio]:[]),...(f.e.tvFit?['-r','30']:[]),'-c:v','libx264','-pix_fmt','yuv420p','-preset','veryfast','-crf','20','-threads','2','-c:a','aac','-b:a','128k','-ac','2','-ar',f.e.tvFit?'44100':'48000','-movflags','+faststart','-progress','pipe:1',output];}
 async function encode(input,output,{executable='ffmpeg',edit={},signal,onProgress=()=>{},spawnImpl=spawn}={}){
  const tmp=output+'.'+randomUUID()+'.part.mp4';let child;
  try{

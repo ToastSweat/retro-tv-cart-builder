@@ -1,7 +1,7 @@
 const {app,BrowserWindow,ipcMain,dialog,session,protocol}=require('electron');
 const path=require('node:path');const fs=require('node:fs/promises');const {pathToFileURL}=require('node:url');
 const {validateArtwork}=require('./artwork.cjs');const media=require('./media.cjs');let scanJob=null;
-const studio=require('./studio.cjs');
+const studio=require('./studio.cjs');const cropTools=require('./crop-tools.cjs');
 const generation=require('./generation.cjs');let generationPreview=null;
 const plans=require('./plans.cjs');const catalog=require('./catalog.cjs');const {randomUUID}=require('node:crypto');let artworkChoice=null;
 const projects=require('./projects.cjs');let win,current=null;let busy=false;
@@ -15,7 +15,7 @@ async function remember(p){const r=await recent();await fs.mkdir(app.getPath('us
 function handle(channel,fn){ipcMain.handle(channel,async(e,...args)=>{
  if(e.sender!==win.webContents||e.senderFrame.url!==home)throw Error('Invalid request origin.');
  if(scanJob?.running&&!['media','mediaProgress','mediaCancel','catalog','plans','recent','mediaPlayback','mediaPlaybackStatus','mediaPlaybackClose','mediaPlaybackCancel'].includes(channel))return {error:'Wait for the library scan or cancel it first.'};
- const independent=['mediaPlaybackStatus','mediaPlaybackClose','mediaPlaybackCancel'].includes(channel);
+ const independent=['mediaPlaybackStatus','mediaPlaybackClose','mediaPlaybackCancel','studioCropReference','studioCropDetect','studioCropFinal'].includes(channel);
  if(busy&&!independent)return {error:'Please wait for the current operation.'};if(!independent)busy=true;
  try{return {value:await fn(...args)};}catch(err){return {error:err.message};}finally{if(!independent)busy=false;}
 });}
@@ -38,6 +38,9 @@ else app.whenReady().then(()=>{
  function requireProject(){if(!current)throw Error('Open a project first.');return current.root;}
  handle('catalog',async()=>catalog.view(requireProject()));
  handle('plans',async()=>plans.view(requireProject()));
+ handle('studioCropReference',async(id)=>{requireProject();return cropTools.reference(current,id,playback.executable);});
+ handle('studioCropDetect',async(id)=>{requireProject();return cropTools.detect(current,id,playback.executable);});
+ handle('studioCropFinal',async(id,edit)=>{requireProject();return cropTools.final(current,id,edit,playback.executable);});
  handle('studioView',async(cartId)=>{requireProject();return studio.view(current,cartId);});
  handle('studioMove',async(cartId,slotId)=>{requireProject();playback.reset();return studio.move(current,cartId,slotId);});
  handle('studioSave',async(cartId,slotId,input)=>{requireProject();return studio.save(current,cartId,slotId,input,playback.executable);});

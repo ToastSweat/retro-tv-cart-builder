@@ -1,6 +1,10 @@
 # Retro TV Cart Builder v2 — handoff
 
-## Latest checkpoint — alpha.12 Studio
+## Latest checkpoint — alpha.13 V1 Studio controls restored
+User rejected the simplified alpha.12 editing controls. The uploaded studio.7z is now the reference: restore V1 playhead trim, visual crop/TV-fit/border detection, and exact NONE/RESTORE/STRONG/AGGRESSIVE/MAX filters. Standalone gain/normalize controls removed. 68 tests pass. See STUDIO-CONTROLS-RESTORED.md. Saved lineups/reviews retained; final build/export remains next.
+
+
+## Previous checkpoint — alpha.12 Studio
 Studio is now implemented on the saved generated lineup: playback, Good + next, resume, per-clip trim/crop/gain/normalization, cancel/restart previews and rule-aware replacements. See STUDIO-CHECKPOINT.md for installation, behavior, limits and next work. 66 tests pass. Final build/export is next and remains unimplemented. Earlier milestone sections below are historical. Preserve the user’s saved lineup; do not rerun NICK01 setup.
 
 

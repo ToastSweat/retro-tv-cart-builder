@@ -1,7 +1,7 @@
-# Retro TV Cart Builder v2 — alpha.12
+# Retro TV Cart Builder v2 — alpha.13
 
-Launch Start-RetroTV.cmd. Existing project folders and saved lineups are retained.
+Launch Start-RetroTV.cmd. Open the existing project and saved lineup, then Open Studio. No regeneration is needed.
 
-Studio: Carts & Templates → Generate / lineup → Open Studio. Read ../docs/STUDIO-CHECKPOINT.md for the workflow and current limits. Final build/export is the next checkpoint.
+The familiar V1 crop, audio repair and playhead trim controls have been restored. Read ../docs/STUDIO-CONTROLS-RESTORED.md for details and current limits. Final build/export remains next.
 
-Development: Node >=22, npm ci, npm test, npm start. Electron and dependencies are pinned in package-lock.json.
+Development: Node >=22, npm ci, npm test, npm start. Dependencies remain pinned.
