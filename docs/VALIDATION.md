@@ -65,3 +65,8 @@ Windows/Electron visual acceptance and the user's actual FFmpeg build remain to 
 68 automated tests pass, zero skips. New coverage compares the five audio chains against a checksum of the uploaded V1 filter definitions; real FFmpeg successfully renders every preset, source images, detected borders and exact 618x480 result. Tests check unchanged originals and cropped-picture dimensions. DOM checks cover removed normalization/gain controls, all restored action groups, playhead positions after an edited preview, repair failure rollback, preview restart inputs and preserved review/resume behavior. All existing project/library/planning/generation tests pass.
 
 Actual Windows/Electron visual acceptance and the user's selected Windows FFmpeg build require testing on that machine. V1 is reference code only; it is not modified by this package. Final build/export remains the next checkpoint. Composite support and content-hash duplicate detection remain future work. Do not claim the entire program is finished or any Windows repository commit was made.
+
+
+## Alpha.14 layout
+
+all 68 automated checks pass. The DOM workflow additionally verifies three distinct Studio columns, video/review placement in the center, and trim/crop/audio controls in the right panel. Actual Windows visual review remains with the user.
