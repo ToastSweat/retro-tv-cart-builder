@@ -20,3 +20,18 @@ Validation: 43 automated service/DOM tests pass, including legacy default withou
 Choose Library in Media Library, then open indexed folders in Browse folders. Breadcrumb buttons return to ancestors/library root. Include subfolders defaults on and controls both list and Select all matching. Folder counts count all indexed media before other filters, so classified folders remain navigable. Other filters/search continue to apply.
 Sort by Title, Folder / path, or Filename (natural numeric ordering). Mark classified is a direct bulk action next to Include/Exclude. No rules or automatic metadata guessing; source files and schema unchanged. Existing project classifications preserved.
 Validation: 45 automated tests pass, including folder scope/sibling boundaries, immediate-folder filtering, natural filename sort, scoped bulk classification and UI folder navigation. Windows desktop visual acceptance still required.
+
+
+## Embedded Media Library player — alpha.9
+
+Media rows now say Watch / edit. Opening details displays an embedded player above the existing fields. Standard controls provide Play/pause, seek, volume, fullscreen and native playback options. Playback does not classify or quality-approve a file. Existing metadata, exclusions and V1-import labels are untouched.
+
+Original media streams directly through an opaque, selection-scoped token with byte-range seeking. Sources are resolved by catalog ID and must remain within a configured library after realpath resolution; arbitrary renderer paths are not accepted. Playback tokens expire when the drawer/selection/project closes. The CSP allows media only through the registered protocol, without broad file or network access.
+
+If the browser cannot decode a file, Create compatible preview renders H.264/AAC MP4 with FFmpeg. It starts a background job with encoded-time progress, supports cancellation, and keeps the metadata fields usable. Full-file conversion must finish before that fallback is playable. A successful preview is cached under project/cache/library-playback, keyed by source identity, path, size and modification time. Reopening reuses it. No original is edited; this is a viewing proxy, not an export or audio repair. Closing the drawer cancels unfinished work and removes partial outputs.
+
+FFmpeg is tried from PATH. Choose FFmpeg… lets the user select their known working executable (including the pinned V1 runtime) if PATH is missing or unsuitable. This executable choice lasts for the current app session; no FFmpeg binary is bundled or downloaded. Encoding uses limited threads, no shell, and no audio enhancement. A decode/encode error remains visible and doesn't mark the file bad or classified automatically. Old completed cache entries are retained; cache-management UI remains future work.
+
+Validation: 52 automated tests pass, including service streaming/range/head behavior, token expiry and traversal denial, library link escape denial, cache invalidation, missing FFmpeg/cancel cleanup, real AVI → H.264/AAC conversion and cache reuse, source byte preservation, and DOM player/conversion/form-save/close behavior. Two existing DOM test helpers now wait for async buttons instead of relying only on fixed short delays. Actual Electron/Windows decoding and fullscreen were not exercised here and require user acceptance.
+
+Technical references: https://www.electronjs.org/docs/latest/api/protocol and https://ffmpeg.org/ffmpeg.html .
