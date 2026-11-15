@@ -1,6 +1,10 @@
 # Retro TV Cart Builder v2 — handoff
 
-## Latest checkpoint — alpha.15 preserve original V1 Studio
+## Latest checkpoint — 2.0.0-beta.1 build/USB workflow
+User requested finishing the program tonight and explicitly excluded Jellyfin. Local build, verified USB copy, explicit optional size fitting, cache reuse, optional full-review compilation/playback and remembered FFmpeg selection are now connected to the original Studio controls. 76 tests pass, including real FFmpeg and staged USB/rollback filesystem tests. Read BUILD-AND-USB.md for exact behavior, installation and limitations. No forced repeat viewing or revision. Actual Windows/device acceptance remains pending. Preserve the uploaded V1 layout; do not reintroduce a Studio redesign. Future composites/content hashes/cross-project locks/generate-all remain out of this checkpoint.
+
+
+## Previous checkpoint — alpha.15 preserve original V1 Studio
 User rejected unrequested Studio redesigns. The uploaded studio.7z markup, CSS, layout and control placement are now the baseline. Timeline states/colors, audio/crop details, repeat/adjacency warnings, badges, jumps, inline replacement/reset, review-state selection, autosaved notes and log are restored. All ten review states persist; source-quality findings exclude media inside the project only. 71 tests pass. See STUDIO-V1-PRESERVATION.md for parity, required V2 adaptations and explicitly pending build/export controls. Do not redesign or simplify this workflow without an explicit request. Preserve existing project/lineup/reviews.
 
 

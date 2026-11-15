@@ -77,3 +77,11 @@ all 68 automated checks pass. The DOM workflow additionally verifies three disti
 71 tests pass with zero skips. The parity test checks that every original screen control ID has a corresponding element, verifies original right-hand card order, timeline state/color rules and audio/crop details, flags/repeat/back-to-back warnings, inline replacement location, jump controls, explicit disabled build controls, review-state saves and Good + next advancement. Service tests cover project-only quality findings, generation exclusion, original replacement reset, repeat-audit ownership and invalid-state rejection. Prior real FFmpeg tests still validate all five V1 presets, crop geometry, border detection, trim and unchanged originals.
 
 No actual Windows/Electron visual acceptance was performed here. The user must check the restored screen on their machine. No Windows Git commit or push has been performed. V1-CONTROL-INVENTORY.json and V1-CONTROL-ID-MAP.json record the source UI inventory used by the automated parity check; V1-REFERENCE.txt records original source hashes.
+
+
+## Beta.1 build and USB
+
+76 automated tests pass, zero skips. Real FFmpeg tests cover approved-cache reuse, numbered local outputs, original source preservation, silent source audio, full-review concatenation (including apostrophes in paths), explicit two-pass budgeting and output validation. Filesystem tests cover USB staging/hash verification, idempotent reuse, unrelated-file and space protection, disconnected target identity, cancellation, corrupted copies, and rollback after simulated USB/local commit failures. UI tests cover readiness, building progress, edit locking, drive confirmation, copy completion, and the retained V1 controls/layout.
+
+Windows Get-Volume enumeration, Set-Volume labeling, Electron playback and the physical TV cartridge still need the user's real-machine acceptance test. No actual Windows drive has been written or Windows repository commit made from this workspace.
+

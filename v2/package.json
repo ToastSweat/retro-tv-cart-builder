@@ -1,9 +1,9 @@
 {
   "name": "retro-tv-cart-builder",
   "productName": "Retro TV Cart Builder",
-  "version": "2.0.0-alpha.15",
+  "version": "2.0.0-beta.1",
   "private": true,
-  "description": "Project media library, cart generation and Studio review",
+  "description": "Project media library, cart generation, original Studio review, local builds and verified USB cartridges",
   "main": "src/main.cjs",
   "scripts": {
     "start": "electron .",
