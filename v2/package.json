@@ -1,7 +1,7 @@
 {
   "name": "retro-tv-cart-builder",
   "productName": "Retro TV Cart Builder",
-  "version": "2.0.0-alpha.10",
+  "version": "2.0.0-alpha.11",
   "private": true,
   "description": "Cart generation with preferred choices, shortage checks and project reservations",
   "main": "src/main.cjs",

@@ -40,3 +40,14 @@ Technical references: https://www.electronjs.org/docs/latest/api/protocol and ht
 ## Cart generation — alpha.10
 
 Implemented Generate / lineup with explicit NICK01 setup preview/apply, category cleanup, copied template targeting fixes, commercial pool and optional year rules, read-only shortage/preference preview, source presence checks, backed-up lineup save, project-local reservations, Media Library reservation labels, stale preview/plan warnings, and release. See docs/GENERATION-CHECKPOINT.md for full instructions, identity limits and recovery. Uploaded-project metadata audit: 3,808 category repairs, 15/19 slots filled, four show-entry shortages. No Windows source access was claimed. 60 automated tests passed. Studio/composites/encoding/export are still not implemented.
+
+
+## Editing from generation — alpha.11
+
+Generation now has Edit cart and Edit assigned template buttons. They open the actual current records using the existing editors; no guessed IDs, duplicate cart definitions or automatic template changes. Save or Cancel returns to this cart's generation screen and retains its commercial-pool/year inputs, including deliberately empty pools. A preview must be checked again after returning, so an old proposal cannot be saved following a template edit. The standard cart/template list editors still work.
+
+For NICK01: Generate / lineup → Edit assigned template → in slots 2, 6, 11, 15 choose Bumper general in the alternative selector and click Add alternative → Save template → Check / preview. This adds generic branding as the final fallback behind the existing bumper-in/intro preferences. Do not re-run Prepare test setup just to edit a slot.
+
+Installation changes only v2 source and docs. It does not replace project data or change templates until you save in the app. No app data migration or dependency change.
+
+Validation: all 60 automated tests pass; the generation GUI test now opens and saves both assigned-template and cart editors, persists an alternative, returns to generation, preserves pool choices, and checks/saves/releases the lineup. Actual Windows visual acceptance remains with the user.

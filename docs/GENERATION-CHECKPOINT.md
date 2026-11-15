@@ -58,3 +58,14 @@ The supplied project's metadata audit is included as NICK01-INVENTORY-CHECK.json
 Resolve the NICK01 entry-slot fallback decision, then connect one saved lineup to Studio's playback/classify/replace/edit workflow. Studio must keep Good + next meaningful, permit crop/reprocess before an initial render finishes, preserve review progress, and invalidate only affected edits. No artificial mandatory second viewing/revision.
 
 Full decode/runtime probing, composites, content fingerprints, repeat exceptions, crop/trim/audio repair, final encoding, USB size checks and export remain future work. This build does not claim to implement Studio or final deployment.
+
+
+## Editing from generation — alpha.11
+
+Generation now has Edit cart and Edit assigned template buttons. They open the actual current records using the existing editors; no guessed IDs, duplicate cart definitions or automatic template changes. Save or Cancel returns to this cart's generation screen and retains its commercial-pool/year inputs, including deliberately empty pools. A preview must be checked again after returning, so an old proposal cannot be saved following a template edit. The standard cart/template list editors still work.
+
+For NICK01: Generate / lineup → Edit assigned template → in slots 2, 6, 11, 15 choose Bumper general in the alternative selector and click Add alternative → Save template → Check / preview. This adds generic branding as the final fallback behind the existing bumper-in/intro preferences. Do not re-run Prepare test setup just to edit a slot.
+
+Installation changes only v2 source and docs. It does not replace project data or change templates until you save in the app. No app data migration or dependency change.
+
+Validation: all 60 automated tests pass; the generation GUI test now opens and saves both assigned-template and cart editors, persists an alternative, returns to generation, preserves pool choices, and checks/saves/releases the lineup. Actual Windows visual acceptance remains with the user.
