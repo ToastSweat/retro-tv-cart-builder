@@ -1,5 +1,9 @@
 # Retro TV Cart Builder v2 — handoff
 
+## Latest checkpoint — alpha.12 Studio
+Studio is now implemented on the saved generated lineup: playback, Good + next, resume, per-clip trim/crop/gain/normalization, cancel/restart previews and rule-aware replacements. See STUDIO-CHECKPOINT.md for installation, behavior, limits and next work. 66 tests pass. Final build/export is next and remains unimplemented. Earlier milestone sections below are historical. Preserve the user’s saved lineup; do not rerun NICK01 setup.
+
+
 ## Current checkpoint — milestone 4A workflow refinements, alpha.6
 2026-11-08. V1 completed the first twenty carts. User moved its existing tree to `legacy-v1/` in the SAME Windows Git repository, `F:\[WORKSPACE]\retro-tv-cart-builder`. The repository was moved from F:\[VIDEOS] to F:\[WORKSPACE] by the user. Archive checkpoint commit was instructed but its success has not been reported. Never claim that commit/push occurred. The archived v1 has absolute paths and is not validated runnable from its new location. Do not automatically migrate or edit it.
 

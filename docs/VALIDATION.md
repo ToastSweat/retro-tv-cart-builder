@@ -51,3 +51,10 @@ For NICK01: Generate / lineup → Edit assigned template → in slots 2, 6, 11, 
 Installation changes only v2 source and docs. It does not replace project data or change templates until you save in the app. No app data migration or dependency change.
 
 Validation: all 60 automated tests pass; the generation GUI test now opens and saves both assigned-template and cart editors, persists an alternative, returns to generation, preserves pool choices, and checks/saves/releases the lineup. Actual Windows visual acceptance remains with the user.
+
+
+## Studio — alpha.12
+
+66 automated tests pass with zero skips. Service tests cover persisted approvals/cursor, notes retention, affected-clip invalidation, stale-edit rejection, crop/trim bounds, replacement eligibility/reservations and changed-template protection. The DOM workflow checks entry from a saved lineup, Good + next, resumed position, controls enabled during rendering and a second Apply with changed crop. Real FFmpeg tests validate cropped dimensions, trimmed duration, encoded audio/video, unchanged source bytes and cache reuse. Existing library, planning and generation checks remain passing.
+
+Windows/Electron visual acceptance and the user's actual FFmpeg build remain to be checked on the user's machine. No Windows repository commit or push has been performed here.

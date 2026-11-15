@@ -1,6 +1,7 @@
 const {app,BrowserWindow,ipcMain,dialog,session,protocol}=require('electron');
 const path=require('node:path');const fs=require('node:fs/promises');const {pathToFileURL}=require('node:url');
 const {validateArtwork}=require('./artwork.cjs');const media=require('./media.cjs');let scanJob=null;
+const studio=require('./studio.cjs');
 const generation=require('./generation.cjs');let generationPreview=null;
 const plans=require('./plans.cjs');const catalog=require('./catalog.cjs');const {randomUUID}=require('node:crypto');let artworkChoice=null;
 const projects=require('./projects.cjs');let win,current=null;let busy=false;
@@ -37,6 +38,11 @@ else app.whenReady().then(()=>{
  function requireProject(){if(!current)throw Error('Open a project first.');return current.root;}
  handle('catalog',async()=>catalog.view(requireProject()));
  handle('plans',async()=>plans.view(requireProject()));
+ handle('studioView',async(cartId)=>{requireProject();return studio.view(current,cartId);});
+ handle('studioMove',async(cartId,slotId)=>{requireProject();playback.reset();return studio.move(current,cartId,slotId);});
+ handle('studioSave',async(cartId,slotId,input)=>{requireProject();return studio.save(current,cartId,slotId,input,playback.executable);});
+ handle('studioCandidates',async(cartId,slotId,search,page)=>{requireProject();return studio.candidates(current,cartId,slotId,search,page);});
+ handle('studioReplace',async(cartId,slotId,assetId,etag)=>{requireProject();playback.reset();return studio.replace(current,cartId,slotId,assetId,etag);});
  handle('generationView',async(cartId)=>{requireProject();return generation.view(current,cartId);});
  handle('generationSetupPreview',async()=>{requireProject();return generation.setup(current);});
  handle('generationSetupApply',async(expected)=>{requireProject();generationPreview=null;return generation.setup(current,true,expected);});
@@ -44,8 +50,8 @@ else app.whenReady().then(()=>{
  handle('generationSave',async(token)=>{const root=requireProject();if(!generationPreview||generationPreview.root!==root||generationPreview.token!==token)throw Error('Run Check / preview again.');const result=await generation.save(current,generationPreview.preview);generationPreview=null;return result;});
  handle('generationRelease',async(cartId)=>{requireProject();const r=await dialog.showMessageBox(win,{type:'question',buttons:['Cancel','Discard lineup'],defaultId:0,cancelId:0,message:'Discard this saved lineup?',detail:'This releases its project reservations. Source media and the cart definition remain.'});if(r.response!==1)return false;generationPreview=null;await generation.release(current,cartId);return true;});
  handle('media',async(filters)=>{requireProject();const result=await media.list(current,filters),generated=await generation.read(current.root);for(const a of result.assets){const kk=new Set(generation.keys(a,current));a.usedBy=generated.carts.filter(c=>c.rows.some(r=>r.keys.some(k=>kk.has(k)))).map(c=>c.code);}return result;});
- handle('mediaPlayback',async(id)=>{requireProject();return playback.open(id);});
- handle('mediaPlaybackStart',async(id)=>{requireProject();return playback.start(id);});
+ handle('mediaPlayback',async(id,edit)=>{requireProject();return playback.open(id,edit);});
+ handle('mediaPlaybackStart',async(id,edit)=>{requireProject();return playback.start(id,edit);});
  handle('mediaPlaybackStatus',async()=>playback.status());
  handle('mediaPlaybackCancel',async()=>{playback.cancel();return true;});
  handle('mediaPlaybackClose',async()=>{playback.reset();return true;});
