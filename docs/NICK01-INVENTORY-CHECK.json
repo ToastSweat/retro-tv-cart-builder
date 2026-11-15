@@ -1,0 +1,102 @@
+{
+  "scope": "Metadata-only audit of the uploaded project; Windows source presence was NOT checked on this host.",
+  "setup": {
+    "shows": [
+      "Rugrats",
+      "Hey Arnold!",
+      "Doug",
+      "Rocko's Modern Life"
+    ],
+    "categoryRepairs": 3808,
+    "templateName": "NICK01 — generation test",
+    "pools": [
+      "KIDS_90S",
+      "GENERAL_90S"
+    ]
+  },
+  "slots": 19,
+  "filled": 15,
+  "shortages": [
+    {
+      "position": 2,
+      "choices": [
+        {
+          "type": "BUMPER_IN"
+        },
+        {
+          "type": "INTRO",
+          "showIndex": 1
+        }
+      ],
+      "counts": {
+        "matched": 3,
+        "excludedOrUnclassified": 3,
+        "usedElsewhere": 0,
+        "unavailable": 0,
+        "eligible": 0
+      },
+      "reason": "No eligible unused clip for these choices."
+    },
+    {
+      "position": 6,
+      "choices": [
+        {
+          "type": "BUMPER_IN"
+        },
+        {
+          "type": "INTRO",
+          "showIndex": 2
+        }
+      ],
+      "counts": {
+        "matched": 2,
+        "excludedOrUnclassified": 2,
+        "usedElsewhere": 0,
+        "unavailable": 0,
+        "eligible": 0
+      },
+      "reason": "No eligible unused clip for these choices."
+    },
+    {
+      "position": 11,
+      "choices": [
+        {
+          "type": "BUMPER_IN"
+        },
+        {
+          "type": "INTRO",
+          "showIndex": 3
+        }
+      ],
+      "counts": {
+        "matched": 3,
+        "excludedOrUnclassified": 3,
+        "usedElsewhere": 0,
+        "unavailable": 0,
+        "eligible": 0
+      },
+      "reason": "No eligible unused clip for these choices."
+    },
+    {
+      "position": 15,
+      "choices": [
+        {
+          "type": "BUMPER_IN"
+        },
+        {
+          "type": "INTRO",
+          "showIndex": 4
+        }
+      ],
+      "counts": {
+        "matched": 3,
+        "excludedOrUnclassified": 3,
+        "usedElsewhere": 0,
+        "unavailable": 0,
+        "eligible": 0
+      },
+      "reason": "No eligible unused clip for these choices."
+    }
+  ],
+  "warnings": []
+}

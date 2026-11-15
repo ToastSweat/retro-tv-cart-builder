@@ -39,3 +39,8 @@ FFmpeg is tried from PATH. Choose FFmpeg… lets the user select their known wor
 Validation: 52 automated tests pass, including service streaming/range/head behavior, token expiry and traversal denial, library link escape denial, cache invalidation, missing FFmpeg/cancel cleanup, real AVI → H.264/AAC conversion and cache reuse, source byte preservation, and DOM player/conversion/form-save/close behavior. Two existing DOM test helpers now wait for async buttons instead of relying only on fixed short delays. Actual Electron/Windows decoding and fullscreen were not exercised here and require user acceptance.
 
 Technical references: https://www.electronjs.org/docs/latest/api/protocol and https://ffmpeg.org/ffmpeg.html .
+
+
+## Cart generation — alpha.10
+
+Implemented Generate / lineup with explicit NICK01 setup preview/apply, category cleanup, copied template targeting fixes, commercial pool and optional year rules, read-only shortage/preference preview, source presence checks, backed-up lineup save, project-local reservations, Media Library reservation labels, stale preview/plan warnings, and release. See docs/GENERATION-CHECKPOINT.md for full instructions, identity limits and recovery. Uploaded-project metadata audit: 3,808 category repairs, 15/19 slots filled, four show-entry shortages. No Windows source access was claimed. 60 automated tests passed. Studio/composites/encoding/export are still not implemented.

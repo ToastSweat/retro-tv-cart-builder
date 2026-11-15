@@ -6,3 +6,5 @@ select{font:inherit;background:#10161e;color:#e7edf5;border:1px solid #455265;bo
 .associationlist{max-height:190px;overflow:auto;margin:10px 0}.bulkfield{padding:12px;margin:18px 0}.bulkfield legend label{margin:0;background:none;padding:0}.bulkvalues select{margin-top:5px}.bulkbar #selectMatching,.bulkbar #clearMediaSelection{font-size:11px}.bulkfield .check{font-size:13px}
 
 .libraryplayer{padding:12px;background:#10161e;border:1px solid #3c4959;border-radius:8px;margin-bottom:20px}.libraryplayer video{display:block;width:100%;height:270px;max-height:40vh;background:#000;object-fit:contain}.libraryplayer .actions{gap:8px}.libraryplayer button{font-size:12px;padding:8px 10px}.libraryplayer [hidden]{display:none!important}
+
+.entrybody button+button{margin-top:8px}.sequence .slot>div{min-width:0}.sequence .slot .path{display:block;overflow-wrap:anywhere}.sequence .slot p{margin:6px 0}

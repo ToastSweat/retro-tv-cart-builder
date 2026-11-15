@@ -1,6 +1,7 @@
 const {app,BrowserWindow,ipcMain,dialog,session,protocol}=require('electron');
 const path=require('node:path');const fs=require('node:fs/promises');const {pathToFileURL}=require('node:url');
 const {validateArtwork}=require('./artwork.cjs');const media=require('./media.cjs');let scanJob=null;
+const generation=require('./generation.cjs');let generationPreview=null;
 const plans=require('./plans.cjs');const catalog=require('./catalog.cjs');const {randomUUID}=require('node:crypto');let artworkChoice=null;
 const projects=require('./projects.cjs');let win,current=null;let busy=false;
 const {Playback}=require('./playback.cjs');const playback=new Playback(()=>current);
@@ -28,15 +29,21 @@ else app.whenReady().then(()=>{
  handle('open',async(file)=>{
   if(!file){const r=await dialog.showOpenDialog(win,{properties:['openFile'],filters:[{name:'Retro TV Project',extensions:['json']}]});if(r.canceled)return null;file=r.filePaths[0];}
   else if(!(await recent()).some(x=>x.file===file))throw Error('Use Open Project to select this file.');
-  playback.reset();artworkChoice=null;current=await projects.open(file);await remember(current);return current;
+  generationPreview=null;playback.reset();artworkChoice=null;current=await projects.open(file);await remember(current);return current;
  });
- handle('create',async(input)=>{playback.reset();artworkChoice=null;current=await projects.create(input);await remember(current);return current;});
+ handle('create',async(input)=>{generationPreview=null;playback.reset();artworkChoice=null;current=await projects.create(input);await remember(current);return current;});
  handle('update',async(input)=>{if(!current)throw Error('No open project.');current=await projects.update(current.file,input);await remember(current);return current;});
- handle('close',async()=>{playback.reset();current=null;artworkChoice=null;return true;});
+ handle('close',async()=>{generationPreview=null;playback.reset();current=null;artworkChoice=null;return true;});
  function requireProject(){if(!current)throw Error('Open a project first.');return current.root;}
  handle('catalog',async()=>catalog.view(requireProject()));
  handle('plans',async()=>plans.view(requireProject()));
- handle('media',async(filters)=>{requireProject();return media.list(current,filters);});
+ handle('generationView',async(cartId)=>{requireProject();return generation.view(current,cartId);});
+ handle('generationSetupPreview',async()=>{requireProject();return generation.setup(current);});
+ handle('generationSetupApply',async(expected)=>{requireProject();generationPreview=null;return generation.setup(current,true,expected);});
+ handle('generationCheck',async(cartId,rules)=>{const root=requireProject();const preview=await generation.preflight(current,cartId,rules);const token=randomUUID();generationPreview={token,root,preview};return {...preview,token};});
+ handle('generationSave',async(token)=>{const root=requireProject();if(!generationPreview||generationPreview.root!==root||generationPreview.token!==token)throw Error('Run Check / preview again.');const result=await generation.save(current,generationPreview.preview);generationPreview=null;return result;});
+ handle('generationRelease',async(cartId)=>{requireProject();const r=await dialog.showMessageBox(win,{type:'question',buttons:['Cancel','Discard lineup'],defaultId:0,cancelId:0,message:'Discard this saved lineup?',detail:'This releases its project reservations. Source media and the cart definition remain.'});if(r.response!==1)return false;generationPreview=null;await generation.release(current,cartId);return true;});
+ handle('media',async(filters)=>{requireProject();const result=await media.list(current,filters),generated=await generation.read(current.root);for(const a of result.assets){const kk=new Set(generation.keys(a,current));a.usedBy=generated.carts.filter(c=>c.rows.some(r=>r.keys.some(k=>kk.has(k)))).map(c=>c.code);}return result;});
  handle('mediaPlayback',async(id)=>{requireProject();return playback.open(id);});
  handle('mediaPlaybackStart',async(id)=>{requireProject();return playback.start(id);});
  handle('mediaPlaybackStatus',async()=>playback.status());
@@ -50,7 +57,7 @@ else app.whenReady().then(()=>{
  handle('mediaBulkSave',async(ids,input,modes)=>{return media.update(requireProject(),ids,input,modes);});
  handle('mediaSave',async(ids,input)=>{const root=requireProject();return media.update(root,ids,input);});
  handle('savePlan',async(kind,input)=>{const root=requireProject();let selected=null;if(input.artworkToken){if(artworkChoice?.token!==input.artworkToken||artworkChoice.root!==root)throw Error('Select artwork again.');selected=artworkChoice.info;}await plans.save(root,kind,input,selected);artworkChoice=null;return plans.view(root);});
- handle('removePlan',async(kind,id)=>{const root=requireProject();if(!['carts','templates'].includes(kind))throw Error('Unknown type.');const data=await plans.read(root),row=data[kind].find(x=>x.id===id);if(!row)throw Error('Entry no longer exists.');if(kind==='templates'&&data.carts.some(c=>c.templateId===id))throw Error('Template is assigned to a cart. Change the cart first.');const r=await dialog.showMessageBox(win,{type:'question',buttons:['Cancel','Remove'],defaultId:0,cancelId:0,message:`Remove ${row.name}?`,detail:'Source media remains untouched. Previous planning metadata is retained in the project.'});if(r.response!==1)return null;await plans.remove(root,kind,id);return plans.view(root);});
+ handle('removePlan',async(kind,id)=>{const root=requireProject();if(!['carts','templates'].includes(kind))throw Error('Unknown type.');const data=await plans.read(root),row=data[kind].find(x=>x.id===id);if(!row)throw Error('Entry no longer exists.');if(kind==='carts'&&(await generation.read(root)).carts.some(c=>c.cartId===id))throw Error('Discard the saved lineup from Generate / lineup before removing this cart.');if(kind==='templates'&&data.carts.some(c=>c.templateId===id))throw Error('Template is assigned to a cart. Change the cart first.');const r=await dialog.showMessageBox(win,{type:'question',buttons:['Cancel','Remove'],defaultId:0,cancelId:0,message:`Remove ${row.name}?`,detail:'Source media remains untouched. Previous planning metadata is retained in the project.'});if(r.response!==1)return null;await plans.remove(root,kind,id);return plans.view(root);});
  handle('discard',async()=>{const r=await dialog.showMessageBox(win,{type:'question',buttons:['Keep editing','Discard changes'],defaultId:0,cancelId:0,message:'Discard unsaved changes?'});return r.response===1;});
  handle('pickArtwork',async()=>{
   requireProject();const result=await dialog.showOpenDialog(win,{properties:['openFile'],filters:[{name:'Artwork',extensions:['png','jpg','jpeg','webp']}]});
